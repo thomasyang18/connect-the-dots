@@ -2,19 +2,51 @@
 <html>
 <head>
     <title>Connect the Dots</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid #000;
+            margin-top: 20px;
+        }
+        h1 {
+            cursor: pointer;
+            color: #333;
+            text-shadow: 1px 1px #ccc;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+            margin-top: 20px;
+        }
+        .controls button {
+            font-size: 16px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .controls span {
+            font-size: 18px;
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
-    <div style="display: flex; justify-content: space-between;">
+    <div class="controls">
         <div>
-            <button onclick="adjustN(-1)">-n</button>
+            <button id="decrease-n">-n</button>
             <span id="n-display">6</span>
-            <button onclick="adjustN(1)">+n</button>
+            <button id="increase-n">+n</button>
         </div>
-        <h1 id="title" style="cursor: pointer;">Connect the Dots</h1>
+        <h1 id="title">Connect the Dots</h1>
         <div>
-            <button onclick="adjustM(-1)">-m</button>
+            <button id="decrease-m">-m</button>
             <span id="m-display">3</span>
-            <button onclick="adjustM(1)">+m</button>
+            <button id="increase-m">+m</button>
         </div>
     </div>
 

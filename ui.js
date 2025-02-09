@@ -4,6 +4,10 @@ export class UI {
         this.nDisplay = document.getElementById('n-display');
         this.mDisplay = document.getElementById('m-display');
         this.title = document.getElementById('title');
+        this.decreaseNButton = document.getElementById('decrease-n');
+        this.increaseNButton = document.getElementById('increase-n');
+        this.decreaseMButton = document.getElementById('decrease-m');
+        this.increaseMButton = document.getElementById('increase-m');
     }
 
     init() {
@@ -14,6 +18,11 @@ export class UI {
             this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
             this.polygon.drawPolygon();
         });
+
+        this.decreaseNButton.addEventListener('click', () => this.adjustN(-1));
+        this.increaseNButton.addEventListener('click', () => this.adjustN(1));
+        this.decreaseMButton.addEventListener('click', () => this.adjustM(-1));
+        this.increaseMButton.addEventListener('click', () => this.adjustM(1));
 
         document.getElementById('canvas').addEventListener('click', (event) => {
             const rect = canvas.getBoundingClientRect();
@@ -38,7 +47,7 @@ export class UI {
     }
 
     adjustN(delta) {
-        this.polygon.n = Math.max(2, this.polygon.n + delta); // Ensure n is at least 2
+        this.polygon.n = Math.max(3, Math.min(10, this.polygon.n + delta)); // Ensure n is between 3 and 10
         this.nDisplay.textContent = this.polygon.n;
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.connections = []; // Clear connections on resize
@@ -47,7 +56,7 @@ export class UI {
     }
 
     adjustM(delta) {
-        this.polygon.m = Math.max(2, this.polygon.m + delta); // Ensure m is at least 2
+        this.polygon.m = Math.max(2, Math.min(5, this.polygon.m + delta)); // Ensure m is between 2 and 5
         this.mDisplay.textContent = this.polygon.m;
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.drawPolygon();
