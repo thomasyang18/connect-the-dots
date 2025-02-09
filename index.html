@@ -39,13 +39,16 @@
                 ctx.lineTo(x, y);
 
                 ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI); // Draw vertex as small circle
-                ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`; // Use color input
+                ctx.arc(x, y, 10, 0, 2 * Math.PI); // Draw vertex as small circle, increased radius to 10
+                if (selectedVertex === i) {
+                    ctx.fillStyle = 'yellow'; // Highlight selected vertex
+                } else {
+                    ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`; // Use color input
+                }
                 ctx.fill();
             }
             ctx.closePath();
             ctx.stroke();
-
 
             // Draw connections
             ctx.strokeStyle = 'black';
@@ -88,14 +91,32 @@
                 if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < 10) { // Check if click is near a vertex
                     if (selectedVertex === null) {
                         selectedVertex = i;
-                    } else {
+                        drawPolygon(); // Redraw to highlight selected vertex
+                    } else if (selectedVertex === i) {
+                        selectedVertex = null; // Deselect if same vertex clicked again
+                        drawPolygon(); // Redraw to remove highlight
+                    }
+                     else {
                         if (colors[selectedVertex] !== colors[i]) { // Check for different colors
-                            // Add intersection check here later
-                            connections.push([selectedVertex, i]);
-                            selectedVertex = null;
-                            drawPolygon(); // Redraw to show the connection
+                            let intersects = false;
+                            for (const existingConnection of connections) {
+                                if (doIntersect(selectedVertex, i, existingConnection[0], existingConnection[1], n)) {
+                                    intersects = true;
+                                    break;
+                                }
+                            }
+
+                            if (!intersects) {
+                                connections.push([selectedVertex, i]);
+                                selectedVertex = null; // Deselect after successful connection
+                                drawPolygon(); // Redraw to show the connection
+                            } else {
+                                // Provide feedback to the user that the connection intersects
+                                alert("Connection intersects with existing connection.");
+                            }
                         } else {
                             selectedVertex = null; // Deselect if same color
+                            drawPolygon(); // Redraw to remove highlight
                         }
 
                     }
@@ -105,6 +126,21 @@
 
 
         });
+
+        function doIntersect(a, b, c, d, n) {
+            // Function to check if connections (a, b) and (c, d) intersect in a circular array of size n
+            const normalize = (x) => (x + n) % n;
+
+            a = normalize(a);
+            b = normalize(b);
+            c = normalize(c);
+            d = normalize(d);
+
+            if (a > b) [a, b] = [b, a];
+            if (c > d) [c, d] = [d, c];
+
+            return (a < c && c < b && b < d) || (c < a && a < d && d < b);
+        }
 
     </script>
 </body>
