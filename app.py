@@ -15,7 +15,7 @@ def index():
         for i in range(n):
             for j in range(i + 1, n):
                 if colors[i] != colors[j]:
-                    connections.push([i + 1, j + 1])
+                    connections.append([i + 1, j + 1])
 
 
         return render_template("index.html", connections=connections)
