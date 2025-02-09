@@ -14,28 +14,33 @@
     <br>
     <button onclick="connectDots()">Connect the Dots</button>
     <br>
-    <pre id="output"></pre>
+    <canvas id="canvas" width="400" height="400"></canvas>
 
     <script>
-        function connectDots() {
-            const n = parseInt(document.getElementById("n").value);
-            const m = parseInt(document.getElementById("m").value);
-            const colors = document.getElementById("colors").value.split(" ").map(Number);
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let n = 0;
+        let m = 0;
+        let colors = [];
+        let connections = [];
+        let selectedVertex = null;
 
-            const output = document.getElementById("output");
-
-            // Simple example (replace with actual logic)
-            let connections = [];
-            for (let i = 0; i < n; i++) {
-                for (let j = i + 1; j < n; j++) {
-                    if (colors[i] !== colors[j]) {
-                        connections.push([i + 1, j + 1]);
-                    }
-                }
-            }
-
-            output.textContent = "Connections:\n" + connections.map(c => c.join(" ")).join("\n");
+        function drawPolygon() {
+            // ... (Implementation for drawing the polygon and handling clicks will be added here later)
         }
+
+        function connectDots() {
+            n = parseInt(document.getElementById("n").value);
+            m = parseInt(document.getElementById("m").value);
+            colors = document.getElementById("colors").value.split(" ").map(Number);
+
+            drawPolygon();
+        }
+
+        canvas.addEventListener('click', function(event) {
+            // ... (Implementation for click handling will be added here later)
+        });
+
     </script>
 </body>
 </html>
