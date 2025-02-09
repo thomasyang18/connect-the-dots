@@ -41,10 +41,9 @@
                 ctx.beginPath();
                 ctx.arc(x, y, 10, 0, 2 * Math.PI);
                 ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`;
-                ctx.fill();
                 if (selectedVertex === i) {
-                    ctx.strokeStyle = 'black';
                     ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'black';
                     ctx.stroke();
                 }
                 ctx.fill();
@@ -121,12 +120,12 @@
                                 selectedVertex = null; // Deselect after successful connection
                                 drawPolygon(); // Redraw to show the connection
                             } else {
-                                // Provide feedback to the user that the connection intersects or already exists
-                                alert("Invalid connection: intersects or already exists.");
+                                selectedVertex = null;
+                                drawPolygon();
                             }
                         } else {
                             selectedVertex = null; // Deselect if same color
-                            drawPolygon(); // Redraw to remove highlight
+                            drawPolygon();
                         }
 
                     }
