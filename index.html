@@ -4,18 +4,24 @@
     <title>Connect the Dots</title>
 </head>
 <body>
-    <h1>Connect the Dots</h1>
-    <p>Enter the number of points (N) and the number of colors (M):</p>
-    <input type="number" id="n" placeholder="N">
-    <input type="number" id="m" placeholder="M">
-    <br>
-    <p>Enter the colors of the points (space-separated):</p>
-    <input type="text" id="colors" placeholder="e.g., 1 2 1 2">
-    <br>
-    <button onclick="connectDots()">Connect the Dots</button>
-    <br>
+    <div style="display: flex; justify-content: space-between;">
+        <div>
+            <button onclick="adjustN(-1)">-n</button>
+            <span id="n-display">6</span>
+            <button onclick="adjustN(1)">+n</button>
+        </div>
+        <h1 id="title" style="cursor: pointer;">Connect the Dots</h1>
+        <div>
+            <button onclick="adjustM(-1)">-m</button>
+            <span id="m-display">3</span>
+            <button onclick="adjustM(1)">+m</button>
+        </div>
+    </div>
+
     <canvas id="canvas" width="400" height="400"></canvas>
 
-    <script src="script.js"></script>
+    <script src="permutation.js"></script>
+    <script src="polygon.js"></script>
+    <script src="ui.js"></script>
 </body>
 </html>
