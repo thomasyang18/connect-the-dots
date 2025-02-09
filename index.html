@@ -34,16 +34,6 @@
                 }
             }
 
-            // Calculate connections (moved from app.py)
-            let connections = [];
-            for (let i = 0; i < n; i++) {
-                for (let j = i + 1; j < n; j++) {
-                    if (colors[i] !== colors[j]) {
-                        connections.push([i + 1, j + 1]);
-                    }
-                }
-            }
-
             output.textContent = "Connections:\n" + connections.map(c => c.join(" ")).join("\n");
         }
     </script>
