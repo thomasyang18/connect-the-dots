@@ -30,7 +30,7 @@ export class UI {
             const mouseY = event.clientY - rect.top;
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const radius = Math.min(centerX, centerY) * 0.8;
+            const radius = Math.min(centerX, centerY) * 0.9;
 
             for (let i = 0; i < this.polygon.n; i++) {
                 const angle = (2 * Math.PI * i) / this.polygon.n;
@@ -47,7 +47,7 @@ export class UI {
     }
 
     adjustN(delta) {
-        this.polygon.n = Math.max(3, Math.min(10, this.polygon.n + delta)); // Ensure n is between 3 and 10
+        this.polygon.n = Math.max(3, this.polygon.n + delta); // Ensure n is at least 3
         this.nDisplay.textContent = this.polygon.n;
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.connections = []; // Clear connections on resize
@@ -56,7 +56,7 @@ export class UI {
     }
 
     adjustM(delta) {
-        this.polygon.m = Math.max(2, Math.min(5, this.polygon.m + delta)); // Ensure m is between 2 and 5
+        this.polygon.m = Math.max(2, this.polygon.m + delta); // Ensure m is at least 2
         this.mDisplay.textContent = this.polygon.m;
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.drawPolygon();

@@ -26,11 +26,16 @@ h1 {
 .controls {
     display: flex;
     justify-content: space-between;
-    width: 300px;
+    width: 400px;
     margin-top: 20px;
 }
 
-.controls button {
+.arrow-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.arrow-buttons button {
     font-size: 16px;
     padding: 5px 10px;
     cursor: pointer;
@@ -41,11 +46,11 @@ h1 {
     transition: background-color 0.3s;
 }
 
-.controls button:hover {
+.arrow-buttons button:hover {
     background-color: #0056b3;
 }
 
-.controls span {
+.arrow-buttons span {
     font-size: 18px;
     margin: 0 10px;
     color: #333;

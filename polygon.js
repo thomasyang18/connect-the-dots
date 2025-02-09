@@ -60,7 +60,7 @@ export class Polygon {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const radius = Math.min(centerX, centerY) * 0.8;
+        const radius = Math.min(centerX, centerY) * 0.9; // Make the polygon as big as possible
 
         for (let i = 0; i < this.n; i++) {
             const angle = (2 * Math.PI * i) / this.n;
