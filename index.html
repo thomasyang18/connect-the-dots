@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connect the Dots</title>
+</head>
+<body>
+    <h1>Connect the Dots</h1>
+    <p>Enter the number of points (N) and the number of colors (M):</p>
+    <input type="number" id="n" placeholder="N">
+    <input type="number" id="m" placeholder="M">
+    <br>
+    <p>Enter the colors of the points (space-separated):</p>
+    <input type="text" id="colors" placeholder="e.g., 1 2 1 2">
+    <br>
+    <button onclick="connectDots()">Connect the Dots</button>
+    <br>
+    <pre id="output"></pre>
+
+    <script>
+        function connectDots() {
+            const n = parseInt(document.getElementById("n").value);
+            const m = parseInt(document.getElementById("m").value);
+            const colors = document.getElementById("colors").value.split(" ").map(Number);
+
+            const output = document.getElementById("output");
+
+            // Simple example (replace with actual logic)
+            let connections = [];
+            for (let i = 0; i < n; i++) {
+                for (let j = i + 1; j < n; j++) {
+                    if (colors[i] !== colors[j]) {
+                        connections.push([i + 1, j + 1]);
+                    }
+                }
+            }
+
+            output.textContent = "Connections:\n" + connections.map(c => c.join(" ")).join("\n");
+
+
+        }
+    </script>
+</body>
+</html>
