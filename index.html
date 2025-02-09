@@ -39,11 +39,13 @@
                 ctx.lineTo(x, y);
 
                 ctx.beginPath();
-                ctx.arc(x, y, 10, 0, 2 * Math.PI); // Draw vertex as small circle, increased radius to 10
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`;
+                ctx.fill();
                 if (selectedVertex === i) {
-                    ctx.fillStyle = 'yellow'; // Highlight selected vertex
-                } else {
-                    ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`; // Use color input
+                    ctx.strokeStyle = 'black';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
                 }
                 ctx.fill();
             }
@@ -106,13 +108,21 @@
                                 }
                             }
 
-                            if (!intersects) {
-                                connections.push([selectedVertex, i]);
+                            if (selectedVertex < i) {
+                                var a = selectedVertex;
+                                var b = i;
+                            } else {
+                                var a = i;
+                                var b = selectedVertex;
+                            }
+
+                            if (!intersects && !connections.some(connection => (connection[0] === a && connection[1] === b))) {
+                                connections.push([a, b]);
                                 selectedVertex = null; // Deselect after successful connection
                                 drawPolygon(); // Redraw to show the connection
                             } else {
-                                // Provide feedback to the user that the connection intersects
-                                alert("Connection intersects with existing connection.");
+                                // Provide feedback to the user that the connection intersects or already exists
+                                alert("Invalid connection: intersects or already exists.");
                             }
                         } else {
                             selectedVertex = null; // Deselect if same color
@@ -128,7 +138,7 @@
         });
 
         function doIntersect(a, b, c, d, n) {
-            // Function to check if connections (a, b) and (c, d) intersect in a circular array of size n
+            // Function to check if connections (a, b) and (c, d) intersect in a circular array of size n, excluding endpoint intersections
             const normalize = (x) => (x + n) % n;
 
             a = normalize(a);
@@ -138,6 +148,8 @@
 
             if (a > b) [a, b] = [b, a];
             if (c > d) [c, d] = [d, c];
+
+            if (a === c || a === d || b === c || b === d) return false; // Endpoints are not considered intersections
 
             return (a < c && c < b && b < d) || (c < a && a < d && d < b);
         }
