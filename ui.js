@@ -34,7 +34,7 @@ title.addEventListener('click', () => {
 
 import { drawPolygon } from './polygon.js';
 import { generatePermutation } from './permutation.js';
-import { handleClick, doIntersect } from './interaction.js';
+import { handleClick } from './interaction.js';
 
 // ... other code ...
 

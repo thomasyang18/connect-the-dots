@@ -1,6 +1,5 @@
+import { selectedVertex, connections, colors, n } from './ui.js';
 import { drawPolygon } from './polygon.js';
-import { n, m, colors, connections, selectedVertex } from './ui.js';
-
 
 export function handleClick(i) {
     if (selectedVertex === null) {
@@ -42,7 +41,6 @@ export function handleClick(i) {
 
     }
 }
-
 
 export function doIntersect(a, b, c, d, n) {
     // Function to check if connections (a, b) and (c, d) intersect in a circular array of size n, excluding endpoint intersections
