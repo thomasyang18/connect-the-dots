@@ -1,6 +1,6 @@
-let n = 6;
-let m = 3;
-let colors = generatePermutation(n, m);
+export let n = 6;
+export let m = 3;
+export let colors = generatePermutation(n, m);
 export let connections = [];
 export let selectedVertex = null;
 
