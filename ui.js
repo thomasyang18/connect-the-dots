@@ -32,13 +32,31 @@ title.addEventListener('click', () => {
     drawPolygon();
 });
 
-document.getElementById('canvas').addEventListener('click', function(event) {
-    // ... (rest of the click handling logic remains the same)
-});
 import { drawPolygon } from './polygon.js';
 import { generatePermutation } from './permutation.js';
+import { handleClick, doIntersect } from './interaction.js';
 
-// ... (rest of the code)
+
+// ... other code ...
+
+document.getElementById('canvas').addEventListener('click', function(event) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) * 0.8;
+
+    for (let i = 0; i < n; i++) {
+        const angle = (2 * Math.PI * i) / n;
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < 10) { // Check if click is near a vertex
+            handleClick(i);
+            break;
+        }
+    }
+});
 
 function connectDots() {
     // This function is removed as it's no longer used
