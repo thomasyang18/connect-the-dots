@@ -1,43 +1,100 @@
-import { n, m, colors, connections, selectedVertex } from './ui.js';
+import { doIntersect } from './utils.js';
 
-export function drawPolygon() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = Math.min(centerX, centerY) * 0.8;
-
-
-    for (let i = 0; i < n; i++) {
-        const angle = (2 * Math.PI * i) / n;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-
-        ctx.beginPath();
-        ctx.arc(x, y, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`;
-        if (selectedVertex === i) {
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = 'black';
-            ctx.stroke();
-        }
-        ctx.fill();
+export class Polygon {
+    constructor() {
+        this.n = 6;
+        this.m = 3;
+        this.colors = this.generatePermutation(this.n, this.m);
+        this.connections = [];
+        this.selectedVertex = null;
     }
 
-    // Draw connections
-    ctx.strokeStyle = 'black';
-    connections.forEach(connection => {
-        const start = connection[0];
-        const end = connection[1];
-        const startX = centerX + radius * Math.cos((2 * Math.PI * start) / n);
-        const startY = centerY + radius * Math.sin((2 * Math.PI * start) / n);
-        const endX = centerX + radius * Math.cos((2 * Math.PI * end) / n);
-        const endY = centerY + radius * Math.sin((2 * Math.PI * end) / n);
+    generatePermutation(n, m) {
+        // Implement permutation generation logic here
+        return Array.from({ length: n }, (_, i) => i % m);
+    }
 
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-    });
+    handleClick(i) {
+        if (this.selectedVertex === null) {
+            this.selectedVertex = i;
+            this.drawPolygon(); // Redraw to highlight selected vertex
+        } else if (this.selectedVertex === i) {
+            this.selectedVertex = null; // Deselect if same vertex clicked again
+            this.drawPolygon(); // Redraw to remove highlight
+        } else {
+            if (this.colors[this.selectedVertex] !== this.colors[i]) { // Check for different colors
+                let intersects = false;
+                for (const existingConnection of this.connections) {
+                    if (doIntersect(this.selectedVertex, i, existingConnection[0], existingConnection[1], this.n)) {
+                        intersects = true;
+                        break;
+                    }
+                }
+
+                if (this.selectedVertex < i) {
+                    var a = this.selectedVertex;
+                    var b = i;
+                } else {
+                    var a = i;
+                    var b = this.selectedVertex;
+                }
+
+                if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b))) {
+                    this.connections.push([a, b]);
+                    this.selectedVertex = null; // Deselect after successful connection
+                    this.drawPolygon(); // Redraw to show the connection
+                } else {
+                    this.selectedVertex = null;
+                    this.drawPolygon();
+                }
+            } else {
+                this.selectedVertex = null; // Deselect if same color
+                this.drawPolygon();
+            }
+        }
+    }
+
+    drawPolygon() {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) * 0.8;
+
+        for (let i = 0; i < this.n; i++) {
+            const angle = (2 * Math.PI * i) / this.n;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = `hsl(${this.colors[i] * (360 / this.m)}, 100%, 50%)`;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        for (const connection of this.connections) {
+            const [a, b] = connection;
+            const angleA = (2 * Math.PI * a) / this.n;
+            const angleB = (2 * Math.PI * b) / this.n;
+            const xA = centerX + radius * Math.cos(angleA);
+            const yA = centerY + radius * Math.sin(angleA);
+            const xB = centerX + radius * Math.cos(angleB);
+            const yB = centerY + radius * Math.sin(angleB);
+            ctx.beginPath();
+            ctx.moveTo(xA, yA);
+            ctx.lineTo(xB, yB);
+            ctx.stroke();
+        }
+
+        if (this.selectedVertex !== null) {
+            const angle = (2 * Math.PI * this.selectedVertex) / this.n;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 12, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
+    }
 }
