@@ -26,19 +26,23 @@
         let selectedVertex = null;
 
         function drawPolygon() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             const radius = Math.min(centerX, centerY) * 0.8;
 
-            ctx.beginPath();
             for (let i = 0; i < n; i++) {
                 const angle = (2 * Math.PI * i) / n;
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
                 ctx.lineTo(x, y);
 
-                ctx.beginPath();
+                for (let i = 0; i < n; i++) {
+                    const angle = (2 * Math.PI * i) / n;
+                    const x = centerX + radius * Math.cos(angle);
+                    const y = centerY + radius * Math.sin(angle);
+
+                    ctx.beginPath(); // Start a new path for each vertex
                 ctx.arc(x, y, 10, 0, 2 * Math.PI);
                 ctx.fillStyle = `hsl(${colors[i] * 360 / m}, 100%, 50%)`;
                 if (selectedVertex === i) {
