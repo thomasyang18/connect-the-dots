@@ -27,6 +27,10 @@ function adjustM(delta) {
     drawPolygon();
 }
 
+// Make functions globally accessible
+window.adjustN = adjustN;
+window.adjustM = adjustM;
+
 title.addEventListener('click', () => {
     colors = generatePermutation(n, m);
     drawPolygon();
@@ -35,7 +39,6 @@ title.addEventListener('click', () => {
 import { drawPolygon } from './polygon.js';
 import { generatePermutation } from './permutation.js';
 import { handleClick, doIntersect } from './interaction.js';
-
 
 // ... other code ...
 
