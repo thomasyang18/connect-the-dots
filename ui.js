@@ -35,7 +35,11 @@ title.addEventListener('click', () => {
 document.getElementById('canvas').addEventListener('click', function(event) {
     // ... (rest of the click handling logic remains the same)
 });
+import { drawPolygon } from './polygon.js';
+import { generatePermutation } from './permutation.js';
 
-function connectDots() { // This function is no longer needed
-    // ...
+// ... (rest of the code)
+
+function connectDots() {
+    // This function is removed as it's no longer used
 }

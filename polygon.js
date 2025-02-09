@@ -1,2 +1,3 @@
-// polygon drawing logic from script.js (drawPolygon function)
-// ... (unchanged code from drawPolygon function)
+export function drawPolygon() {
+    // ... (unchanged code from drawPolygon function)
+}
