@@ -1,8 +1,8 @@
 let n = 6;
 let m = 3;
 let colors = generatePermutation(n, m);
-let connections = [];
-let selectedVertex = null;
+export let connections = [];
+export let selectedVertex = null;
 
 const nDisplay = document.getElementById('n-display');
 const mDisplay = document.getElementById('m-display');
