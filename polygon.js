@@ -7,6 +7,7 @@ export class Polygon {
         this.m = 3;
         this.colors = this.generatePermutation(this.n, this.m);
         this.userConnections = [];
+        this.freebieConnections = this.generateFreebieConnections();
         this.selectedVertex = null;
         this.state = 'idle'; // 'idle', 'firstSelected'
     }
@@ -20,6 +21,17 @@ export class Polygon {
             [colors[i], colors[j]] = [colors[j], colors[i]];
         }
         return colors;
+    }
+
+    generateFreebieConnections() {
+        const freebieConnections = [];
+        for (let i = 0; i < this.n; i++) {
+            const nextIndex = (i + 1) % this.n;
+            if (this.colors[i] !== this.colors[nextIndex]) {
+                freebieConnections.push([i, nextIndex]);
+            }
+        }
+        return freebieConnections;
     }
 
     calculateMaxEdges(n, m, C) {
@@ -89,6 +101,7 @@ export class Polygon {
             m: this.m,
             colors: this.colors,
             userConnections: this.userConnections,
+            freebieConnections: this.freebieConnections,
             selectedVertex: this.selectedVertex,
             state: this.state,
             maxEdges: this.calculateMaxEdges(this.n, this.m, this.n),
@@ -101,6 +114,7 @@ export class Polygon {
         this.m = Math.min(this.m, this.n); // Ensure m is not greater than n
         this.colors = this.generatePermutation(this.n, this.m);
         this.userConnections = []; // Clear connections on resize
+        this.freebieConnections = this.generateFreebieConnections();
         this.selectedVertex = null;
         this.state = 'idle'; // Reset state
     }
@@ -109,6 +123,7 @@ export class Polygon {
         this.m = Math.max(2, Math.min(this.n, this.m + delta)); // Ensure m is at least 2 and not greater than n
         this.colors = this.generatePermutation(this.n, this.m);
         this.userConnections = []; // Clear connections on resize
+        this.freebieConnections = this.generateFreebieConnections();
         this.selectedVertex = null;
         this.state = 'idle'; // Reset state
     }
@@ -116,6 +131,7 @@ export class Polygon {
     reset() {
         this.colors = this.generatePermutation(this.n, this.m);
         this.userConnections = []; // Reset connections
+        this.freebieConnections = this.generateFreebieConnections();
         this.selectedVertex = null; // Reset selected vertex
         this.state = 'idle'; // Reset state
     }

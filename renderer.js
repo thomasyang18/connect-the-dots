@@ -7,11 +7,11 @@ export function drawPolygon(polygon) {
     const centerY = canvas.height / 2;
     const radius = Math.min(centerX, centerY) * 0.9; // Make the polygon as big as possible
 
-    // Draw adjacent lines
-    for (let i = 0; i < state.n; i++) {
-        const nextIndex = (i + 1) % state.n;
-        const angleA = (2 * Math.PI * i) / state.n;
-        const angleB = (2 * Math.PI * nextIndex) / state.n;
+    // Draw freebie connections
+    for (const connection of state.freebieConnections) {
+        const [a, b] = connection;
+        const angleA = (2 * Math.PI * a) / state.n;
+        const angleB = (2 * Math.PI * b) / state.n;
         const xA = centerX + radius * Math.cos(angleA);
         const yA = centerY + radius * Math.sin(angleA);
         const xB = centerX + radius * Math.cos(angleB);
@@ -21,11 +21,7 @@ export function drawPolygon(polygon) {
         ctx.moveTo(xA, yA);
         ctx.lineTo(xB, yB);
         ctx.lineWidth = 2; // Make the lines thicker
-        if (state.colors[i] === state.colors[nextIndex]) {
-            ctx.setLineDash([5, 5]); // Dashed line for same color
-        } else {
-            ctx.setLineDash([]); // Solid line for different colors
-        }
+        ctx.setLineDash([5, 5]); // Dashed line for freebie connections
         ctx.stroke();
         ctx.lineWidth = 1; // Reset line width
         ctx.setLineDash([]); // Reset line dash
