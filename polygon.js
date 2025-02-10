@@ -10,8 +10,17 @@ export class Polygon {
     }
 
     generatePermutation(n, m) {
-        // Implement permutation generation logic here
-        return Array.from({ length: n }, (_, i) => i % m);
+        // Generate a random permutation of colors such that there are at most m colors, and every color shows up at least once
+        const colors = [];
+        const availableColors = Array.from({ length: m }, (_, i) => i);
+        for (let i = 0; i < n; i++) {
+            if (i < m) {
+                colors.push(availableColors[i]);
+            } else {
+                colors.push(availableColors[Math.floor(Math.random() * m)]);
+            }
+        }
+        return colors;
     }
 
     handleClick(i) {
