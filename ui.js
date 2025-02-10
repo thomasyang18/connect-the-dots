@@ -46,6 +46,25 @@ export class UI {
                     break;
                 }
             }
+
+            // Check if click is near a red dot
+            for (const connection of this.polygon.getState().userConnections) {
+                const [a, b] = connection;
+                const angleA = (2 * Math.PI * a) / this.polygon.getState().n;
+                const angleB = (2 * Math.PI * b) / this.polygon.getState().n;
+                const xA = centerX + radius * Math.cos(angleA);
+                const yA = centerY + radius * Math.sin(angleA);
+                const xB = centerX + radius * Math.cos(angleB);
+                const yB = centerY + radius * Math.sin(angleB);
+                const midX = (xA + xB) / 2;
+                const midY = (yA + yB) / 2;
+                if (Math.sqrt((mouseX - midX)**2 + (mouseY - midY)**2) < 5) { // Check if click is near the red dot
+                    this.polygon.handleEdgeClick(connection);
+                    this.updateDisplay();
+                    drawPolygon(this.polygon);
+                    break;
+                }
+            }
         });
 
         drawPolygon(this.polygon);

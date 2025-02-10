@@ -31,8 +31,8 @@ export function drawPolygon(polygon) {
         ctx.setLineDash([]); // Reset line dash
     }
 
-    // Draw connections
-    for (const connection of state.connections) {
+    // Draw user connections
+    for (const connection of state.userConnections) {
         const [a, b] = connection;
         const angleA = (2 * Math.PI * a) / state.n;
         const angleB = (2 * Math.PI * b) / state.n;
@@ -47,6 +47,14 @@ export function drawPolygon(polygon) {
         ctx.strokeStyle = 'black'; // Make the lines black
         ctx.stroke();
         ctx.lineWidth = 1; // Reset line width
+
+        // Draw red dot at the midpoint
+        const midX = (xA + xB) / 2;
+        const midY = (yA + yB) / 2;
+        ctx.beginPath();
+        ctx.arc(midX, midY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        ctx.fill();
     }
 
     // Draw nodes

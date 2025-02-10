@@ -5,7 +5,7 @@ export class Polygon {
         this.n = 6;
         this.m = 3;
         this.colors = this.generatePermutation(this.n, this.m);
-        this.connections = [];
+        this.userConnections = [];
         this.selectedVertex = null;
         this.state = 'idle'; // 'idle', 'firstSelected'
     }
@@ -51,7 +51,7 @@ export class Polygon {
     handleSecondClick(i) {
         if (this.colors[this.selectedVertex] !== this.colors[i]) { // Check for different colors
             let intersects = false;
-            for (const existingConnection of this.connections) {
+            for (const existingConnection of this.userConnections) {
                 if (doIntersect(this.selectedVertex, i, existingConnection[0], existingConnection[1], this.n)) {
                     intersects = true;
                     break;
@@ -67,12 +67,19 @@ export class Polygon {
             }
 
             const maxEdges = this.calculateMaxEdges(this.n, this.m, this.n);
-            if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b)) && this.connections.length < maxEdges) {
-                this.connections.push([a, b]);
+            if (!intersects && !this.userConnections.some(connection => (connection[0] === a && connection[1] === b)) && this.userConnections.length < maxEdges) {
+                this.userConnections.push([a, b]);
             }
         }
         this.selectedVertex = null; // Deselect after handling second click
         this.state = 'idle';
+    }
+
+    handleEdgeClick(connection) {
+        const index = this.userConnections.findIndex(conn => conn[0] === connection[0] && conn[1] === connection[1]);
+        if (index !== -1) {
+            this.userConnections.splice(index, 1);
+        }
     }
 
     getState() {
@@ -80,11 +87,11 @@ export class Polygon {
             n: this.n,
             m: this.m,
             colors: this.colors,
-            connections: this.connections,
+            userConnections: this.userConnections,
             selectedVertex: this.selectedVertex,
             state: this.state,
             maxEdges: this.calculateMaxEdges(this.n, this.m, this.n),
-            edgesLeft: this.calculateMaxEdges(this.n, this.m, this.n) - this.connections.length
+            edgesLeft: this.calculateMaxEdges(this.n, this.m, this.n) - this.userConnections.length
         };
     }
 
@@ -92,7 +99,7 @@ export class Polygon {
         this.n = Math.max(3, this.n + delta); // Ensure n is at least 3
         this.m = Math.min(this.m, this.n); // Ensure m is not greater than n
         this.colors = this.generatePermutation(this.n, this.m);
-        this.connections = []; // Clear connections on resize
+        this.userConnections = []; // Clear connections on resize
         this.selectedVertex = null;
         this.state = 'idle'; // Reset state
     }
@@ -100,14 +107,14 @@ export class Polygon {
     adjustM(delta) {
         this.m = Math.max(2, Math.min(this.n, this.m + delta)); // Ensure m is at least 2 and not greater than n
         this.colors = this.generatePermutation(this.n, this.m);
-        this.connections = []; // Clear connections on resize
+        this.userConnections = []; // Clear connections on resize
         this.selectedVertex = null;
         this.state = 'idle'; // Reset state
     }
 
     reset() {
         this.colors = this.generatePermutation(this.n, this.m);
-        this.connections = []; // Reset connections
+        this.userConnections = []; // Reset connections
         this.selectedVertex = null; // Reset selected vertex
         this.state = 'idle'; // Reset state
     }
