@@ -12,14 +12,11 @@ export class Polygon {
 
     generatePermutation(n, m) {
         // Generate a random permutation of colors such that there are at most m colors, and every color shows up at least once
-        const colors = [];
-        const availableColors = Array.from({ length: m }, (_, i) => i);
-        for (let i = 0; i < n; i++) {
-            if (i < m) {
-                colors.push(availableColors[i]);
-            } else {
-                colors.push(availableColors[Math.floor(Math.random() * m)]);
-            }
+        const colors = Array.from({ length: n }, (_, i) => i % m);
+        // Shuffle the colors array
+        for (let i = colors.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [colors[i], colors[j]] = [colors[j], colors[i]];
         }
         return colors;
     }
@@ -152,5 +149,8 @@ export class Polygon {
             ctx.strokeStyle = 'red';
             ctx.stroke();
         }
+
+        // Reset stroke style to black
+        ctx.strokeStyle = 'black';
     }
 }
