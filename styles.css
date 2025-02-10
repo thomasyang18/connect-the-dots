@@ -6,6 +6,7 @@ body {
     background-color: #f0e6d2;
     margin: 0;
     padding: 0;
+    user-select: none; /* Make text non-highlightable */
 }
 
 canvas {

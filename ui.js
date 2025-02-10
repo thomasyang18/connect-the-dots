@@ -1,3 +1,5 @@
+import { drawPolygon } from './renderer.js';
+
 export class UI {
     constructor(polygon) {
         this.polygon = polygon;
@@ -15,11 +17,9 @@ export class UI {
         this.updateDisplay();
 
         this.title.addEventListener('click', () => {
-            this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
-            this.polygon.connections = []; // Reset connections
-            this.polygon.selectedVertex = null; // Reset selected vertex
-            this.polygon.state = 'idle'; // Reset state
-            this.polygon.drawPolygon();
+            this.polygon.reset();
+            this.updateDisplay();
+            drawPolygon(this.polygon);
         });
 
         this.decreaseNButton.addEventListener('click', () => this.adjustN(-1));
@@ -35,46 +35,38 @@ export class UI {
             const centerY = canvas.height / 2;
             const radius = Math.min(centerX, centerY) * 0.9;
 
-            for (let i = 0; i < this.polygon.n; i++) {
-                const angle = (2 * Math.PI * i) / this.polygon.n;
+            for (let i = 0; i < this.polygon.getState().n; i++) {
+                const angle = (2 * Math.PI * i) / this.polygon.getState().n;
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
                 if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < 10) { // Check if click is near a vertex
                     this.polygon.handleClick(i);
+                    this.updateDisplay();
+                    drawPolygon(this.polygon);
                     break;
                 }
             }
         });
 
-        this.polygon.drawPolygon();
+        drawPolygon(this.polygon);
     }
 
     updateDisplay() {
-        this.nDisplay.textContent = `Number of nodes: ${this.polygon.n}`;
-        this.mDisplay.textContent = `Number of colors: ${this.polygon.m}`;
-        const maxEdges = this.polygon.calculateMaxEdges(this.polygon.n, this.polygon.m, this.polygon.n);
-        const edgesLeft = maxEdges - this.polygon.connections.length;
-        this.maxEdgesDisplay.textContent = `Edges left: ${edgesLeft}`;
+        const state = this.polygon.getState();
+        this.nDisplay.textContent = `Number of nodes: ${state.n}`;
+        this.mDisplay.textContent = `Number of colors: ${state.m}`;
+        this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
     }
 
     adjustN(delta) {
-        this.polygon.n = Math.max(3, this.polygon.n + delta); // Ensure n is at least 3
-        this.polygon.m = Math.min(this.polygon.m, this.polygon.n); // Ensure m is not greater than n
+        this.polygon.adjustN(delta);
         this.updateDisplay();
-        this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
-        this.polygon.connections = []; // Clear connections on resize
-        this.polygon.selectedVertex = null;
-        this.polygon.state = 'idle'; // Reset state
-        this.polygon.drawPolygon();
+        drawPolygon(this.polygon);
     }
 
     adjustM(delta) {
-        this.polygon.m = Math.max(2, Math.min(this.polygon.n, this.polygon.m + delta)); // Ensure m is at least 2 and not greater than n
+        this.polygon.adjustM(delta);
         this.updateDisplay();
-        this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
-        this.polygon.connections = []; // Clear connections on resize
-        this.polygon.selectedVertex = null;
-        this.polygon.state = 'idle'; // Reset state
-        this.polygon.drawPolygon();
+        drawPolygon(this.polygon);
     }
 }
