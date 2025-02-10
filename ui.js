@@ -19,7 +19,7 @@ export class UI {
         this.updateDisplay();
 
         this.title.addEventListener('click', () => {
-            this.polygon.reset();
+            this.polygon = this.polygon.reset();
             this.updateDisplay();
             drawPolygon(this.polygon);
         });
@@ -80,13 +80,13 @@ export class UI {
     }
 
     adjustN(delta) {
-        this.polygon.adjustN(delta);
+        this.polygon = this.polygon.adjustN(delta);
         this.updateDisplay();
         drawPolygon(this.polygon);
     }
 
     adjustM(delta) {
-        this.polygon.adjustM(delta);
+        this.polygon = this.polygon.adjustM(delta);
         this.updateDisplay();
         drawPolygon(this.polygon);
     }

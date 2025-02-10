@@ -1,18 +1,17 @@
 import { doIntersect } from './utils.js';
 
 export class Polygon {
-    constructor(ui) {
-        this.ui = ui;
-        this.n = 6;
-        this.m = 3;
-        this.colors = this.generatePermutation(this.n, this.m);
-        this.userConnections = [];
-        this.freebieConnections = this.generateFreebieConnections();
-        this.selectedVertex = null;
-        this.state = 'idle'; // 'idle', 'firstSelected'
+    constructor(n, m, colors, userConnections = [], freebieConnections = [], selectedVertex = null, state = 'idle') {
+        this.n = n;
+        this.m = m;
+        this.colors = colors;
+        this.userConnections = userConnections;
+        this.freebieConnections = freebieConnections;
+        this.selectedVertex = selectedVertex;
+        this.state = state;
     }
 
-    generatePermutation(n, m) {
+    static generatePermutation(n, m) {
         // Generate a random permutation of colors such that there are at most m colors, and every color shows up at least once
         const colors = Array.from({ length: n }, (_, i) => i < m ? i : Math.floor(Math.random() * m));
         // Shuffle the colors array
@@ -23,16 +22,18 @@ export class Polygon {
         return colors;
     }
 
-    generateFreebieConnections() {
+    static generateFreebieConnections(n, colors) {
         const freebieConnections = [];
-        for (let i = 0; i < this.n; i++) {
-            const nextIndex = (i + 1) % this.n;
-            freebieConnections.push([i, nextIndex]);
+        for (let i = 0; i < n; i++) {
+            const nextIndex = (i + 1) % n;
+            if (colors[i] !== colors[nextIndex]) {
+                freebieConnections.push([i, nextIndex]);
+            }
         }
         return freebieConnections;
     }
 
-    calculateMaxEdges(n, m, C) {
+    static calculateMaxEdges(n, m, C) {
         if (m >= 3) {
             return n - 3;
         } else if (m === 2) {
@@ -77,7 +78,7 @@ export class Polygon {
                 var b = this.selectedVertex;
             }
 
-            const maxEdges = this.calculateMaxEdges(this.n, this.m, this.n);
+            const maxEdges = Polygon.calculateMaxEdges(this.n, this.m, this.n);
             if (!intersects && !this.userConnections.some(connection => (connection[0] === a && connection[1] === b)) && this.userConnections.length < maxEdges) {
                 this.userConnections.push([a, b]);
             }
@@ -102,35 +103,29 @@ export class Polygon {
             freebieConnections: this.freebieConnections,
             selectedVertex: this.selectedVertex,
             state: this.state,
-            maxEdges: this.calculateMaxEdges(this.n, this.m, this.n),
-            edgesLeft: this.calculateMaxEdges(this.n, this.m, this.n) - this.userConnections.length
+            maxEdges: Polygon.calculateMaxEdges(this.n, this.m, this.n),
+            edgesLeft: Polygon.calculateMaxEdges(this.n, this.m, this.n) - this.userConnections.length
         };
     }
 
     adjustN(delta) {
-        this.n = Math.max(3, this.n + delta); // Ensure n is at least 3
-        this.m = Math.min(this.m, this.n); // Ensure m is not greater than n
-        this.colors = this.generatePermutation(this.n, this.m);
-        this.userConnections = []; // Clear connections on resize
-        this.freebieConnections = this.generateFreebieConnections();
-        this.selectedVertex = null;
-        this.state = 'idle'; // Reset state
+        const newN = Math.max(3, this.n + delta); // Ensure n is at least 3
+        const newM = Math.min(this.m, newN); // Ensure m is not greater than n
+        const newColors = Polygon.generatePermutation(newN, newM);
+        const newFreebieConnections = Polygon.generateFreebieConnections(newN, newColors);
+        return new Polygon(newN, newM, newColors, [], newFreebieConnections);
     }
 
     adjustM(delta) {
-        this.m = Math.max(2, Math.min(this.n, this.m + delta)); // Ensure m is at least 2 and not greater than n
-        this.colors = this.generatePermutation(this.n, this.m);
-        this.userConnections = []; // Clear connections on resize
-        this.freebieConnections = this.generateFreebieConnections();
-        this.selectedVertex = null;
-        this.state = 'idle'; // Reset state
+        const newM = Math.max(2, Math.min(this.n, this.m + delta)); // Ensure m is at least 2 and not greater than n
+        const newColors = Polygon.generatePermutation(this.n, newM);
+        const newFreebieConnections = Polygon.generateFreebieConnections(this.n, newColors);
+        return new Polygon(this.n, newM, newColors, [], newFreebieConnections);
     }
 
     reset() {
-        this.colors = this.generatePermutation(this.n, this.m);
-        this.userConnections = []; // Reset connections
-        this.freebieConnections = this.generateFreebieConnections();
-        this.selectedVertex = null; // Reset selected vertex
-        this.state = 'idle'; // Reset state
+        const newColors = Polygon.generatePermutation(this.n, this.m);
+        const newFreebieConnections = Polygon.generateFreebieConnections(this.n, newColors);
+        return new Polygon(this.n, this.m, newColors, [], newFreebieConnections);
     }
 }
