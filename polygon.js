@@ -79,7 +79,7 @@ export class Polygon {
             }
 
             const maxEdges = Polygon.calculateMaxEdges(this.n, this.m, this.n);
-            if (!intersects && !this.userConnections.some(connection => (connection[0] === a && connection[1] === b)) && this.userConnections.length < maxEdges) {
+            if (!intersects && !this.userConnections.some(connection => (connection[0] === a && connection[1] === b)) && !this.freebieConnections.some(connection => (connection[0] === a && connection[1] === b)) && this.userConnections.length < maxEdges) {
                 this.userConnections.push([a, b]);
             }
         }

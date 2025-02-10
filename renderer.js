@@ -21,11 +21,7 @@ export function drawPolygon(polygon, ui) {
         ctx.moveTo(xA, yA);
         ctx.lineTo(xB, yB);
         ctx.lineWidth = 2; // Make the lines thicker
-        if (state.colors[a] === state.colors[b]) {
-            ctx.setLineDash([5, 5]); // Dashed line for same color
-        } else {
-            ctx.setLineDash([]); // Solid line for different colors
-        }
+        ctx.setLineDash([5, 5]); // Dashed line for freebie connections
         ctx.stroke();
         ctx.lineWidth = 1; // Reset line width
         ctx.setLineDash([]); // Reset line dash
