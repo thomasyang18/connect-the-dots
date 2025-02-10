@@ -75,9 +75,16 @@ export function drawPolygon(polygon) {
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
         ctx.beginPath();
-        ctx.arc(x, y, 17, 0, 2 * Math.PI); // Make the selected node bigger
-        ctx.strokeStyle = 'red';
+        ctx.arc(x, y, 25, 0, 2 * Math.PI); // Make the selected node bigger
+        ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Make the highlight transparent
         ctx.stroke();
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Make the highlight transparent
+        ctx.fill();
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('+', x, y); // Add a plus sign to indicate selected
     }
 
     // Reset stroke style to black
