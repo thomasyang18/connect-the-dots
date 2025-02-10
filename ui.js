@@ -21,7 +21,7 @@ export class UI {
         this.title.addEventListener('click', () => {
             this.polygon = this.polygon.reset();
             this.updateDisplay();
-            drawPolygon(this.polygon);
+            drawPolygon(this.polygon, this);
         });
 
         this.decreaseNButton.addEventListener('click', () => this.adjustN(-1));
@@ -44,7 +44,7 @@ export class UI {
                 if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < this.clickRadius) { // Check if click is near a vertex
                     this.polygon.handleClick(i);
                     this.updateDisplay();
-                    drawPolygon(this.polygon);
+                    drawPolygon(this.polygon, this);
                     break;
                 }
             }
@@ -63,13 +63,13 @@ export class UI {
                 if (Math.sqrt((mouseX - midX)**2 + (mouseY - midY)**2) < this.clickRadius) { // Check if click is near the red dot
                     this.polygon.handleEdgeClick(connection);
                     this.updateDisplay();
-                    drawPolygon(this.polygon);
+                    drawPolygon(this.polygon, this);
                     break;
                 }
             }
         });
 
-        drawPolygon(this.polygon);
+        drawPolygon(this.polygon, this);
     }
 
     updateDisplay() {
@@ -82,12 +82,12 @@ export class UI {
     adjustN(delta) {
         this.polygon = this.polygon.adjustN(delta);
         this.updateDisplay();
-        drawPolygon(this.polygon);
+        drawPolygon(this.polygon, this);
     }
 
     adjustM(delta) {
         this.polygon = this.polygon.adjustM(delta);
         this.updateDisplay();
-        drawPolygon(this.polygon);
+        drawPolygon(this.polygon, this);
     }
 }

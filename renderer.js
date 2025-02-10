@@ -1,4 +1,4 @@
-export function drawPolygon(polygon) {
+export function drawPolygon(polygon, ui) {
     const state = polygon.getState();
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -52,7 +52,7 @@ export function drawPolygon(polygon) {
         const midX = (xA + xB) / 2;
         const midY = (yA + yB) / 2;
         ctx.beginPath();
-        ctx.arc(midX, midY, polygon.ui.redDotRadius, 0, 2 * Math.PI);
+        ctx.arc(midX, midY, ui.redDotRadius, 0, 2 * Math.PI);
         ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
         ctx.fill();
     }
