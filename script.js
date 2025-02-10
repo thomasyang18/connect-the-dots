@@ -38,7 +38,6 @@
     }
 }
 
-
 function doIntersect(a, b, c, d, n) {
     // Function to check if connections (a, b) and (c, d) intersect in a circular array of size n, excluding endpoint intersections
     const normalize = (x) => (x + n) % n;

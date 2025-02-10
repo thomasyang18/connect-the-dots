@@ -53,7 +53,8 @@ export class UI {
         this.nDisplay.textContent = `Number of nodes: ${this.polygon.n}`;
         this.mDisplay.textContent = `Number of colors: ${this.polygon.m}`;
         const maxEdges = this.polygon.calculateMaxEdges(this.polygon.n, this.polygon.m, this.polygon.n);
-        this.maxEdgesDisplay.textContent = `Max edges: ${maxEdges}`;
+        const edgesLeft = maxEdges - this.polygon.connections.length;
+        this.maxEdgesDisplay.textContent = `Edges left: ${edgesLeft}`;
     }
 
     adjustN(delta) {
