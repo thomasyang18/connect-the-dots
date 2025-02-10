@@ -76,10 +76,33 @@ export class Polygon {
             const x = centerX + radius * Math.cos(angle);
             const y = centerY + radius * Math.sin(angle);
             ctx.beginPath();
-            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.arc(x, y, 15, 0, 2 * Math.PI); // Make the nodes bigger
             ctx.fillStyle = `hsl(${this.colors[i] * (360 / this.m)}, 100%, 50%)`;
             ctx.fill();
             ctx.stroke();
+        }
+
+        for (let i = 0; i < this.n; i++) {
+            const nextIndex = (i + 1) % this.n;
+            const angleA = (2 * Math.PI * i) / this.n;
+            const angleB = (2 * Math.PI * nextIndex) / this.n;
+            const xA = centerX + radius * Math.cos(angleA);
+            const yA = centerY + radius * Math.sin(angleA);
+            const xB = centerX + radius * Math.cos(angleB);
+            const yB = centerY + radius * Math.sin(angleB);
+
+            ctx.beginPath();
+            ctx.moveTo(xA, yA);
+            ctx.lineTo(xB, yB);
+            ctx.lineWidth = 2; // Make the lines thicker
+            if (this.colors[i] === this.colors[nextIndex]) {
+                ctx.setLineDash([5, 5]); // Dashed line for same color
+            } else {
+                ctx.setLineDash([]); // Solid line for different colors
+            }
+            ctx.stroke();
+            ctx.lineWidth = 1; // Reset line width
+            ctx.setLineDash([]); // Reset line dash
         }
 
         for (const connection of this.connections) {
@@ -93,7 +116,9 @@ export class Polygon {
             ctx.beginPath();
             ctx.moveTo(xA, yA);
             ctx.lineTo(xB, yB);
+            ctx.lineWidth = 2; // Make the lines thicker
             ctx.stroke();
+            ctx.lineWidth = 1; // Reset line width
         }
 
         if (this.selectedVertex !== null) {
@@ -101,7 +126,7 @@ export class Polygon {
             const x = centerX + radius * Math.cos(angle);
             const y = centerY + radius * Math.sin(angle);
             ctx.beginPath();
-            ctx.arc(x, y, 12, 0, 2 * Math.PI);
+            ctx.arc(x, y, 17, 0, 2 * Math.PI); // Make the selected node bigger
             ctx.strokeStyle = 'red';
             ctx.stroke();
         }
