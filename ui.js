@@ -8,6 +8,7 @@ export class UI {
         this.increaseNButton = document.getElementById('increase-n');
         this.decreaseMButton = document.getElementById('decrease-m');
         this.increaseMButton = document.getElementById('increase-m');
+        this.maxEdgesDisplay = document.getElementById('max-edges-display');
     }
 
     init() {
@@ -51,6 +52,8 @@ export class UI {
     updateDisplay() {
         this.nDisplay.textContent = `Number of nodes: ${this.polygon.n}`;
         this.mDisplay.textContent = `Number of colors: ${this.polygon.m}`;
+        const maxEdges = this.polygon.calculateMaxEdges(this.polygon.n, this.polygon.m, this.polygon.n);
+        this.maxEdgesDisplay.textContent = `Max edges: ${maxEdges}`;
     }
 
     adjustN(delta) {

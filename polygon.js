@@ -21,6 +21,16 @@ export class Polygon {
         return colors;
     }
 
+    calculateMaxEdges(n, m, C) {
+        if (m >= 3) {
+            return n - 3;
+        } else if (m === 2) {
+            return n - 2 + Math.floor(C / 2);
+        } else {
+            return 0; // No edges can be added if there is only one color
+        }
+    }
+
     handleClick(i) {
         switch (this.state) {
             case 'idle':
@@ -58,7 +68,8 @@ export class Polygon {
                 var b = this.selectedVertex;
             }
 
-            if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b))) {
+            const maxEdges = this.calculateMaxEdges(this.n, this.m, this.n);
+            if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b)) && this.connections.length < maxEdges) {
                 this.connections.push([a, b]);
             }
         }
