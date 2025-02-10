@@ -29,3 +29,7 @@ Given a polygon with 6 vertices and 3 colors, the freebie connections might look
 - Vertex 5 (color 2) -> Vertex 0 (color 0) -> Freebie connection
 
 In this example, freebie connections are added between vertices 0-1, 1-2, 2-3, 3-4, 4-5, and 5-0 because their colors are different.
+
+## Important Note
+
+You cannot treat freebie edges the same as normal edges; in fact, freebie edges aren't really even 'edges', they're borders of the polygon. The reason why you're having a stroke is because you're trying to treat them semantically the same. Please just add a check that will always prevent edges of the form (i, (i+1)%n) from being added (of course, the wrap-around edge is (0, n-1)).
