@@ -26,9 +26,7 @@ export class Polygon {
         const freebieConnections = [];
         for (let i = 0; i < n; i++) {
             const nextIndex = (i + 1) % n;
-            if (colors[i] !== colors[nextIndex]) {
-                freebieConnections.push([i, nextIndex]);
-            }
+            freebieConnections.push([i, nextIndex]);
         }
         return freebieConnections;
     }
