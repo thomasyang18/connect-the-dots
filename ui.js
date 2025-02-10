@@ -55,6 +55,7 @@ export class UI {
 
     adjustN(delta) {
         this.polygon.n = Math.max(3, this.polygon.n + delta); // Ensure n is at least 3
+        this.polygon.m = Math.min(this.polygon.m, this.polygon.n); // Ensure m is not greater than n
         this.updateDisplay();
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.connections = []; // Clear connections on resize
@@ -64,9 +65,12 @@ export class UI {
     }
 
     adjustM(delta) {
-        this.polygon.m = Math.max(2, this.polygon.m + delta); // Ensure m is at least 2
+        this.polygon.m = Math.max(2, Math.min(this.polygon.n, this.polygon.m + delta)); // Ensure m is at least 2 and not greater than n
         this.updateDisplay();
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
+        this.polygon.connections = []; // Clear connections on resize
+        this.polygon.selectedVertex = null;
+        this.polygon.state = 'idle'; // Reset state
         this.polygon.drawPolygon();
     }
 }
