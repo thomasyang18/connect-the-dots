@@ -2,7 +2,8 @@ import { Polygon } from './polygon.js';
 import { UI } from './ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const polygon = new Polygon();
-    const ui = new UI(polygon);
+    const ui = new UI();
+    const polygon = new Polygon(ui);
+    ui.polygon = polygon;
     ui.init();
 });

@@ -1,7 +1,8 @@
 import { doIntersect } from './utils.js';
 
 export class Polygon {
-    constructor() {
+    constructor(ui) {
+        this.ui = ui;
         this.n = 6;
         this.m = 3;
         this.colors = this.generatePermutation(this.n, this.m);
