@@ -7,7 +7,7 @@ export class Polygon {
         this.colors = this.generatePermutation(this.n, this.m);
         this.connections = [];
         this.selectedVertex = null;
-        this.state = 'idle'; // 'idle', 'firstSelected', 'secondSelected'
+        this.state = 'idle'; // 'idle', 'firstSelected'
     }
 
     generatePermutation(n, m) {
@@ -34,13 +34,8 @@ export class Polygon {
                     this.state = 'idle';
                     this.drawPolygon(); // Redraw to remove highlight
                 } else {
-                    this.state = 'secondSelected';
                     this.handleSecondClick(i);
                 }
-                break;
-            case 'secondSelected':
-                this.state = 'idle';
-                this.handleSecondClick(i);
                 break;
         }
     }
@@ -65,16 +60,11 @@ export class Polygon {
 
             if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b))) {
                 this.connections.push([a, b]);
-                this.selectedVertex = null; // Deselect after successful connection
-                this.drawPolygon(); // Redraw to show the connection
-            } else {
-                this.selectedVertex = null;
-                this.drawPolygon();
             }
-        } else {
-            this.selectedVertex = null; // Deselect if same color
-            this.drawPolygon();
         }
+        this.selectedVertex = null; // Deselect after handling second click
+        this.state = 'idle';
+        this.drawPolygon(); // Redraw to show the connection or reset the selection
     }
 
     drawPolygon() {
