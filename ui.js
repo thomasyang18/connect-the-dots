@@ -11,6 +11,8 @@ export class UI {
         this.decreaseMButton = document.getElementById('decrease-m');
         this.increaseMButton = document.getElementById('increase-m');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
+        this.redDotRadius = 10;
+        this.clickRadius = 15;
     }
 
     init() {
@@ -39,7 +41,7 @@ export class UI {
                 const angle = (2 * Math.PI * i) / this.polygon.getState().n;
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
-                if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < 10) { // Check if click is near a vertex
+                if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < this.clickRadius) { // Check if click is near a vertex
                     this.polygon.handleClick(i);
                     this.updateDisplay();
                     drawPolygon(this.polygon);
@@ -58,7 +60,7 @@ export class UI {
                 const yB = centerY + radius * Math.sin(angleB);
                 const midX = (xA + xB) / 2;
                 const midY = (yA + yB) / 2;
-                if (Math.sqrt((mouseX - midX)**2 + (mouseY - midY)**2) < 5) { // Check if click is near the red dot
+                if (Math.sqrt((mouseX - midX)**2 + (mouseY - midY)**2) < this.clickRadius) { // Check if click is near the red dot
                     this.polygon.handleEdgeClick(connection);
                     this.updateDisplay();
                     drawPolygon(this.polygon);
