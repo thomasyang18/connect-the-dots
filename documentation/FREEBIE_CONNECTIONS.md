@@ -21,14 +21,15 @@ Freebie connections are generated and managed within the `Polygon` class. The `g
 
 Given a polygon with 6 vertices and 3 colors, the freebie connections might look like this:
 
-- Vertex 0 (color 0) -> Vertex 1 (color 1) -> Freebie connection
-- Vertex 1 (color 1) -> Vertex 2 (color 2) -> Freebie connection
-- Vertex 2 (color 2) -> Vertex 3 (color 0) -> Freebie connection
-- Vertex 3 (color 0) -> Vertex 4 (color 1) -> Freebie connection
-- Vertex 4 (color 1) -> Vertex 5 (color 2) -> Freebie connection
-- Vertex 5 (color 2) -> Vertex 0 (color 0) -> Freebie connection
+Colors: [0, 1, 2, 2, 1, 0]
 
-In this example, freebie connections are added between vertices 0-1, 1-2, 2-3, 3-4, 4-5, and 5-0 because their colors are different.
+Edges:
+(0 ,1) => SOLID LINE
+(1, 2) => SOLID LINE
+(2, 3) => DASHED LINE, BECAUSE COLORS ARE SAME
+(3, 4) => SOLID LINE
+(4, 5) => SOLID LINE
+(0, 5) => DASHED LINE, BECAUSE COLORS ARE THE SAME.
 
 ## Important Note
 
