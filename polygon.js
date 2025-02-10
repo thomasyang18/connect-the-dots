@@ -12,7 +12,7 @@ export class Polygon {
 
     generatePermutation(n, m) {
         // Generate a random permutation of colors such that there are at most m colors, and every color shows up at least once
-        const colors = Array.from({ length: n }, (_, i) => i % m);
+        const colors = Array.from({ length: n }, (_, i) => i < m ? i : Math.floor(Math.random() * m));
         // Shuffle the colors array
         for (let i = colors.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
