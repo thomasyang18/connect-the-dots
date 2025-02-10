@@ -11,11 +11,13 @@ export class UI {
     }
 
     init() {
-        this.nDisplay.textContent = this.polygon.n;
-        this.mDisplay.textContent = this.polygon.m;
+        this.updateDisplay();
 
         this.title.addEventListener('click', () => {
             this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
+            this.polygon.connections = []; // Reset connections
+            this.polygon.selectedVertex = null; // Reset selected vertex
+            this.polygon.state = 'idle'; // Reset state
             this.polygon.drawPolygon();
         });
 
@@ -46,18 +48,24 @@ export class UI {
         this.polygon.drawPolygon();
     }
 
+    updateDisplay() {
+        this.nDisplay.textContent = `Number of nodes: ${this.polygon.n}`;
+        this.mDisplay.textContent = `Number of colors: ${this.polygon.m}`;
+    }
+
     adjustN(delta) {
         this.polygon.n = Math.max(3, this.polygon.n + delta); // Ensure n is at least 3
-        this.nDisplay.textContent = this.polygon.n;
+        this.updateDisplay();
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.connections = []; // Clear connections on resize
         this.polygon.selectedVertex = null;
+        this.polygon.state = 'idle'; // Reset state
         this.polygon.drawPolygon();
     }
 
     adjustM(delta) {
         this.polygon.m = Math.max(2, this.polygon.m + delta); // Ensure m is at least 2
-        this.mDisplay.textContent = this.polygon.m;
+        this.updateDisplay();
         this.polygon.colors = this.polygon.generatePermutation(this.polygon.n, this.polygon.m);
         this.polygon.drawPolygon();
     }

@@ -7,6 +7,7 @@ export class Polygon {
         this.colors = this.generatePermutation(this.n, this.m);
         this.connections = [];
         this.selectedVertex = null;
+        this.state = 'idle'; // 'idle', 'firstSelected', 'secondSelected'
     }
 
     generatePermutation(n, m) {
@@ -24,42 +25,58 @@ export class Polygon {
     }
 
     handleClick(i) {
-        if (this.selectedVertex === null) {
-            this.selectedVertex = i;
-            this.drawPolygon(); // Redraw to highlight selected vertex
-        } else if (this.selectedVertex === i) {
-            this.selectedVertex = null; // Deselect if same vertex clicked again
-            this.drawPolygon(); // Redraw to remove highlight
-        } else {
-            if (this.colors[this.selectedVertex] !== this.colors[i]) { // Check for different colors
-                let intersects = false;
-                for (const existingConnection of this.connections) {
-                    if (doIntersect(this.selectedVertex, i, existingConnection[0], existingConnection[1], this.n)) {
-                        intersects = true;
-                        break;
-                    }
-                }
-
-                if (this.selectedVertex < i) {
-                    var a = this.selectedVertex;
-                    var b = i;
+        switch (this.state) {
+            case 'idle':
+                this.selectedVertex = i;
+                this.state = 'firstSelected';
+                this.drawPolygon(); // Redraw to highlight selected vertex
+                break;
+            case 'firstSelected':
+                if (this.selectedVertex === i) {
+                    this.selectedVertex = null; // Deselect if same vertex clicked again
+                    this.state = 'idle';
+                    this.drawPolygon(); // Redraw to remove highlight
                 } else {
-                    var a = i;
-                    var b = this.selectedVertex;
+                    this.state = 'secondSelected';
+                    this.handleSecondClick(i);
                 }
+                break;
+            case 'secondSelected':
+                this.state = 'idle';
+                this.handleSecondClick(i);
+                break;
+        }
+    }
 
-                if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b))) {
-                    this.connections.push([a, b]);
-                    this.selectedVertex = null; // Deselect after successful connection
-                    this.drawPolygon(); // Redraw to show the connection
-                } else {
-                    this.selectedVertex = null;
-                    this.drawPolygon();
+    handleSecondClick(i) {
+        if (this.colors[this.selectedVertex] !== this.colors[i]) { // Check for different colors
+            let intersects = false;
+            for (const existingConnection of this.connections) {
+                if (doIntersect(this.selectedVertex, i, existingConnection[0], existingConnection[1], this.n)) {
+                    intersects = true;
+                    break;
                 }
+            }
+
+            if (this.selectedVertex < i) {
+                var a = this.selectedVertex;
+                var b = i;
             } else {
-                this.selectedVertex = null; // Deselect if same color
+                var a = i;
+                var b = this.selectedVertex;
+            }
+
+            if (!intersects && !this.connections.some(connection => (connection[0] === a && connection[1] === b))) {
+                this.connections.push([a, b]);
+                this.selectedVertex = null; // Deselect after successful connection
+                this.drawPolygon(); // Redraw to show the connection
+            } else {
+                this.selectedVertex = null;
                 this.drawPolygon();
             }
+        } else {
+            this.selectedVertex = null; // Deselect if same color
+            this.drawPolygon();
         }
     }
 
@@ -71,17 +88,7 @@ export class Polygon {
         const centerY = canvas.height / 2;
         const radius = Math.min(centerX, centerY) * 0.9; // Make the polygon as big as possible
 
-        for (let i = 0; i < this.n; i++) {
-            const angle = (2 * Math.PI * i) / this.n;
-            const x = centerX + radius * Math.cos(angle);
-            const y = centerY + radius * Math.sin(angle);
-            ctx.beginPath();
-            ctx.arc(x, y, 15, 0, 2 * Math.PI); // Make the nodes bigger
-            ctx.fillStyle = `hsl(${this.colors[i] * (360 / this.m)}, 100%, 50%)`;
-            ctx.fill();
-            ctx.stroke();
-        }
-
+        // Draw adjacent lines
         for (let i = 0; i < this.n; i++) {
             const nextIndex = (i + 1) % this.n;
             const angleA = (2 * Math.PI * i) / this.n;
@@ -105,6 +112,7 @@ export class Polygon {
             ctx.setLineDash([]); // Reset line dash
         }
 
+        // Draw connections
         for (const connection of this.connections) {
             const [a, b] = connection;
             const angleA = (2 * Math.PI * a) / this.n;
@@ -117,10 +125,24 @@ export class Polygon {
             ctx.moveTo(xA, yA);
             ctx.lineTo(xB, yB);
             ctx.lineWidth = 2; // Make the lines thicker
+            ctx.strokeStyle = 'black'; // Make the lines black
             ctx.stroke();
             ctx.lineWidth = 1; // Reset line width
         }
 
+        // Draw nodes
+        for (let i = 0; i < this.n; i++) {
+            const angle = (2 * Math.PI * i) / this.n;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 15, 0, 2 * Math.PI); // Make the nodes bigger
+            ctx.fillStyle = `hsl(${this.colors[i] * (360 / this.m)}, 100%, 50%)`;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Draw selected node
         if (this.selectedVertex !== null) {
             const angle = (2 * Math.PI * this.selectedVertex) / this.n;
             const x = centerX + radius * Math.cos(angle);
