@@ -34,11 +34,8 @@ export class Polygon {
     static calculateMaxEdges(n, m, C) {
         if (m >= 3) {
             return n - 3;
-        } else if (m === 2) {
-            return n - 2 + Math.floor(C / 2);
-        } else {
-            return 0; // No edges can be added if there is only one color
-        }
+        } 
+        console.assert(false);
     }
 
     handleClick(i) {
@@ -115,7 +112,8 @@ export class Polygon {
     }
 
     adjustM(delta) {
-        const newM = Math.max(2, Math.min(this.n, this.m + delta)); // Ensure m is at least 2 and not greater than n
+        // at most 3 colors. I mean, you can technically solve this with 2 colors? But it's not that interesting. 
+        const newM = Math.max(3, Math.min(this.n, this.m + delta)); 
         const newColors = Polygon.generatePermutation(this.n, newM);
         const newFreebieConnections = Polygon.generateFreebieConnections(this.n, newColors);
         return new Polygon(this.n, newM, newColors, [], newFreebieConnections);
