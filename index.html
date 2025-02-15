@@ -32,14 +32,6 @@
 
     <div id="canvas-container" style="display: flex; align-items: center; justify-content: center; padding: 20px;">
         <div id="proof-div" style="display: none; width: 800px; height: 800px; background-color: #f0f0f0; border-radius: 10px; padding: 20px; opacity: 0; transition: opacity 0.5s;">
-            <h1>Balanced Proof for <em>K. Connect the Dots</em></h1>
-
-            <h2>Overview</h2>
-            <p>
-              We are given <em>N</em> points arranged on a line (or, equivalently, as vertices of a polygon) with at least three distinct colors. We wish to draw as many non-crossing curves as possible connecting points of <strong>different</strong> colors. The key restriction is that curves may share endpoints but not any interior points, and every curve must lie above the x-axis.
-            </p>
-
-            <h2>Core Idea: Contraction of Consecutive Triplets</h2>
             <p>
               The central observation is that we can simplify the problem by repeatedly “shrinking” our configuration. Consider any three consecutive nodes—denote them as <strong>[a, b, c]</strong>. If the color of <em>a</em> is different from the color of <em>c</em> (<code>color[a] ≠ color[c]</code>), then the middle node <em>b</em> can be removed (or "contracted") without losing the overall diversity of colors.
             </p>
