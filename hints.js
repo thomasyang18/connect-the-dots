@@ -4,6 +4,8 @@ const hints = [
 ];
 
 export function loadHint(state) {
+    state = Math.floor((state.size() + 1) / 2);
+
     const hintsDiv = document.getElementById('hints-div');
     hintsDiv.innerHTML = ''; // Clear previous hints
     for (let i = 0; i < state; i++) {

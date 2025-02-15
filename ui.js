@@ -1,10 +1,17 @@
 import { drawPolygon } from './renderer.js';
 import { loadHint } from './hints.js';
 
-let hasHitZeroOnce = false;
-let competencyState = 0;
+class CompetencyState {
+    constructor() {
+      this.hasHitZeroOnce = false;
+      this.numbersSolved = new Set(); 
+    }
+  }
+  
+  // Create a global instance
+const globalState = new CompetencyState();
 
-export class UI {
+class UI {
     constructor(polygon) {
         this.polygon = polygon;
         this.nDisplay = document.getElementById('n-display');
@@ -92,22 +99,26 @@ export class UI {
         // this.mDisplay.textContent = `Number of colors: ${state.m}`;
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
 
-        hasHitZeroOnce = hasHitZeroOnce || state.edgesLeft === 0;
-        if (hasHitZeroOnce) {
+        globalState.hasHitZeroOnce = globalState.hasHitZeroOnce || state.edgesLeft === 0;
+
+        if (globalState.hasHitZeroOnce) {
             this.hintsButton.style.display = 'inline-block';
             this.hintsButton.textContent = this.hintsVisible ? 'Hide hints' : 'Load hints!';
             this.hintsDiv.style.display = this.hintsVisible ? 'block' : 'none';
             this.hintsDiv.style.opacity = this.hintsVisible ? '1' : '0';
             this.canvasContainer.style.justifyContent = this.hintsVisible ? 'flex-start' : 'center';
-
-            if (state.edgesLeft === 0 && competencyState === 0) {
-                competencyState = 1;
-                loadHint(competencyState);
-            }
         } else {
             this.hintsButton.style.display = 'none';
             this.hintsDiv.style.display = 'none';
             this.canvasContainer.style.justifyContent = 'center';
+        }
+
+        if (state.edgesLeft == 0) {
+            this.numbersSolved.add(state.n);
+        }
+
+        if (globalState.hasHitZeroOnce) {
+            loadHint(globalState.numSolved);
         }
     }
 
@@ -123,3 +134,5 @@ export class UI {
         drawPolygon(this.polygon, this);
     }
 }
+
+export { globalState, UI };
