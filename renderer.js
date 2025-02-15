@@ -7,6 +7,12 @@ export function drawPolygon(polygon, ui) {
     const centerY = canvas.height / 2;
     const radius = Math.min(centerX, centerY) * 0.9; // Make the polygon as big as possible
 
+    if (state.proofVisible) {
+        canvas.style.transform = 'translateX(250px)';
+    } else {
+        canvas.style.transform = 'translateX(0)';
+    }
+
     // Draw freebie connections
     for (const connection of state.freebieConnections) {
         const [a, b] = connection;

@@ -1,7 +1,7 @@
 import { doIntersect } from './utils.js';
 
 export class Polygon {
-    constructor(n, m, colors, userConnections = [], freebieConnections = [], selectedVertex = null, state = 'idle') {
+    constructor(n, m, colors, userConnections = [], freebieConnections = [], selectedVertex = null, state = 'idle', proofVisible = false) {
         this.n = n;
         this.m = m;
         this.colors = colors;
@@ -9,6 +9,7 @@ export class Polygon {
         this.freebieConnections = freebieConnections;
         this.selectedVertex = selectedVertex;
         this.state = state;
+        this.proofVisible = proofVisible;
     }
 
     static generatePermutation(n, m) {
@@ -34,7 +35,7 @@ export class Polygon {
     static calculateMaxEdges(n, m, C) {
         if (m >= 3) {
             return n - 3;
-        } 
+        }
         console.assert(false);
     }
 
@@ -89,6 +90,10 @@ export class Polygon {
         }
     }
 
+    toggleProofVisibility() {
+        this.proofVisible = !this.proofVisible;
+    }
+
     getState() {
         return {
             n: this.n,
@@ -99,7 +104,8 @@ export class Polygon {
             selectedVertex: this.selectedVertex,
             state: this.state,
             maxEdges: Polygon.calculateMaxEdges(this.n, this.m, this.n),
-            edgesLeft: Polygon.calculateMaxEdges(this.n, this.m, this.n) - this.userConnections.length
+            edgesLeft: Polygon.calculateMaxEdges(this.n, this.m, this.n) - this.userConnections.length,
+            proofVisible: this.proofVisible
         };
     }
 
@@ -112,8 +118,8 @@ export class Polygon {
     }
 
     adjustM(delta) {
-        // at most 3 colors. I mean, you can technically solve this with 2 colors? But it's not that interesting. 
-        const newM = Math.max(3, Math.min(this.n, this.m + delta)); 
+        // at most 3 colors. I mean, you can technically solve this with 2 colors? But it's not that interesting.
+        const newM = Math.max(3, Math.min(this.n, this.m + delta));
         const newColors = Polygon.generatePermutation(this.n, newM);
         const newFreebieConnections = Polygon.generateFreebieConnections(this.n, newColors);
         return new Polygon(this.n, newM, newColors, [], newFreebieConnections);

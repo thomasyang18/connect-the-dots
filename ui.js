@@ -11,6 +11,22 @@ export class UI {
         this.decreaseMButton = document.getElementById('decrease-m');
         this.increaseMButton = document.getElementById('increase-m');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
+        this.proofButton = document.createElement('button');
+        this.proofButton.id = 'proof-button';
+        this.proofButton.style.display = 'none';
+        this.proofButton.textContent = 'Reveal/Hide proof';
+        this.proofTextArea = document.createElement('textarea');
+        this.proofTextArea.id = 'proof-textarea';
+        this.proofTextArea.style.display = 'none';
+        this.proofTextArea.style.position = 'absolute';
+        this.proofTextArea.style.left = '10px';
+        this.proofTextArea.style.top = '10px';
+        this.proofTextArea.style.width = '200px';
+        this.proofTextArea.style.height = '200px';
+        this.proofTextArea.style.opacity = '0';
+        this.proofTextArea.style.transition = 'opacity 0.5s';
+        document.body.appendChild(this.proofButton);
+        document.body.appendChild(this.proofTextArea);
         this.redDotRadius = 10;
         this.clickRadius = 15;
     }
@@ -28,6 +44,12 @@ export class UI {
         this.increaseNButton.addEventListener('click', () => this.adjustN(1));
         this.decreaseMButton.addEventListener('click', () => this.adjustM(-1));
         this.increaseMButton.addEventListener('click', () => this.adjustM(1));
+
+        this.proofButton.addEventListener('click', () => {
+            this.polygon.toggleProofVisibility();
+            this.updateDisplay();
+            drawPolygon(this.polygon, this);
+        });
 
         document.getElementById('canvas').addEventListener('click', (event) => {
             const rect = canvas.getBoundingClientRect();
@@ -77,6 +99,15 @@ export class UI {
         this.nDisplay.textContent = `Number of nodes: ${state.n}`;
         this.mDisplay.textContent = `Number of colors: ${state.m}`;
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
+        if (state.edgesLeft === 0) {
+            this.proofButton.style.display = 'inline-block';
+            this.proofButton.textContent = state.proofVisible ? 'Hide proof' : 'Reveal proof';
+            this.proofTextArea.style.display = state.proofVisible ? 'block' : 'none';
+            this.proofTextArea.style.opacity = state.proofVisible ? '1' : '0';
+        } else {
+            this.proofButton.style.display = 'none';
+            this.proofTextArea.style.display = 'none';
+        }
     }
 
     adjustN(delta) {
