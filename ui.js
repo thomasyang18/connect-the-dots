@@ -19,6 +19,7 @@ class UI {
         this.redDotRadius = 10;
         this.clickRadius = 15;
         this.hintsVisible = false; // Add this line to track hints visibility
+        this.achievementsDiv = document.getElementById('achievements');
     }
 
     init() {
@@ -110,6 +111,27 @@ class UI {
 
         if (globalState.hasHitZeroOnce) {
             loadHint(globalState.numbersSolved);
+        }
+
+        this.updateAchievements();
+    }
+
+    updateAchievements() {
+        this.achievementsDiv.innerHTML = ''; // Clear previous achievements
+        const maxN = Math.max(...globalState.numbersSolved);
+        for (let i = 3; i <= maxN + 1; i++) {
+            const achievementElement = document.createElement('div');
+            achievementElement.textContent = i;
+            achievementElement.style.width = '50px';
+            achievementElement.style.height = '50px';
+            achievementElement.style.display = 'flex';
+            achievementElement.style.alignItems = 'center';
+            achievementElement.style.justifyContent = 'center';
+            achievementElement.style.borderRadius = '50%';
+            achievementElement.style.backgroundColor = i === maxN + 1 ? 'grey' : 'blue';
+            achievementElement.style.color = 'white';
+            achievementElement.style.border = i === this.polygon.getState().n ? '2px solid red' : 'none';
+            this.achievementsDiv.appendChild(achievementElement);
         }
     }
 
