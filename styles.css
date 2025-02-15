@@ -156,6 +156,9 @@ h1 {
 
 .achievements {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .hints-button {
