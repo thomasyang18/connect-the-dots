@@ -1,6 +1,8 @@
 import { drawPolygon } from './renderer.js';
+import { loadHint } from './hints.js';
 
-let hasHitZeroOnce = false; 
+let hasHitZeroOnce = false;
+let competencyState = 0;
 
 export class UI {
     constructor(polygon) {
@@ -13,12 +15,12 @@ export class UI {
         // this.decreaseMButton = document.getElementById('decrease-m');
         // this.increaseMButton = document.getElementById('increase-m');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
-        this.proofButton = document.getElementById('proof-button');
-        this.proofDiv = document.getElementById('proof-div');
+        this.hintsButton = document.getElementById('hints-button');
+        this.hintsDiv = document.getElementById('hints-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
         this.clickRadius = 15;
-        this.proofVisible = false; // Add this line to track proof visibility
+        this.hintsVisible = false; // Add this line to track hints visibility
     }
 
     init() {
@@ -35,8 +37,8 @@ export class UI {
         // this.decreaseMButton.addEventListener('click', () => this.adjustM(-1));
         // this.increaseMButton.addEventListener('click', () => this.adjustM(1));
 
-        this.proofButton.addEventListener('click', () => {
-            this.proofVisible = !this.proofVisible; // Toggle proof visibility
+        this.hintsButton.addEventListener('click', () => {
+            this.hintsVisible = !this.hintsVisible; // Toggle hints visibility
             this.updateDisplay();
             drawPolygon(this.polygon, this);
         });
@@ -90,16 +92,21 @@ export class UI {
         // this.mDisplay.textContent = `Number of colors: ${state.m}`;
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
 
-        hasHitZeroOnce = hasHitZeroOnce || state.edgesLeft === 0; 
+        hasHitZeroOnce = hasHitZeroOnce || state.edgesLeft === 0;
         if (hasHitZeroOnce) {
-            this.proofButton.style.display = 'inline-block';
-            this.proofButton.textContent = this.proofVisible ? 'Hide proof' : 'Reveal proof';
-            this.proofDiv.style.display = this.proofVisible ? 'block' : 'none';
-            this.proofDiv.style.opacity = this.proofVisible ? '1' : '0';
-            this.canvasContainer.style.justifyContent = this.proofVisible ? 'flex-start' : 'center';
+            this.hintsButton.style.display = 'inline-block';
+            this.hintsButton.textContent = this.hintsVisible ? 'Hide hints' : 'Load hints!';
+            this.hintsDiv.style.display = this.hintsVisible ? 'block' : 'none';
+            this.hintsDiv.style.opacity = this.hintsVisible ? '1' : '0';
+            this.canvasContainer.style.justifyContent = this.hintsVisible ? 'flex-start' : 'center';
+
+            if (state.edgesLeft === 0 && competencyState === 0) {
+                competencyState = 1;
+                loadHint(competencyState);
+            }
         } else {
-            this.proofButton.style.display = 'none';
-            this.proofDiv.style.display = 'none';
+            this.hintsButton.style.display = 'none';
+            this.hintsDiv.style.display = 'none';
             this.canvasContainer.style.justifyContent = 'center';
         }
     }
