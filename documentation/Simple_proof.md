@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Balanced Proof for K. Connect the Dots</title>
+  <title>Layman's Proof for K. Connect the Dots</title>
   <style>
     body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 2em;
       line-height: 1.6;
       color: #333;
@@ -13,84 +13,63 @@
     h1, h2 {
       color: #2a5d84;
     }
-    pre {
-      background: #f4f4f4;
-      padding: 1em;
-      border-left: 4px solid #2a5d84;
-      overflow-x: auto;
+    p, li {
+      margin-bottom: 0.75em;
     }
-    .note {
-      background: #e7f3fe;
+    .example {
+      background: #f4f4f4;
       padding: 10px;
-      border-left: 4px solid #2196F3;
+      border-left: 4px solid #2a5d84;
       margin: 1em 0;
     }
   </style>
 </head>
 <body>
-  <h1>Balanced Proof for <em>K. Connect the Dots</em></h1>
+  <h1>Layman's Proof for K. Connect the Dots</h1>
 
-  <h2>Overview</h2>
+  <h2>The Setup</h2>
   <p>
-    We are given <em>N</em> points arranged on a line (or, equivalently, as vertices of a polygon) with at least three distinct colors. We wish to draw as many non-crossing curves as possible connecting points of <strong>different</strong> colors. The key restriction is that curves may share endpoints but not any interior points, and every curve must lie above the x-axis.
-  </p>
-
-  <h2>Core Idea: Contraction of Consecutive Triplets</h2>
-  <p>
-    The central observation is that we can simplify the problem by repeatedly “shrinking” our configuration. Consider any three consecutive nodes—denote them as <strong>[a, b, c]</strong>. If the color of <em>a</em> is different from the color of <em>c</em> (<code>color[a] ≠ color[c]</code>), then the middle node <em>b</em> can be removed (or "contracted") without losing the overall diversity of colors.
-  </p>
-  <p>
-    This contraction does not affect the possibility of drawing curves later on because it preserves the essential property: having at least three distinct colors. In essence, each contraction “shrinks” the polygon by one node while maintaining the structure needed for drawing valid curves.
+    Picture the colored nodes arranged as the vertices of a polygon. In our proof, we focus only on operations that draw an edge between three consecutive nodes – an operation that corresponds to “deleting” the middle node.
   </p>
 
-  <h2>Why Contraction is Always Possible</h2>
+  <h2>Key Configurations That Work</h2>
   <p>
-    The proof proceeds in two parts:
-  </p>
-  <ol>
-    <li>
-      <strong>Base Case (<em>N = 4</em>):</strong>  
-      For four points with at least three distinct colors, one can verify by inspection that there is a valid configuration for drawing the curves. In every valid combination, there exists an edge that can be added without violating the rules.
-    </li>
-    <li>
-      <strong>Inductive Step (<em>N &gt; 4</em>):</strong>  
-      Assume we have a configuration with <em>N</em> points and at least three colors. If there is a consecutive triplet <strong>[a, b, c]</strong> with <code>color[a] ≠ color[c]</code>, we can contract this triplet by removing <em>b</em>, leaving a configuration with <em>N-1</em> points that still contains at least three distinct colors.
-    </li>
-  </ol>
-  <p>
-    But what if no such triplet exists? This would force every consecutive triplet to have the first and third nodes sharing the same color. In a circular (or polygonal) arrangement, the only way for this to happen throughout is if the colors alternate between just two values (for instance, <em>[a, b, a, b, …]</em>). However, we are given that there are at least three distinct colors. Thus, a configuration with no valid triplet cannot exist.
-  </p>
-
-  <div class="note">
-    <strong>Intuition Behind the Contradiction:</strong>  
-    If no contraction were possible, the only arrangement allowed would be one that cycles between two colors. Since we know a third color appears, such an arrangement is impossible—meaning a valid contraction step must always exist.
-  </div>
-
-  <h2>Putting It All Together</h2>
-  <p>
-    By repeatedly applying the contraction operation, we “reduce” the original problem step by step. Each contraction guarantees that the remaining configuration still has at least three distinct colors, so the process can continue until the configuration becomes simple enough (such as the base case with 4 points) where drawing the curves is straightforward.
-  </p>
-  <p>
-    Therefore, by induction, the maximum number of curves that can be drawn is achievable, as the existence of at least three colors ensures that the necessary contraction steps are always available.
-  </p>
-
-  <h2>Final Summary</h2>
-  <p>
-    In summary, our proof shows that:
+    There are two configurations of three consecutive nodes we know will always let us draw an edge:
   </p>
   <ul>
     <li>
-      <strong>Contraction:</strong> When given a triplet <strong>[a, b, c]</strong> with <code>color[a] ≠ color[c]</code>, we can safely remove <em>b</em> without losing color diversity.
+      <strong>[r, g, b]</strong> – Three different colors in a row are good. (If the middle node’s color is unique – that is, the only node of its color – then we can simply connect it with every other node, so the worry about “deleting” it becomes moot.)
     </li>
     <li>
-      <strong>Inductive Argument:</strong> For <em>N &gt; 4</em>, such a contraction is always possible since an alternating two-color pattern is impossible with three or more colors.
-    </li>
-    <li>
-      <strong>Conclusion:</strong> The contraction process reduces the problem to a manageable base case, ensuring that we can always achieve the maximum number of curves.
+      <strong>[r, g, g]</strong> – More generally, if you see any two adjacent nodes with the same color, say [r, g, g], you know you can safely delete the middle node to get [r, _, g].
     </li>
   </ul>
+
+  <h2>Building the Color Sequence</h2>
   <p>
-    This method of “shrinking” the problem not only gives us a rigorous argument via induction but also provides the intuition behind why having at least three distinct colors guarantees a solution.
+    Now, think about placing nodes one by one around the polygon. Suppose we start with a node colored <strong>r</strong>. To avoid having two consecutive nodes of the same color, the next must be <strong>g</strong> (giving us [r, g]). What comes next?
+  </p>
+  <p>
+    You cannot have [r, g, g] immediately if that were to somehow break our plan (unless it’s beneficial for us, as noted above). At the same time, [r, g, b] is a configuration we like. If it doesn’t occur immediately, you might instead end up with [r, g, r] and so on.
+  </p>
+  <p>
+    No matter how you continue this process, you cannot avoid eventually hitting one of our “good” cases – either [r, g, b] or a situation where two consecutive nodes share the same color. This inevitability comes from the fact that, by assumption, every color appears at least once.
+  </p>
+
+  <h2>The Endgame: N = 4</h2>
+  <p>
+    At some point, by repeatedly “deleting” the middle node when a good configuration occurs, you’ll reduce the polygon to just 4 nodes. For N = 4, you can check directly that an edge can always be drawn – even if the process of deletions doesn’t preserve all three colors, the small graph is simple enough to fix.
+  </p>
+  <p>
+    In fact, after all these moves, you can always “fix” the graph in exactly N-3 moves.
+  </p>
+
+  <h2>Conclusion</h2>
+  <p>
+    This process of logical deduction—starting with the full polygon, identifying a move (drawing an edge by “deleting” a middle node) that works in either of two scenarios, and reducing the problem step by step—demonstrates that you can always reach a stage (N = 4) where drawing the edge is clear.
+  </p>
+  <p>
+    In summary, by focusing only on drawing an edge on three consecutive nodes, we see that either a configuration of three distinct colors or one with two consecutive same-colored nodes will eventually appear. This forces the sequence to eventually yield one of the two “good” cases, enabling us to reduce the problem until it is easily solved. That’s the beauty of logical deduction!
   </p>
 </body>
 </html>
