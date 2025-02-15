@@ -1,7 +1,11 @@
 class CompetencyState {
     constructor() {
       this.hasHitZeroOnce = false;
-      this.numbersSolved = new Set([3]);
+      this.numbersSolved = new Set();
+
+      for (let i = 3; i <= 300; i+=1) {
+        this.numbersSolved.add(i);
+      }
     }
   }
 
