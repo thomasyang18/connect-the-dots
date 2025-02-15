@@ -30,9 +30,10 @@
         <button id="proof-button" style="display: none; background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 15px; font-size: 14px; cursor: pointer; margin-left: 10px; font-weight: bold;">Reveal/Hide proof</button>
     </div>
 
-    <canvas id="canvas" width="800" height="800"></canvas>
-
-    <textarea id="proof-textarea" style="display: none; position: absolute; left: 10px; top: 10px; width: 800px; height: 800px; background-color: #f0f0f0; border-radius: 10px; padding: 20px; opacity: 0; transition: opacity 0.5s;">This is a proof text box. You can write your proof here.</textarea>
+    <div id="canvas-container" style="display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <canvas id="canvas" width="800" height="800"></canvas>
+        <textarea id="proof-textarea" style="display: none; position: absolute; left: 10px; top: 10px; width: 800px; height: 800px; background-color: #f0f0f0; border-radius: 10px; padding: 20px; opacity: 0; transition: opacity 0.5s;">This is a proof text box. You can write your proof here.</textarea>
+    </div>
 
     <script type="module" src="main.js"></script>
 </body>

@@ -13,6 +13,7 @@ export class UI {
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
         this.proofButton = document.getElementById('proof-button');
         this.proofTextArea = document.getElementById('proof-textarea');
+        this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
         this.clickRadius = 15;
     }
@@ -90,9 +91,11 @@ export class UI {
             this.proofButton.textContent = state.proofVisible ? 'Hide proof' : 'Reveal proof';
             this.proofTextArea.style.display = state.proofVisible ? 'block' : 'none';
             this.proofTextArea.style.opacity = state.proofVisible ? '1' : '0';
+            this.canvasContainer.style.justifyContent = state.proofVisible ? 'flex-start' : 'center';
         } else {
             this.proofButton.style.display = 'none';
             this.proofTextArea.style.display = 'none';
+            this.canvasContainer.style.justifyContent = 'center';
         }
     }
 
