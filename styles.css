@@ -22,10 +22,11 @@ canvas {
     background-color: #e0f7fa;
     padding: 20px;
     box-sizing: border-box;
+    justify-content: space-between; /* Add this line to distribute space evenly */
 }
 
 .left-container {
-    flex: 0 0 40%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,7 +38,7 @@ canvas {
 }
 
 .right-container {
-    flex: 0 0 55%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
