@@ -12,7 +12,7 @@ export class UI {
         this.increaseMButton = document.getElementById('increase-m');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
         this.proofButton = document.getElementById('proof-button');
-        this.proofTextArea = document.getElementById('proof-textarea');
+        this.proofDiv = document.getElementById('proof-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
         this.clickRadius = 15;
@@ -89,12 +89,12 @@ export class UI {
         if (state.edgesLeft === 0) {
             this.proofButton.style.display = 'inline-block';
             this.proofButton.textContent = state.proofVisible ? 'Hide proof' : 'Reveal proof';
-            this.proofTextArea.style.display = state.proofVisible ? 'block' : 'none';
-            this.proofTextArea.style.opacity = state.proofVisible ? '1' : '0';
+            this.proofDiv.style.display = state.proofVisible ? 'block' : 'none';
+            this.proofDiv.style.opacity = state.proofVisible ? '1' : '0';
             this.canvasContainer.style.justifyContent = state.proofVisible ? 'flex-start' : 'center';
         } else {
             this.proofButton.style.display = 'none';
-            this.proofTextArea.style.display = 'none';
+            this.proofDiv.style.display = 'none';
             this.canvasContainer.style.justifyContent = 'center';
         }
     }
