@@ -1,5 +1,7 @@
 import { drawPolygon } from './renderer.js';
 
+let hasHitZeroOnce = false; 
+
 export class UI {
     constructor(polygon) {
         this.polygon = polygon;
@@ -87,7 +89,9 @@ export class UI {
         this.nDisplay.textContent = `Number of nodes: ${state.n}`;
         // this.mDisplay.textContent = `Number of colors: ${state.m}`;
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
-        if (state.edgesLeft === 0) {
+
+        hasHitZeroOnce = hasHitZeroOnce || state.edgesLeft === 0; 
+        if (hasHitZeroOnce) {
             this.proofButton.style.display = 'inline-block';
             this.proofButton.textContent = this.proofVisible ? 'Hide proof' : 'Reveal proof';
             this.proofDiv.style.display = this.proofVisible ? 'block' : 'none';
