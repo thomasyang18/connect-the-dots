@@ -4,8 +4,8 @@ export class Polygon {
     constructor(n, m, colors, userConnections = [], freebieConnections = [], selectedVertex = null, state = 'idle', proofVisible = false) {
         this.n = n;
         // this.m = m;
-        this.m = 3; // constant now 
-        
+        this.m = 3; // constant now
+
         this.colors = colors;
         this.userConnections = userConnections;
         this.freebieConnections = freebieConnections;
