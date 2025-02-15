@@ -1,4 +1,5 @@
 import { doIntersect } from './utils.js';
+import { globalState } from './global_state.js';
 
 export class Polygon {
     constructor(n, m, colors, userConnections = [], freebieConnections = [], selectedVertex = null, state = 'idle', proofVisible = false) {
@@ -112,20 +113,24 @@ export class Polygon {
     }
 
     adjustN(delta) {
-        const newN = Math.max(4, this.n + delta); // Ensure n is at least 4
-        const newM = Math.min(this.m, newN); // Ensure m is not greater than n
-        const newColors = Polygon.generatePermutation(newN, newM);
+        let newN = Math.max(4, this.n + delta); // Ensure n is at least 4
+        
+        newN = Math.min(newN, Math.max(...globalState.numbersSolved) + 1); // can be no more than 1 + next instance
+
+        console.log("AWTF " + newN);
+
+        const newColors = Polygon.generatePermutation(newN, 3);
         const newFreebieConnections = Polygon.generateFreebieConnections(newN, newColors);
-        return new Polygon(newN, newM, newColors, [], newFreebieConnections);
+        return new Polygon(newN, 3, newColors, [], newFreebieConnections);
     }
 
-    adjustM(delta) {
-        // at most 3 colors. I mean, you can technically solve this with 2 colors? But it's not that interesting.
-        const newM = Math.max(3, Math.min(this.n, this.m + delta));
-        const newColors = Polygon.generatePermutation(this.n, newM);
-        const newFreebieConnections = Polygon.generateFreebieConnections(this.n, newColors);
-        return new Polygon(this.n, newM, newColors, [], newFreebieConnections);
-    }
+    // adjustM(delta) {
+    //     // at most 3 colors. I mean, you can technically solve this with 2 colors? But it's not that interesting.
+    //     const newM = Math.max(3, Math.min(this.n, this.m + delta));
+    //     const newColors = Polygon.generatePermutation(this.n, newM);
+    //     const newFreebieConnections = Polygon.generateFreebieConnections(this.n, newColors);
+    //     return new Polygon(this.n, newM, newColors, [], newFreebieConnections);
+    // }
 
     reset() {
         const newColors = Polygon.generatePermutation(this.n, this.m);

@@ -1,15 +1,6 @@
 import { drawPolygon } from './renderer.js';
 import { loadHint } from './hints.js';
-
-class CompetencyState {
-    constructor() {
-      this.hasHitZeroOnce = false;
-      this.numbersSolved = new Set(); 
-    }
-  }
-  
-  // Create a global instance
-const globalState = new CompetencyState();
+import { globalState } from './global_state.js';
 
 class UI {
     constructor(polygon) {
@@ -114,11 +105,11 @@ class UI {
         }
 
         if (state.edgesLeft == 0) {
-            this.numbersSolved.add(state.n);
+            globalState.numbersSolved.add(state.n);
         }
 
         if (globalState.hasHitZeroOnce) {
-            loadHint(globalState.numSolved);
+            loadHint(globalState.numbersSolved);
         }
     }
 
