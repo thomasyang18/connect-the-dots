@@ -2,7 +2,7 @@ import { Polygon } from './polygon.js';
 import { UI } from './ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const initialN = 5;
+    const initialN = 10;
     const initialM = 3;
     const initialColors = Polygon.generatePermutation(initialN, initialM);
     const initialFreebieConnections = Polygon.generateFreebieConnections(initialN, initialColors);

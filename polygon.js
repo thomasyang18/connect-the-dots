@@ -36,7 +36,7 @@ export class Polygon {
 
     static calculateMaxEdges(n, m, C) {
         if (m >= 3) {
-            return n - 3;
+            return n - 4;
         }
         console.assert(false);
     }
@@ -112,7 +112,7 @@ export class Polygon {
     }
 
     adjustN(delta) {
-        const newN = Math.max(5, this.n + delta); // Ensure n is at least 5
+        const newN = Math.max(4, this.n + delta); // Ensure n is at least 4
         const newM = Math.min(this.m, newN); // Ensure m is not greater than n
         const newColors = Polygon.generatePermutation(newN, newM);
         const newFreebieConnections = Polygon.generateFreebieConnections(newN, newColors);
