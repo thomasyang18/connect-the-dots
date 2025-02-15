@@ -4,12 +4,12 @@ export class UI {
     constructor(polygon) {
         this.polygon = polygon;
         this.nDisplay = document.getElementById('n-display');
-        this.mDisplay = document.getElementById('m-display');
+        // this.mDisplay = document.getElementById('m-display');
         this.title = document.getElementById('title');
         this.decreaseNButton = document.getElementById('decrease-n');
         this.increaseNButton = document.getElementById('increase-n');
-        this.decreaseMButton = document.getElementById('decrease-m');
-        this.increaseMButton = document.getElementById('increase-m');
+        // this.decreaseMButton = document.getElementById('decrease-m');
+        // this.increaseMButton = document.getElementById('increase-m');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
         this.proofButton = document.getElementById('proof-button');
         this.proofDiv = document.getElementById('proof-div');
@@ -29,8 +29,8 @@ export class UI {
 
         this.decreaseNButton.addEventListener('click', () => this.adjustN(-1));
         this.increaseNButton.addEventListener('click', () => this.adjustN(1));
-        this.decreaseMButton.addEventListener('click', () => this.adjustM(-1));
-        this.increaseMButton.addEventListener('click', () => this.adjustM(1));
+        // this.decreaseMButton.addEventListener('click', () => this.adjustM(-1));
+        // this.increaseMButton.addEventListener('click', () => this.adjustM(1));
 
         this.proofButton.addEventListener('click', () => {
             this.polygon.toggleProofVisibility();
@@ -84,7 +84,7 @@ export class UI {
     updateDisplay() {
         const state = this.polygon.getState();
         this.nDisplay.textContent = `Number of nodes: ${state.n}`;
-        this.mDisplay.textContent = `Number of colors: ${state.m}`;
+        // this.mDisplay.textContent = `Number of colors: ${state.m}`;
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
         if (state.edgesLeft === 0) {
             this.proofButton.style.display = 'inline-block';
