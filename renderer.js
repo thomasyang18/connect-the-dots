@@ -7,11 +7,10 @@ export function drawPolygon(polygon, ui) {
     const centerY = canvas.height / 2;
     const radius = Math.min(centerX, centerY) * 0.9; // Make the polygon as big as possible
 
-    if (state.proofVisible) {
-        canvas.style.transform = 'translateX(250px)';
-    } else {
-        canvas.style.transform = 'translateX(0)';
-    }
+    const targetX = state.proofVisible ? 250 : 0;
+    const currentX = parseFloat(canvas.style.transform.replace('translateX(', '').replace('px)', '')) || 0;
+    const newX = lerp(currentX, targetX, 0.1);
+    canvas.style.transform = `translateX(${newX}px)`;
 
     // Draw freebie connections
     for (const connection of state.freebieConnections) {
@@ -95,4 +94,8 @@ export function drawPolygon(polygon, ui) {
 
     // Reset stroke style to black
     ctx.strokeStyle = 'black';
+}
+
+function lerp(start, end, amount) {
+    return start + (end - start) * amount;
 }
