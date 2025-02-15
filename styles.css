@@ -80,7 +80,7 @@ h1 {
 .arrow-buttons {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .arrow-buttons button {
@@ -148,10 +148,6 @@ h1 {
     align-items: center;
     width: 100%;
     margin-bottom: 20px;
-}
-
-.edges-left {
-    margin-left: 20px;
 }
 
 .achievements {

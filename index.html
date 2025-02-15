@@ -7,35 +7,30 @@
 <body>
     <div class="top-container">
         <div class="left-container">
-            <h1 id="title">Connect the Dots</h1>
             <div class="summary-box">
                 <p class="summary">
-                    The goal of the game is to connect nodes of different colors without overlapping edges. EdgesLeft tells you how much more you need to go.
+                    Connect nodes of different colors without overlapping edges! 
                 </p>
             </div>
         </div>
         <div class="right-container">
             <div class="right-container-upper">
                 <span>List of solved instances:</span>
-                <div class="controls">
-                    <div class="node-edges">
-                        <div class="arrow-buttons">
-                            <button id="decrease-n" class="arrow-button">◀</button>
-                            <span id="n-display">Number of nodes: 6</span>
-                            <button id="increase-n" class="arrow-button">▶</button>
-                        </div>
-                        <div class="edges-left">
-                            <p id="max-edges-display">Edges left: 3</p>
-                        </div>
-                    </div>
-                    <div class="hints-button">
-                        <button id="hints-button" style="display: none; background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 15px; font-size: 14px; cursor: pointer; margin-left: 10px; font-weight: bold;">Load hints!</button>
-                    </div>
+                <div class="arrow-buttons">
+                    <button id="decrease-n" class="arrow-button">◀</button>
+                    <span id="n-display">Number of nodes: 6</span>
+                    <button id="increase-n" class="arrow-button">▶</button>
+                </div>
+                <div class="edges-left">
+                    <p id="max-edges-display">Edges left: 3</p>
+                </div>
+                <div class="hints-button">
+                    <button id="hints-button" style="display: none; background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 15px; font-size: 14px; cursor: pointer; margin-left: 10px; font-weight: bold;">Load hints!</button>
                 </div>
             </div>
             <div class="right-container-lower">
                 <div class="achievements">
-                    <div id="achievements" style="display: flex; justify-content: flex-start; gap: 10px; margin-top: 20px;">
+                    <div id="achievements">
                         <!-- Achievements will be loaded here -->
                     </div>
                 </div>
