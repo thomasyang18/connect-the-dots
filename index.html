@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="header">
-        <div class="header-left">
+    <div class="top-container">
+        <div class="left-container">
             <h1 id="title">Connect the Dots</h1>
             <div class="summary-box">
                 <p class="summary">
@@ -14,18 +14,20 @@
                 </p>
             </div>
         </div>
-        <div class="header-right">
+        <div class="right-container">
             <div class="controls">
-                <div class="arrow-buttons">
-                    <button id="decrease-n" class="arrow-button">◀</button>
-                    <span id="n-display">Number of nodes: 6</span>
-                    <button id="increase-n" class="arrow-button">▶</button>
-                </div>
-                <div class="edges-left">
-                    <p id="max-edges-display">Edges left: 3</p>
+                <div class="node-edges">
+                    <div class="arrow-buttons">
+                        <button id="decrease-n" class="arrow-button">◀</button>
+                        <span id="n-display">Number of nodes: 6</span>
+                        <button id="increase-n" class="arrow-button">▶</button>
+                    </div>
+                    <div class="edges-left">
+                        <p id="max-edges-display">Edges left: 3</p>
+                    </div>
                 </div>
                 <div class="achievements">
-                    <div id="achievements" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                    <div id="achievements" style="display: flex; justify-content: flex-start; gap: 10px; margin-top: 20px;">
                         <!-- Achievements will be loaded here -->
                     </div>
                 </div>
