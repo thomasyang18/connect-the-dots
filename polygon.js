@@ -36,7 +36,7 @@ export class Polygon {
 
     static calculateMaxEdges(n, m, C) {
         if (m >= 3) {
-            return n - 4;
+            return n - 3;
         }
         console.assert(false);
     }
