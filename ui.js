@@ -18,9 +18,10 @@ export class UI {
         this.proofButton.style.color = 'white';
         this.proofButton.style.border = 'none';
         this.proofButton.style.borderRadius = '5px';
-        this.proofButton.style.padding = '10px 20px';
-        this.proofButton.style.fontSize = '16px';
+        this.proofButton.style.padding = '5px 15px';
+        this.proofButton.style.fontSize = '14px';
         this.proofButton.style.cursor = 'pointer';
+        this.proofButton.style.fontWeight = 'bold';
         this.proofButton.textContent = 'Reveal/Hide proof';
         this.proofTextArea = document.createElement('textarea');
         this.proofTextArea.id = 'proof-textarea';
