@@ -112,7 +112,7 @@ export class Polygon {
     }
 
     adjustN(delta) {
-        const newN = Math.max(3, this.n + delta); // Ensure n is at least 3
+        const newN = Math.max(5, this.n + delta); // Ensure n is at least 5
         const newM = Math.min(this.m, newN); // Ensure m is not greater than n
         const newColors = Polygon.generatePermutation(newN, newM);
         const newFreebieConnections = Polygon.generateFreebieConnections(newN, newColors);
