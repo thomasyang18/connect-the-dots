@@ -1,5 +1,5 @@
 const hints = [
-    "How would you come up with a general algorithm?",
+    "How would you come up with a general algorithm? Solve 5 puzzles from scratch for the next hint. Yes, N=4 nodes counts :)",
     // Add more hints here
 ];
 
