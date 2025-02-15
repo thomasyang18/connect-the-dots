@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Balanced Proof for K. Connect the Dots</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin: 2em;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2a5d84;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 1em;
+      border-left: 4px solid #2a5d84;
+      overflow-x: auto;
+    }
+    .note {
+      background: #e7f3fe;
+      padding: 10px;
+      border-left: 4px solid #2196F3;
+      margin: 1em 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Balanced Proof for <em>K. Connect the Dots</em></h1>
+
+  <h2>Overview</h2>
+  <p>
+    We are given <em>N</em> points arranged on a line (or, equivalently, as vertices of a polygon) with at least three distinct colors. We wish to draw as many non-crossing curves as possible connecting points of <strong>different</strong> colors. The key restriction is that curves may share endpoints but not any interior points, and every curve must lie above the x-axis.
+  </p>
+
+  <h2>Core Idea: Contraction of Consecutive Triplets</h2>
+  <p>
+    The central observation is that we can simplify the problem by repeatedly “shrinking” our configuration. Consider any three consecutive nodes—denote them as <strong>[a, b, c]</strong>. If the color of <em>a</em> is different from the color of <em>c</em> (<code>color[a] ≠ color[c]</code>), then the middle node <em>b</em> can be removed (or "contracted") without losing the overall diversity of colors.
+  </p>
+  <p>
+    This contraction does not affect the possibility of drawing curves later on because it preserves the essential property: having at least three distinct colors. In essence, each contraction “shrinks” the polygon by one node while maintaining the structure needed for drawing valid curves.
+  </p>
+
+  <h2>Why Contraction is Always Possible</h2>
+  <p>
+    The proof proceeds in two parts:
+  </p>
+  <ol>
+    <li>
+      <strong>Base Case (<em>N = 4</em>):</strong>  
+      For four points with at least three distinct colors, one can verify by inspection that there is a valid configuration for drawing the curves. In every valid combination, there exists an edge that can be added without violating the rules.
+    </li>
+    <li>
+      <strong>Inductive Step (<em>N &gt; 4</em>):</strong>  
+      Assume we have a configuration with <em>N</em> points and at least three colors. If there is a consecutive triplet <strong>[a, b, c]</strong> with <code>color[a] ≠ color[c]</code>, we can contract this triplet by removing <em>b</em>, leaving a configuration with <em>N-1</em> points that still contains at least three distinct colors.
+    </li>
+  </ol>
+  <p>
+    But what if no such triplet exists? This would force every consecutive triplet to have the first and third nodes sharing the same color. In a circular (or polygonal) arrangement, the only way for this to happen throughout is if the colors alternate between just two values (for instance, <em>[a, b, a, b, …]</em>). However, we are given that there are at least three distinct colors. Thus, a configuration with no valid triplet cannot exist.
+  </p>
+
+  <div class="note">
+    <strong>Intuition Behind the Contradiction:</strong>  
+    If no contraction were possible, the only arrangement allowed would be one that cycles between two colors. Since we know a third color appears, such an arrangement is impossible—meaning a valid contraction step must always exist.
+  </div>
+
+  <h2>Putting It All Together</h2>
+  <p>
+    By repeatedly applying the contraction operation, we “reduce” the original problem step by step. Each contraction guarantees that the remaining configuration still has at least three distinct colors, so the process can continue until the configuration becomes simple enough (such as the base case with 4 points) where drawing the curves is straightforward.
+  </p>
+  <p>
+    Therefore, by induction, the maximum number of curves that can be drawn is achievable, as the existence of at least three colors ensures that the necessary contraction steps are always available.
+  </p>
+
+  <h2>Final Summary</h2>
+  <p>
+    In summary, our proof shows that:
+  </p>
+  <ul>
+    <li>
+      <strong>Contraction:</strong> When given a triplet <strong>[a, b, c]</strong> with <code>color[a] ≠ color[c]</code>, we can safely remove <em>b</em> without losing color diversity.
+    </li>
+    <li>
+      <strong>Inductive Argument:</strong> For <em>N &gt; 4</em>, such a contraction is always possible since an alternating two-color pattern is impossible with three or more colors.
+    </li>
+    <li>
+      <strong>Conclusion:</strong> The contraction process reduces the problem to a manageable base case, ensuring that we can always achieve the maximum number of curves.
+    </li>
+  </ul>
+  <p>
+    This method of “shrinking” the problem not only gives us a rigorous argument via induction but also provides the intuition behind why having at least three distinct colors guarantees a solution.
+  </p>
+</body>
+</html>
