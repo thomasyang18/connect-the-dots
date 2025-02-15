@@ -6,32 +6,34 @@
 </head>
 <body>
     <div class="header">
-
-        <h1 id="title">Connect the Dots</h1>
-        <!-- <div class="arrow-buttons">
-            <span id="m-display">Number of colors: 3</span>
-        </div> -->
-    </div>
-
-    <div class="arrow-buttons">
-        <button id="decrease-n" class="arrow-button">◀</button>
-        <span id="n-display">Number of nodes: 6</span>
-        <button id="increase-n" class="arrow-button">▶</button>
-    </div>
-
-    <div class="summary-box">
-        <p class="summary">
-            You are given a polygon of n nodes, each colored red, blue, or green. The goal of the game is to connect all nodes of the same color without any lines crossing. Click on a node to select it, then click on another node of a different color to connect them. The game will automatically deselect nodes if the connection is invalid.
-        </p>
-    </div>
-
-    <div id="achievements" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-        <!-- Achievements will be loaded here -->
-    </div>
-
-    <div style="display: flex; align-items: center; justify-content: center;">
-        <p id="max-edges-display">Edges left: 3</p>
-        <button id="hints-button" style="display: none; background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 15px; font-size: 14px; cursor: pointer; margin-left: 10px; font-weight: bold;">Load hints!</button>
+        <div class="header-left">
+            <h1 id="title">Connect the Dots</h1>
+            <div class="summary-box">
+                <p class="summary">
+                    You are given a polygon of n nodes, each colored red, blue, or green. The goal of the game is to connect all nodes of the same color without any lines crossing. Click on a node to select it, then click on another node of a different color to connect them. The game will automatically deselect nodes if the connection is invalid.
+                </p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="controls">
+                <div class="arrow-buttons">
+                    <button id="decrease-n" class="arrow-button">◀</button>
+                    <span id="n-display">Number of nodes: 6</span>
+                    <button id="increase-n" class="arrow-button">▶</button>
+                </div>
+                <div class="edges-left">
+                    <p id="max-edges-display">Edges left: 3</p>
+                </div>
+                <div class="achievements">
+                    <div id="achievements" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                        <!-- Achievements will be loaded here -->
+                    </div>
+                </div>
+                <div class="hints-button">
+                    <button id="hints-button" style="display: none; background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 15px; font-size: 14px; cursor: pointer; margin-left: 10px; font-weight: bold;">Load hints!</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="canvas-container" style="display: flex; align-items: center; justify-content: center; padding: 20px;">
