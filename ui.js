@@ -16,6 +16,7 @@ export class UI {
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
         this.clickRadius = 15;
+        this.proofVisible = false; // Add this line to track proof visibility
     }
 
     init() {
@@ -33,7 +34,7 @@ export class UI {
         // this.increaseMButton.addEventListener('click', () => this.adjustM(1));
 
         this.proofButton.addEventListener('click', () => {
-            this.polygon.toggleProofVisibility();
+            this.proofVisible = !this.proofVisible; // Toggle proof visibility
             this.updateDisplay();
             drawPolygon(this.polygon, this);
         });
@@ -88,10 +89,10 @@ export class UI {
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
         if (state.edgesLeft === 0) {
             this.proofButton.style.display = 'inline-block';
-            this.proofButton.textContent = state.proofVisible ? 'Hide proof' : 'Reveal proof';
-            this.proofDiv.style.display = state.proofVisible ? 'block' : 'none';
-            this.proofDiv.style.opacity = state.proofVisible ? '1' : '0';
-            this.canvasContainer.style.justifyContent = state.proofVisible ? 'flex-start' : 'center';
+            this.proofButton.textContent = this.proofVisible ? 'Hide proof' : 'Reveal proof';
+            this.proofDiv.style.display = this.proofVisible ? 'block' : 'none';
+            this.proofDiv.style.opacity = this.proofVisible ? '1' : '0';
+            this.canvasContainer.style.justifyContent = this.proofVisible ? 'flex-start' : 'center';
         } else {
             this.proofButton.style.display = 'none';
             this.proofDiv.style.display = 'none';
