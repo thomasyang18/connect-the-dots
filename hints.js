@@ -9,7 +9,8 @@ export function loadHint(state) {
     const hintsDiv = document.getElementById('hints-div');
     hintsDiv.innerHTML = ''; // Clear previous hints
     for (let i = 0; i < state; i++) {
-        const hintElement = document.createElement('p');
+        const hintElement = document.createElement('div');
+        hintElement.classList.add('hint');
         hintElement.textContent = hints[i];
         hintsDiv.appendChild(hintElement);
     }
