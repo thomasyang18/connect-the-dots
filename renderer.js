@@ -14,6 +14,32 @@ export function drawPolygon(polygon, ui) {
     const newX = lerp(currentX, targetX, 0.1);
     canvas.style.transform = `translateX(${newX}px)`;
 
+    // Draw triangles
+    for (let i = 0; i < state.n; i++) {
+        const a = i;
+        const b = (i + 1) % state.n;
+        const c = (i + 2) % state.n;
+        if (state.userConnections.some(conn => (conn[0] === a && conn[1] === c) || (conn[0] === c && conn[1] === a))) {
+            const angleA = (2 * Math.PI * a) / state.n;
+            const angleB = (2 * Math.PI * b) / state.n;
+            const angleC = (2 * Math.PI * c) / state.n;
+            const xA = centerX + radius * Math.cos(angleA);
+            const yA = centerY + radius * Math.sin(angleA);
+            const xB = centerX + radius * Math.cos(angleB);
+            const yB = centerY + radius * Math.sin(angleB);
+            const xC = centerX + radius * Math.cos(angleC);
+            const yC = centerY + radius * Math.sin(angleC);
+
+            ctx.beginPath();
+            ctx.moveTo(xA, yA);
+            ctx.lineTo(xB, yB);
+            ctx.lineTo(xC, yC);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(173, 216, 230, 0.5)'; // Light blue color
+            ctx.fill();
+        }
+    }
+
     // Draw freebie connections
     for (const connection of state.freebieConnections) {
         const [a, b] = connection;
