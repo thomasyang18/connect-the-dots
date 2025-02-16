@@ -73,9 +73,11 @@ export class UI {
         
         
         // TODO: I wanna have some "pop up " nice animation here but yea its ocnfusing having 0 instructions
-            this.hintsDiv.style.display = 'block';
-            this.hintsDiv.style.opacity = '1';
-            this.canvasContainer.style.justifyContent = 'flex-start';
+            
+        // if (this.devMessageDiv.style.display
+        // this.hintsDiv.style.display = 'block';
+        //     this.hintsDiv.style.opacity = '1';
+        //     this.canvasContainer.style.justifyContent = 'flex-start';
             loadHint();
         // } else {
         //     this.hintsDiv.style.display = 'none';

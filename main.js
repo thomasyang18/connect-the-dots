@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ui.updateDisplay(); // again, horrible SWE practice, but I just wanna get this website out :)
 
     document.addEventListener('keydown', (event) => {
-        if (event.code === 'Space') {
+        if (event.code === 'Enter') {
             const newN = Math.max(...globalState.numbersSolved);
             globalState.numbersSolved.add(newN + 1);
             ui.adjustN(newN + 2);

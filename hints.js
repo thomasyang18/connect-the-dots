@@ -3,28 +3,34 @@ import { globalState } from "./global_state.js";
 const hints = new Map([
     [3, // setting this to three... i want it to be four tho. popup! but whatever
         [
-            `3. Hey! Didn't see you there.`,
-            `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. Capiche? :)`
+            `3. Hey! Didn't see you there. Welcome to my game!`,
+            `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. 
+            Try to make as many lines as possible. Capiche? :)`
         ]
     ],
     [6,
         [
-            `6. I've noticed something!`,
-            `We can keep on cutting off triangles at the 'edges' of the original shape. This way, we can cleanly think about the smaller shapes.`,
-            `It's hard to visualize until you see it. Keep on playing, I'll highlight the 'cut off' triangles for you...`
+            `6. I've noticed something that might help! The polygon is split into shapes; but the triangles are kind of useless, aren't they?
+            Like, you can't even fit any more lines in the triangles.`,
+            `Keep on playing, I'll highlight the triangles for you...`
         ]
     ],
     [8,
         [
-            `8. Hm. One thing I'm seeing is that, if there's just one color in your sub-polygon(s), you can connect up all the other nodes to that node, for free`,
-            `I'll suggest that connection for you if I see it - feel free to do play as normal!`
+            `8. Hm. One thing I'm seeing is that, if there's just one color in your sub-polygon, you can connect up all the dots, for free.
+            I mean, it sounds so obvious that it doesn't even seem useful - how often does that even happen??
+            `,
+            `But I'll suggest that connection for you in red if I see it - I'm the computer after all, I'm good at these simple automatic rules. 
+            Feel free to do play as normal! I'm only giving suggestions.`
         ]
     ],
     [10,
         [
             `10. I think I have an observation!.`,
-            `So, within each 'sub-polygon', if I see three consecutive nodes (a, b, c), they will form a triangle. And if (color[a] != color[c]), I can connect them!`,
-            `I'll start reccomending those moves now.`
+            `So, within each sub-polygon, if I see three consecutive nodes (a, b, c): 
+            We know that the lines (a, b) and (b, c) exist. If I add (a, c), this forms a triangle. 
+            If they're not the same color, I can connect them!`,
+            `I'll start reccomending those moves now - hopefully it makes it clear what I'm thinking about. Hopefully I didn't miss anything...`
         ] /* From here  *disable the reccomender that connects up one node to all other nodes.* Or make this observation higher. */
     ],
 
@@ -60,15 +66,15 @@ const hints = new Map([
 
     [14,
         [
-            `14. Whew, glad that was over. I realized that my algorithm only works if we assume that we don't accidentally kill off a color!`,
-            `Thankfully, if there were only 1 color remaining, we could just hook it up to the rest of the nodes.`,
-            `I'll add that to my algorithm now - *now* my reccomended edges should always be correct!`
+            `14. Whew, glad that was over. I realized that, I have to check for observation 8 *first*, THEN observation 10.`,
+            `Well... that's my hope, anyways. I haven't proved it. I'm just messing around.`,
         ]
     ],
 
     [16,
         [
-            `16. Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking this message.`
+            `16. Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking this message.`,
+            `The final algorithm is indeed correct, which might seem surprising! The high level details are in the dev notes :)`
         ]
     ]
 
@@ -102,6 +108,7 @@ function loadHint() {
                         document.getElementById('dev-message-div').style.display = 'block';
                         document.getElementById('hints-div').style.display = 'none';
                     });
+                    hintElement.style.backgroundColor = "lightgreen";
                 }
                 hintsDiv.appendChild(hintElement);
             }   
