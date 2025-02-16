@@ -1,12 +1,13 @@
 import { drawPolygon } from './renderer.js';
-import { loadHint, hints } from './hints.js';
 import { globalState } from './global_state.js';
+import { loadHint } from './hints.js';
 
-class UI {
+export class UI {
     constructor(polygon) {
         this.polygon = polygon;
         // this.title = document.getElementById('title');
         this.hintsDiv = document.getElementById('hints-div');
+        this.devMessageDiv = document.getElementById('dev-message-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
         this.clickRadius = 15;
@@ -25,39 +26,23 @@ class UI {
             const centerY = canvas.height / 2;
             const radius = Math.min(centerX, centerY) * 0.9;
 
-            for (let i = 0; i < this.polygon.getState().n; i++) {
-                const angle = (2 * Math.PI * i) / this.polygon.getState().n;
+            for (let i = 0; i < this.polygon.n; i++) {
+                const angle = (2 * Math.PI * i) / this.polygon.n;
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
-                if (Math.sqrt((mouseX - x)**2 + (mouseY - y)**2) < this.clickRadius) { // Check if click is near a vertex
+                const distance = Math.sqrt((mouseX - x) ** 2 + (mouseY - y) ** 2);
+                if (distance <= this.clickRadius) {
                     this.polygon.handleClick(i);
                     this.updateDisplay();
-                    drawPolygon(this.polygon, this);
-                    break;
-                }
-            }
-
-            // Check if click is near a red dot
-            for (const connection of this.polygon.getState().userConnections) {
-                const [a, b] = connection;
-                const angleA = (2 * Math.PI * a) / this.polygon.getState().n;
-                const angleB = (2 * Math.PI * b) / this.polygon.getState().n;
-                const xA = centerX + radius * Math.cos(angleA);
-                const yA = centerY + radius * Math.sin(angleA);
-                const xB = centerX + radius * Math.cos(angleB);
-                const yB = centerY + radius * Math.sin(angleB);
-                const midX = (xA + xB) / 2;
-                const midY = (yA + yB) / 2;
-                if (Math.sqrt((mouseX - midX)**2 + (mouseY - midY)**2) < this.clickRadius) { // Check if click is near the red dot
-                    this.polygon.handleEdgeClick(connection);
-                    this.updateDisplay();
-                    drawPolygon(this.polygon, this);
                     break;
                 }
             }
         });
 
-        drawPolygon(this.polygon, this);
+        document.getElementById('close-dev-message').addEventListener('click', () => {
+            this.devMessageDiv.style.display = 'none';
+            this.hintsDiv.style.display = 'block';
+        });
     }
 
     updateDisplay() {
@@ -67,25 +52,23 @@ class UI {
             this.hintsDiv.style.display = 'block';
             this.hintsDiv.style.opacity = '1';
             this.canvasContainer.style.justifyContent = 'flex-start';
+            loadHint();
         } else {
             this.hintsDiv.style.display = 'none';
             this.canvasContainer.style.justifyContent = 'center';
         }
 
-        if (state.edgesLeft == 0) {
-            let before = globalState.numbersSolved.has(state.n);
-
-            globalState.numbersSolved.add(state.n);
-
-            if (before === false) { // auto progrss if on latest
-                this.adjustN(state.n + 1);
-                return;
-            }
+        if (globalState.win) {
+            this.devMessageDiv.innerHTML = `
+                <h1>Congratulations!</h1>
+                <p>You have unlocked a new global state: "win".</p>
+                <button id="close-dev-message">Close</button>
+            `;
+            this.devMessageDiv.style.display = 'block';
+            this.hintsDiv.style.display = 'none';
         }
 
-        loadHint(globalState.numbersSolved);
-
-        this.updateAchievements();
+        drawPolygon(this.polygon, this);
     }
 
     updateAchievements() {
@@ -108,5 +91,3 @@ class UI {
         drawPolygon(this.polygon, this);
     }
 }
-
-export { globalState, UI };
