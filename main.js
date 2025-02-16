@@ -1,5 +1,6 @@
 import { Polygon } from './polygon.js';
 import { UI } from './ui.js';
+import { globalState } from './global_state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const initialN = 4;
@@ -9,4 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const polygon = new Polygon(initialN, initialM, initialColors, [], initialFreebieConnections);
     const ui = new UI(polygon);
     ui.init();
+
+    
 });
