@@ -1,5 +1,10 @@
 const hints = new Map([
-    [1, "How would you come up with a general algorithm? Solve 5 puzzles from scratch for the next hint. Yes, N=4 nodes counts :)"],
+    [4, 
+        [
+            `Hey! Didn't see you there.`,
+            `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. Capiche? :)`
+        ]
+    ],
     // Add more hints here
 ]);
 
@@ -10,10 +15,12 @@ export function loadHint(state) {
     // Sort the keys and iterate over the map
     for (const key of Array.from(hints.keys()).sort((a, b) => a - b)) {
         if (state.has(key)) {
-            const hintElement = document.createElement('div');
-            hintElement.classList.add('hint');
-            hintElement.textContent = hints.get(key);
-            hintsDiv.appendChild(hintElement);
+            for (const str of hints.get(key)) {
+                const hintElement = document.createElement('div');
+                hintElement.classList.add('hint');
+                hintElement.textContent = str;
+                hintsDiv.appendChild(hintElement);
+            }
         }
     }
 }
