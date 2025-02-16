@@ -5,9 +5,7 @@ import { globalState } from './global_state.js';
 class UI {
     constructor(polygon) {
         this.polygon = polygon;
-        this.nDisplay = document.getElementById('n-display');
-        // this.mDisplay = document.getElementById('m-display');
-        this.title = document.getElementById('title');
+        // this.title = document.getElementById('title');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
         this.hintsButton = document.getElementById('hints-button');
         this.hintsDiv = document.getElementById('hints-div');
@@ -20,12 +18,6 @@ class UI {
 
     init() {
         this.updateDisplay();
-
-        this.title.addEventListener('click', () => {
-            this.polygon = this.polygon.reset();
-            this.updateDisplay();
-            drawPolygon(this.polygon, this);
-        });
 
         this.hintsButton.addEventListener('click', () => {
             this.hintsVisible = !this.hintsVisible; // Toggle hints visibility
@@ -78,8 +70,6 @@ class UI {
 
     updateDisplay() {
         const state = this.polygon.getState();
-        this.nDisplay.textContent = `Number of nodes: ${state.n}`;
-        // this.mDisplay.textContent = `Number of colors: ${state.m}`;
         this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
 
         globalState.hasHitZeroOnce = globalState.hasHitZeroOnce || state.edgesLeft === 0;
@@ -97,7 +87,14 @@ class UI {
         }
 
         if (state.edgesLeft == 0) {
+            let before = globalState.numbersSolved.has(state.n);
+
             globalState.numbersSolved.add(state.n);
+
+            if (before === false) { // auto progrss if on latest 
+                this.adjustN(state.n + 1);
+                return;
+            }
         }
 
         if (globalState.hasHitZeroOnce) {
@@ -110,7 +107,7 @@ class UI {
     updateAchievements() {
         this.achievementsDiv.innerHTML = ''; // Clear previous achievements
         const maxN = Math.max(...globalState.numbersSolved);
-        for (let i = 3; i <= maxN + 1; i++) {
+        for (let i = 4; i <= maxN + 1; i++) {
             const achievementElement = document.createElement('div');
             achievementElement.textContent = i;
             achievementElement.classList.add('achievement-item');
@@ -123,12 +120,6 @@ class UI {
 
     adjustN(newN) {
         this.polygon = this.polygon.adjustN(newN);
-        this.updateDisplay();
-        drawPolygon(this.polygon, this);
-    }
-
-    adjustM(delta) {
-        this.polygon = this.polygon.adjustM(delta);
         this.updateDisplay();
         drawPolygon(this.polygon, this);
     }
