@@ -73,7 +73,7 @@ const hints = new Map([
 
     [16,
         [
-            `16. Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking this message.`,
+            `16. Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking the green message.`,
             `The final algorithm is indeed correct, which might seem surprising! The high level details are in the dev notes :)`
         ]
     ]
@@ -96,11 +96,21 @@ function loadHint() {
         if (hints.has(i)) {
             length -= 1;
             // console.log(length);
+            let number = 0;
             for (const str of hints.get(i)) {
                 const hintElement = document.createElement('div');
                 hintElement.classList.add('hint');
+
+                if (number == 0) {
+                    hintElement.style.backgroundColor = 'yellow';
+                }
+                number += 1;
+
                 hintElement.textContent = str;
-                if (length === 0) {
+
+                // console.log(" WTF " + length + " " + number + " " + hints.get(i).length);
+
+                if (length === 0 && number === hints.get(i).length) {
                     hintElement.style.cursor = 'pointer';
                     hintElement.addEventListener('click', () => {
                         console.log("WAT");
