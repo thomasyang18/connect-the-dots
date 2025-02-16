@@ -16,10 +16,10 @@ export function drawPolygon(polygon, ui) {
     const newX = lerp(currentX, targetX, 0.1);
     canvas.style.transform = `translateX(${newX}px)`;
 
-    // Again, this is such a damn meme LMFAO, horrible swe practices 
-    // But hardcoded if statement for the triangle exposure case 
+    // Again, this is such a damn meme LMFAO, horrible swe practices
+    // But hardcoded if statement for the triangle exposure case
 
-    if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][1]) { // enable ONLY IF we've reached the second hint 
+    if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][1]) { // enable ONLY IF we've reached the second hint
         // Draw triangles
         for (let i = 0; i < state.n; i++) {
             for (let j = 0; j < state.n; j++) {
@@ -115,7 +115,7 @@ export function drawPolygon(polygon, ui) {
         // Draw the basic, 1 node in section, to all reccomender system. (global)
         pair = globalRec(state);
         if (pair) {
-            /* draw shit*/
+            drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
     } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
         // Importantly here, we *first place the adj rec* then the global rec, *which is wrong*.
@@ -123,7 +123,7 @@ export function drawPolygon(polygon, ui) {
         if (pair === null) pair = globalRec(state);
 
         if (pair) {
-            /* draw shit*/
+            drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
 
 
@@ -134,9 +134,9 @@ export function drawPolygon(polygon, ui) {
         if (pair === null) pair = localRec(state);
 
         if (pair) {
-            /* draw shit*/
+            drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
-    } 
+    }
 
 
     // Draw nodes
@@ -153,7 +153,7 @@ export function drawPolygon(polygon, ui) {
 
     // Draw selected node
     if (state.selectedVertex !== null) {
-        const angle = (2 * Math.PI * state.selectedVertex) / state.n;
+        const angle = (2 * Math.PI * state.n) / state.n;
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
         ctx.beginPath();
@@ -175,4 +175,22 @@ export function drawPolygon(polygon, ui) {
 
 function lerp(start, end, amount) {
     return start + (end - start) * amount;
+}
+
+function drawEdge(a, b, ctx, centerX, centerY, radius) {
+    const angleA = (2 * Math.PI * a) / state.n;
+    const angleB = (2 * Math.PI * b) / state.n;
+    const xA = centerX + radius * Math.cos(angleA);
+    const yA = centerY + radius * Math.sin(angleA);
+    const xB = centerX + radius * Math.cos(angleB);
+    const yB = centerY + radius * Math.sin(angleB);
+
+    ctx.beginPath();
+    ctx.moveTo(xA, yA);
+    ctx.lineTo(xB, yB);
+    ctx.lineWidth = 2; // Make the lines thicker
+    ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Light red color
+    ctx.stroke();
+    ctx.lineWidth = 1; // Reset line width
+    ctx.strokeStyle = 'black'; // Reset stroke style to black
 }
