@@ -10,7 +10,7 @@ export class UI {
         this.devMessageDiv = document.getElementById('dev-message-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
-        this.clickRadius = 15;
+        this.clickRadius = 35; // make it larger (used to be 15)
         this.hintsVisible = false; // Add this line to track hints visibility
         this.achievementsDiv = document.getElementById('achievements');
     }
