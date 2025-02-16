@@ -9,17 +9,27 @@ window.mobileCheck = function() {
   };
 
 document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('canvas');
+
+    canvas.style.width = '45vw';
+
     if (window.mobileCheck() 
         // || true // for debug
     ) {
         console.log("Am on mobile");
         
         const canvasContainer = document.getElementById('canvas-container');
-        const canvas = document.getElementById('canvas');
         canvasContainer.insertBefore(canvas, canvasContainer.firstChild);
         canvasContainer.style.display = 'grid';
         canvasContainer.style.placeItems = 'center'; /* Centers both horizontally and vertically */
         canvasContainer.style.textAlign = 'center';
+        
+        canvas.style.width = '90vw';
+        const hints = document.getElementById('hints-div');
+        const dev = document.getElementById('dev-message-div');
+
+        hints.style.width = '90vw';
+        dev.style.width = '90vw';
     }
 
     const initialN = 4;
