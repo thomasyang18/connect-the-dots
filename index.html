@@ -22,12 +22,50 @@
             <center><h1>Hello! Dev here.</h1></center>
             <p>This is a competitive programming problem. Pretty neat, right? </p>
             <p>
-                This problem is problem K, "Connect the Dots", from <b>2022-2023 Winter Petrozavodsk Camp, Day 2: GP of ainta</b>. Authored by... ainta.
+                This problem is problem K, "Connect the Dots", from <b>2022-2023 Winter Petrozavodsk Camp, Day 2: GP of ainta</b>.
                 The link to the problem is <a href="https://codeforces.com/gym/104427/problem/K">here</a>; 
                 you definitely look it up online if this link ceases to work.
             </p>
-            <p>With online competitive programming at more and more existential risk, there's no better time to make a post like this :)</p>
+            <hr>
+            <p>
+                The main point of this project was to try and really show what goes on in someone's brain and how they could've come up with this solution.
+                I think specifically, the line of thought:  
+            </p>
 
+            <ul>
+                <li>Global connections are hard to think about. Can we just guess with local connections?</li>
+                <li>Okay, so let's say we have 3 colors. Hmm. Well, (r, g, b) can be collapsed. (r, r, b) can be collapsed. </li>
+                <li>What about (r, r, r)? Well, we know there must be at least 3 colors - so we can shift our view of the sequence until (r, r, x) happens. </li>
+            </ul>
+
+            <p>Then the crucial step: If no subarray looks like those, then we're pigeonholed into trying a sequence (a, b, a, b....)</p>
+            <p>Or you can view it as, every single adjacent triplet looks like (C, _, C), where C is a placeholder for any color.</p>
+
+            <p><b>
+                But this will inevitably fail because there are three colors in the array! 
+            </b> You can never have an infinite repeating sequence like this, as long as you maintain 3 colors are in the array. 
+            
+            (This is where the little counterexample graph came in handy :D)
+            </p>
+
+            <p> So you can always find a correct reduction of moves. Pretty cool, right? </p>
+
+            <hr>
+            <p>
+                I'm still simplifying a lot here. For example, for me, I did not intuitively think about local connections - instead, I tried "global" ones first and recursing down.
+                But once you show that 2n - 3 edges can maximally exist, looking for 'local' connections becomes more intuitive. Just a little bit. Reducing it to a polygon and proving correctness with lower/upper bounds isn't trivial.
+                In fact, when we were solving this problem, 
+                I never realized that we could interpret it as a polygon - all of our reductions were on the original array.
+            </p>
+            <p>
+                Me and my friend wrote brute forcers and combined many observations to get to the final algorithm (which involved a lot of linked list shenanigans). 
+                The line of thought definitely was not as clean as presented in the chat, or here. 
+                As soon as my friend put out the idea that 3 colors was sufficient to achieve the polygonal bound though (still a pretty crazy idea), 
+                this line of proof naturally came out.
+            </p>
+            <p>
+                Of course, this isn't the only way to think about it - there are plenty, plenty of ways to think about it. Nevertheless, having this little game is fun :D 
+            </p>
 
             <button id="close-dev-message">Return to Game</button>
         </div>

@@ -75,16 +75,18 @@ function loadHint() {
     hintsDiv.innerHTML = ''; // Clear previous hints
 
     // Sort the keys and iterate over the map
-    for (const key of Array.from(hints.keys()).sort((a, b) => a - b)) {
-        if (globalState.numbersSolved.has(key)) {
-            for (let i = 0; i < hints.get(key).length; i++) {
-                const str = hints.get(key)[i];
+
+    let length = hints.size;
+    for (let i = 3; i <= Math.max(...globalState.numbersSolved) + 1; i += 1) {
+        if (hints.has(i)) {
+            length -= 1;
+            // console.log(length);
+            for (const str of hints.get(i)) {
                 const hintElement = document.createElement('div');
                 hintElement.classList.add('hint');
                 hintElement.textContent = str;
-                if (i === hints.get(key).length - 1) {
+                if (length === 0) {
                     hintElement.style.cursor = 'pointer';
-                    
                     hintElement.addEventListener('click', () => {
                         console.log("WAT");
                         globalState.win = true;
@@ -93,9 +95,9 @@ function loadHint() {
                     });
                 }
                 hintsDiv.appendChild(hintElement);
-            }
+            }   
         }
-    }
+    } 
 }
 
 export { loadHint, hints }
