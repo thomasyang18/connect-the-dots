@@ -128,34 +128,38 @@ export function drawPolygon(polygon, ui) {
         ctx.lineWidth = 1; // Reset line width
         ctx.strokeStyle = 'black'; // Reset stroke style to black
     }
-
-
-    if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][2]) {
-        // Draw the basic, 1 node in section, to all reccomender system. (global)
-        let pair = globalRec(polygon.getState());
-        if (pair !== null) {
-            drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
-        }
-    } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
-        // Importantly here, we *first place the adj rec* then the global rec, *which is wrong*.
-        let pair = localRec(polygon.getState());
-        if (pair === null) pair = globalRec(polygon.getState());
-
-        if (pair !== null) {
-            drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
-        }
-
-
-    } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][5]) {
+    
+    if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][5]) {
         // Here, we place the global rec, then the adj rec, which is correct. :)
 
         let pair = globalRec(polygon.getState());
         if (pair === null) pair = localRec(polygon.getState());
 
+        console.assert(pair !== null);
+
+        // if (pair !== null) {/
+            drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
+        // }
+    }
+
+    else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
+        // Importantly here, we *first place the adj rec* then the global rec, *which is wrong*.
+        let pair = localRec(polygon.getState());
+        if (pair === null) pair = globalRec(polygon.getState());
+
+        console.assert(pair !== null);
+
+        drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
+
+
+    } 
+    else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][2]) {
+        // Draw the basic, 1 node in section, to all reccomender system. (global)
+        let pair = globalRec(polygon.getState());
         if (pair !== null) {
             drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
-    }
+    } 
 
 
     // Draw nodes
