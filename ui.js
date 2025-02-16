@@ -59,11 +59,6 @@ export class UI {
         }
 
         if (globalState.win) {
-            this.devMessageDiv.innerHTML = `
-                <h1>Congratulations!</h1>
-                <p>You have unlocked a new global state: "win".</p>
-                <button id="close-dev-message">Close</button>
-            `;
             this.devMessageDiv.style.display = 'block';
             this.hintsDiv.style.display = 'none';
         }
