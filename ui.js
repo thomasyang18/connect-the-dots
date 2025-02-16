@@ -7,7 +7,6 @@ class UI {
         this.polygon = polygon;
         // this.title = document.getElementById('title');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
-        this.hintsButton = document.getElementById('hints-button');
         this.hintsDiv = document.getElementById('hints-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
@@ -18,12 +17,6 @@ class UI {
 
     init() {
         this.updateDisplay();
-
-        this.hintsButton.addEventListener('click', () => {
-            this.hintsVisible = !this.hintsVisible; // Toggle hints visibility
-            this.updateDisplay();
-            drawPolygon(this.polygon, this);
-        });
 
         document.getElementById('canvas').addEventListener('click', (event) => {
             const rect = canvas.getBoundingClientRect();
@@ -65,6 +58,14 @@ class UI {
             }
         });
 
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') {
+                this.adjustN(-1);
+            } else if (event.key === 'ArrowRight') {
+                this.adjustN(1);
+            }
+        });
+
         drawPolygon(this.polygon, this);
     }
 
@@ -75,13 +76,10 @@ class UI {
         globalState.hasHitZeroOnce = globalState.hasHitZeroOnce || state.edgesLeft === 0;
 
         if (globalState.hasHitZeroOnce) {
-            this.hintsButton.style.display = 'inline-block';
-            this.hintsButton.textContent = this.hintsVisible ? 'Hide hints' : 'Load hints!';
-            this.hintsDiv.style.display = this.hintsVisible ? 'block' : 'none';
-            this.hintsDiv.style.opacity = this.hintsVisible ? '1' : '0';
-            this.canvasContainer.style.justifyContent = this.hintsVisible ? 'flex-start' : 'center';
+            this.hintsDiv.style.display = 'block';
+            this.hintsDiv.style.opacity = '1';
+            this.canvasContainer.style.justifyContent = 'flex-start';
         } else {
-            this.hintsButton.style.display = 'none';
             this.hintsDiv.style.display = 'none';
             this.canvasContainer.style.justifyContent = 'center';
         }
@@ -91,7 +89,7 @@ class UI {
 
             globalState.numbersSolved.add(state.n);
 
-            if (before === false) { // auto progrss if on latest 
+            if (before === false) { // auto progrss if on latest
                 this.adjustN(state.n + 1);
                 return;
             }
