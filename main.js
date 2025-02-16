@@ -11,5 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const ui = new UI(polygon);
     ui.init();
 
-    
+    document.addEventListener('keydown', (event) => {
+        if (event.code === 'Space') {
+            const newN = Math.max(...globalState.numbersSolved) + 1;
+            ui.adjustN(newN);
+        }
+    });
 });
