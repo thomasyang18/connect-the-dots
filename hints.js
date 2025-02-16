@@ -5,10 +5,18 @@ const hints = new Map([
             `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. Capiche? :)`
         ]
     ],
+    [6, 
+        [
+            `I've noticed something!`,
+            `We can keep on cutting off triangles at the 'edges' of the original shape. This way, we can cleanly think about the smaller shapes.`,
+            `It's hard to visualize until you see it. Keep on playing, I'll highlight the 'cut off' triangles for you...`
+        ]
+    ],
+    
     // Add more hints here
 ]);
 
-export function loadHint(state) {
+function loadHint(state) {
     const hintsDiv = document.getElementById('hints-div');
     hintsDiv.innerHTML = ''; // Clear previous hints
 
@@ -24,3 +32,5 @@ export function loadHint(state) {
         }
     }
 }
+
+export { loadHint }
