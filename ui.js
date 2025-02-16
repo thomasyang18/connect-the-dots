@@ -6,7 +6,6 @@ class UI {
     constructor(polygon) {
         this.polygon = polygon;
         // this.title = document.getElementById('title');
-        this.edgesLeftDisplay = document.getElementById('edges-left');
         this.hintsDiv = document.getElementById('hints-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
@@ -58,20 +57,11 @@ class UI {
             }
         });
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowLeft') {
-                this.adjustN(-1);
-            } else if (event.key === 'ArrowRight') {
-                this.adjustN(1);
-            }
-        });
-
         drawPolygon(this.polygon, this);
     }
 
     updateDisplay() {
         const state = this.polygon.getState();
-        this.edgesLeftDisplay.textContent = `Edges left: ${state.edgesLeft}`;
 
         globalState.hasHitZeroOnce = globalState.hasHitZeroOnce || state.edgesLeft === 0;
 
