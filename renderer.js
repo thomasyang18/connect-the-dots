@@ -111,7 +111,6 @@ export function drawPolygon(polygon, ui) {
 
     // AIDER: Draw Reccomendation systemms here
 
-
     function drawEdge(a, b, ctx, centerX, centerY, radius) {
         const angleA = (2 * Math.PI * a) / state.n;
         const angleB = (2 * Math.PI * b) / state.n;
@@ -175,7 +174,7 @@ export function drawPolygon(polygon, ui) {
     if (state.selectedVertex !== null) {
         // console.log("Selected ertex " + state.selectedVertex);
 
-        const angle = (2 * Math.PI * state.n) / state.n;
+        const angle = (2 * Math.PI * state.selectedVertex) / state.n;
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
         ctx.beginPath();
