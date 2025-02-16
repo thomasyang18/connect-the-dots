@@ -1,9 +1,9 @@
 import { globalState } from "./global_state.js";
 
 const hints = new Map([
-    [4,
+    [3, // setting this to three... i want it to be four tho. popup! but whatever
         [
-            `4. Hey! Didn't see you there.`,
+            `3. Hey! Didn't see you there.`,
             `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. Capiche? :)`
         ]
     ],
@@ -76,9 +76,9 @@ const hints = new Map([
 ]);
 
 function loadHint() {
-    if (globalState.numbersSolved.size == 1) { // only has 3. yes, magic numbers are bad, yes idc. we're already passing around global state anyways lol
-        return;
-    }
+    // if (globalState.numbersSolved.size == 1) { // only has 3. yes, magic numbers are bad, yes idc. we're already passing around global state anyways lol
+    //     return;
+    // }
 
     const hintsDiv = document.getElementById('hints-div');
     hintsDiv.innerHTML = ''; // Clear previous hints
