@@ -19,7 +19,9 @@ export class Polygon {
 
         if (n == 13) {
             // Look at hints.js for the idea here. 
-            return [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0];
+            // Putting 0 at index 1 is also coupled with render logic, which is coupled with the random shit at 13...
+            // Like this is not good swe. At all. 
+            return [1, 0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2];
         }
 
         // Generate a random permutation of colors such that there are at most m colors, and every color shows up at least once

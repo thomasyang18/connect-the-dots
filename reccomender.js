@@ -12,6 +12,14 @@ import { doIntersect } from "./utils.js";
  */
 function globalRec(state) {
     const n = state.n;
+
+    function hasConflict(i, j) {
+        for (const [u, v] of state.userConnections) {
+            if (doIntersect(u, v, i, j, state.n)) return true;    
+        }
+        return false;
+    }
+ 
   
     // Compute positions for vertices on a unit circle.
     const positions = [];
@@ -117,7 +125,7 @@ function globalRec(state) {
         // Try all other vertices in the face.
         for (const candidate of face) {
           if (candidate === v || candidate === prev || candidate === next) continue;
-          if (!edgeExists(v, candidate)) {
+          if (!edgeExists(v, candidate) && !hasConflict(v, candidate)) {
             // Return the edge in sorted order.
             return [Math.min(v, candidate), Math.max(v, candidate)];
           }
@@ -151,11 +159,18 @@ function globalRec(state) {
 
       let freebie = (a + 1) % n == b || (b + 1) % n == a;
       return state.userConnections.some(
-        ([x, y]) => x === a && y === b
+        ([x, y]) => (x === a && y === b) || (a === y && b == x)
       ) || freebie;
     }
 
-    console.log(edgeExists(0, 1));
+    // console.log(edgeExists(0, 1));
+
+    function hasConflict(i, j) {
+        for (const [u, v] of state.userConnections) {
+            if (doIntersect(u, v, i, j, state.n)) return true;    
+        }
+        return false;
+    }
   
     // Loop over all unique triplets (i, j, k) with i < j < k
     for (let i = 0; i < state.n; i++) {
@@ -177,16 +192,21 @@ function globalRec(state) {
           // If exactly two edges exist, then the missing edge is our candidate.
           if (count === 2) {
             // Determine which edge is missing and check color constraint.
-            if (!exists_ij) {
+            if (!exists_ij && !hasConflict(i, j)) {
               if (state.colors[i] !== state.colors[j]) {
+                console.log("latest return: " + state.n + " " + [i, j]);
                 return [i, j]; // i < j already holds.
               }
-            } else if (!exists_jk) {
+            } else if (!exists_jk && !hasConflict(j, k)) {
               if (state.colors[j] !== state.colors[k]) {
+
+                console.log("latest return: " + state.n + " " + [j, k]);
                 return [j, k]; // j < k already holds.
               }
-            } else if (!exists_ik) {
+            } else if (!exists_ik && !hasConflict(i, k)) {
               if (state.colors[i] !== state.colors[k]) {
+
+                console.log("latest return: " + state.n + " " + [i, k]);
                 return [i, k]; // i < k already holds.
               }
             }
@@ -194,6 +214,8 @@ function globalRec(state) {
         }
       }
     }
+
+    // console.log("n=" + state.n + " not found")
   
     // No valid edge found.
     return null;

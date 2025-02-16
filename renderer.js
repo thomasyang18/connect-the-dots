@@ -137,9 +137,9 @@ export function drawPolygon(polygon, ui) {
 
         console.assert(pair !== null);
 
-        // if (pair !== null) {/
+        if (pair !== null) {
             drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
-        // }
+        }
     }
 
     else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
@@ -147,10 +147,11 @@ export function drawPolygon(polygon, ui) {
         let pair = localRec(polygon.getState());
         if (pair === null) pair = globalRec(polygon.getState());
 
-        console.assert(pair !== null);
+        // console.assert(pair !== null);
+        if (pair !== null) {
 
         drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
-
+        }
 
     } 
     else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][2]) {
