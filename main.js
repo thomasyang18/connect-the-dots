@@ -9,11 +9,17 @@ window.mobileCheck = function() {
   };
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.mobileCheck()) {
+    if (window.mobileCheck() 
+        // || true // for debug
+    ) {
+        console.log("Am on mobile");
+        
         const canvasContainer = document.getElementById('canvas-container');
         const canvas = document.getElementById('canvas');
         canvasContainer.insertBefore(canvas, canvasContainer.firstChild);
         canvasContainer.style.display = 'grid';
+        canvasContainer.style.placeItems = 'center'; /* Centers both horizontally and vertically */
+        canvasContainer.style.textAlign = 'center';
     }
 
     const initialN = 4;
@@ -23,9 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const polygon = new Polygon(initialN, initialM, initialColors, [], initialFreebieConnections);
     const ui = new UI(polygon);
     ui.init();
-
-    // ui.polygon.handleClick(0); // Make it a little more obvious what I want the player to do, by pre-selecting a node.
-    // ui.updateDisplay(); // again, horrible SWE practice, but I just wanna get this website out :)
 
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Enter') {
