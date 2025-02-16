@@ -14,6 +14,55 @@ const hints = new Map([
             `It's hard to visualize until you see it. Keep on playing, I'll highlight the 'cut off' triangles for you...`
         ]
     ],
+    [8, 
+        [
+            `Hm. One thing I'm seeing is that, if there's just one color in your sub-polygon(s), you can connect up all the other nodes to that node, for free`,
+            `I'll suggest that connection for you if I see it - feel free to do play as normal!`
+        ]
+    ],
+    [10, 
+        [
+            `I think I have a non-trivial observation!.`,
+            `So, within each 'sub-polygon', if I see three consecutive nodes (a, b, c), they will form a triangle. And if (color[a] != color[c]), I can connect them!`, 
+            `I'll start reccomending those moves now.`
+        ] /* From here  *disable the reccomender that connects up one node to all other nodes.* Or make this observation higher. */
+    ],
+
+    /*
+        Unspecified logic here:
+
+        On polygon 13, DO NOT RANDOMLY GENERATE A GRAPH.
+
+        *always give* R, G, R G, R, G .. B And greedily have the algorithm select the (R, B, G) pair, which is *wrong*. 
+        
+        After this, we want to compose the reccomenders such that, we first will reccomend the single-color 1 shotter,
+        and then greedily reccomend (this always works since there exists >=2 copies of every color). 
+        
+        The text should say something like, 
+
+        "Hm. I think we're going to fail this iteration. The rest of the polygon only has two colors; there's not enough room."
+        "I think we gotta connect up that one blue node to everything."
+
+        [TODO: what if they're a giganticbrainosity and recognize this? Fine, we can have casework here :)]
+
+        I guess this can't be a const map anymore, we should be able to dynamically change this. (horrible swe practices :D )
+
+        This should be 12, and dynamically allocated.
+    */
+
+    [13, 
+        [
+            `Whew, glad that was over. I realized that my algorithm only works if we assume that we don't accidentally kill off a color!`,
+            `Thankfully, if there were only 1 color remaining, we could just hook it up to the rest of the nodes.`
+        ]
+    ],
+
+    [15, 
+        [
+            `Congrats! You beat the game, but feel free to continue playing. Some developer thoughts are on the side of the `
+        ]
+    ]
+    
     
     // Add more hints here
 ]);
@@ -39,4 +88,4 @@ function loadHint() {
     }
 }
 
-export { loadHint }
+export { loadHint, hints }

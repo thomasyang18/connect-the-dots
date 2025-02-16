@@ -1,4 +1,5 @@
 import { globalState } from "./global_state.js";
+import { loadHint, hints } from "./hints.js";
 
 export function drawPolygon(polygon, ui) {
     const state = polygon.getState();
@@ -14,38 +15,43 @@ export function drawPolygon(polygon, ui) {
     const newX = lerp(currentX, targetX, 0.1);
     canvas.style.transform = `translateX(${newX}px)`;
 
-    // Draw triangles
-    for (let i = 0; i < state.n; i++) {
-        for (let j = 0; j < state.n; j++) {
-            for (let k = 0; k < state.n; k++) {
-                if (i !== j && j !== k && k !== i) {
-                    const edges = [
-                        [i, j],
-                        [j, k],
-                        [k, i]
-                    ];
-                    const hasAllEdges = edges.every(([a, b]) =>
-                        state.userConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a)) ||
-                        state.freebieConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a))
-                    );
-                    if (hasAllEdges) {
-                        const angleA = (2 * Math.PI * i) / state.n;
-                        const angleB = (2 * Math.PI * j) / state.n;
-                        const angleC = (2 * Math.PI * k) / state.n;
-                        const xA = centerX + radius * Math.cos(angleA);
-                        const yA = centerY + radius * Math.sin(angleA);
-                        const xB = centerX + radius * Math.cos(angleB);
-                        const yB = centerY + radius * Math.sin(angleB);
-                        const xC = centerX + radius * Math.cos(angleC);
-                        const yC = centerY + radius * Math.sin(angleC);
+    // Again, this is such a damn meme LMFAO, horrible swe practices 
+    // But hardcoded if statement for the triangle exposure case 
 
-                        ctx.beginPath();
-                        ctx.moveTo(xA, yA);
-                        ctx.lineTo(xB, yB);
-                        ctx.lineTo(xC, yC);
-                        ctx.closePath();
-                        ctx.fillStyle = 'rgba(173, 216, 230, 0.5)'; // Light blue color
-                        ctx.fill();
+    if (Math.max(...globalState.numbersSolved) >= [...hints.keys()][1]) { // enable ONLY IF we've reached the second hint 
+        // Draw triangles
+        for (let i = 0; i < state.n; i++) {
+            for (let j = 0; j < state.n; j++) {
+                for (let k = 0; k < state.n; k++) {
+                    if (i !== j && j !== k && k !== i) {
+                        const edges = [
+                            [i, j],
+                            [j, k],
+                            [k, i]
+                        ];
+                        const hasAllEdges = edges.every(([a, b]) =>
+                            state.userConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a)) ||
+                            state.freebieConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a))
+                        );
+                        if (hasAllEdges) {
+                            const angleA = (2 * Math.PI * i) / state.n;
+                            const angleB = (2 * Math.PI * j) / state.n;
+                            const angleC = (2 * Math.PI * k) / state.n;
+                            const xA = centerX + radius * Math.cos(angleA);
+                            const yA = centerY + radius * Math.sin(angleA);
+                            const xB = centerX + radius * Math.cos(angleB);
+                            const yB = centerY + radius * Math.sin(angleB);
+                            const xC = centerX + radius * Math.cos(angleC);
+                            const yC = centerY + radius * Math.sin(angleC);
+
+                            ctx.beginPath();
+                            ctx.moveTo(xA, yA);
+                            ctx.lineTo(xB, yB);
+                            ctx.lineTo(xC, yC);
+                            ctx.closePath();
+                            ctx.fillStyle = 'rgba(173, 216, 230, 0.5)'; // Light blue color
+                            ctx.fill();
+                        }
                     }
                 }
             }

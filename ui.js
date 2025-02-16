@@ -1,5 +1,5 @@
 import { drawPolygon } from './renderer.js';
-import { loadHint } from './hints.js';
+import { loadHint, hints } from './hints.js';
 import { globalState } from './global_state.js';
 
 class UI {
