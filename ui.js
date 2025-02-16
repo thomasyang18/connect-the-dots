@@ -8,10 +8,6 @@ class UI {
         this.nDisplay = document.getElementById('n-display');
         // this.mDisplay = document.getElementById('m-display');
         this.title = document.getElementById('title');
-        this.decreaseNButton = document.getElementById('decrease-n');
-        this.increaseNButton = document.getElementById('increase-n');
-        // this.decreaseMButton = document.getElementById('decrease-m');
-        // this.increaseMButton = document.getElementById('increase-m');
         this.maxEdgesDisplay = document.getElementById('max-edges-display');
         this.hintsButton = document.getElementById('hints-button');
         this.hintsDiv = document.getElementById('hints-div');
@@ -30,11 +26,6 @@ class UI {
             this.updateDisplay();
             drawPolygon(this.polygon, this);
         });
-
-        this.decreaseNButton.addEventListener('click', () => this.adjustN(-1));
-        this.increaseNButton.addEventListener('click', () => this.adjustN(1));
-        // this.decreaseMButton.addEventListener('click', () => this.adjustM(-1));
-        // this.increaseMButton.addEventListener('click', () => this.adjustM(1));
 
         this.hintsButton.addEventListener('click', () => {
             this.hintsVisible = !this.hintsVisible; // Toggle hints visibility
@@ -125,12 +116,13 @@ class UI {
             achievementElement.classList.add('achievement-item');
             achievementElement.style.backgroundColor = i === maxN + 1 ? 'grey' : 'blue';
             achievementElement.style.border = i === this.polygon.getState().n ? '2px solid red' : 'none';
+            achievementElement.addEventListener('click', () => this.adjustN(i));
             this.achievementsDiv.appendChild(achievementElement);
         }
     }
 
-    adjustN(delta) {
-        this.polygon = this.polygon.adjustN(delta);
+    adjustN(newN) {
+        this.polygon = this.polygon.adjustN(newN);
         this.updateDisplay();
         drawPolygon(this.polygon, this);
     }

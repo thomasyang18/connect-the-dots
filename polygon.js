@@ -112,9 +112,9 @@ export class Polygon {
         };
     }
 
-    adjustN(delta) {
-        let newN = Math.max(4, this.n + delta); // Ensure n is at least 4
-        
+    adjustN(newN) {
+        newN = Math.max(4, newN); // Ensure n is at least 4
+
         newN = Math.min(newN, Math.max(...globalState.numbersSolved) + 1); // can be no more than 1 + next instance
 
         console.log("AWTF " + newN);
