@@ -16,6 +16,12 @@ export class Polygon {
     }
 
     static generatePermutation(n, m) {
+
+        if (n == 13) {
+            // Look at hints.js for the idea here. 
+            return [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 0];
+        }
+
         // Generate a random permutation of colors such that there are at most m colors, and every color shows up at least once
         const colors = Array.from({ length: n }, (_, i) => i < m ? i : Math.floor(Math.random() * m));
         // Shuffle the colors array
@@ -77,10 +83,14 @@ export class Polygon {
                 var b = this.selectedVertex;
             }
 
-            const maxEdges = Polygon.calculateMaxEdges(this.n, this.m, this.n);
-            if (!intersects && !this.userConnections.some(connection => (connection[0] === a && connection[1] === b)) && !this.freebieConnections.some(connection => (connection[0] === a && connection[1] === b)) && this.userConnections.length < maxEdges) {
-                this.userConnections.push([a, b]);
+            if ((this.selectedVertex + 1) % this.n == i || (i + 1) % this.n == this.selectedVertex); // skip freebie connections... since apparently aider cant detect shit 
+            else {
+                const maxEdges = Polygon.calculateMaxEdges(this.n, this.m, this.n);
+                if (!intersects && !this.userConnections.some(connection => (connection[0] === a && connection[1] === b)) && !this.freebieConnections.some(connection => (connection[0] === a && connection[1] === b)) && this.userConnections.length < maxEdges) {
+                    this.userConnections.push([a, b]);
+                }
             }
+
         }
         this.selectedVertex = null; // Deselect after handling second click
         this.state = 'idle';

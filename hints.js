@@ -3,26 +3,26 @@ import { globalState } from "./global_state.js";
 const hints = new Map([
     [4,
         [
-            `Hey! Didn't see you there.`,
+            `4. Hey! Didn't see you there.`,
             `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. Capiche? :)`
         ]
     ],
     [6,
         [
-            `I've noticed something!`,
+            `6. I've noticed something!`,
             `We can keep on cutting off triangles at the 'edges' of the original shape. This way, we can cleanly think about the smaller shapes.`,
             `It's hard to visualize until you see it. Keep on playing, I'll highlight the 'cut off' triangles for you...`
         ]
     ],
     [8,
         [
-            `Hm. One thing I'm seeing is that, if there's just one color in your sub-polygon(s), you can connect up all the other nodes to that node, for free`,
+            `8. Hm. One thing I'm seeing is that, if there's just one color in your sub-polygon(s), you can connect up all the other nodes to that node, for free`,
             `I'll suggest that connection for you if I see it - feel free to do play as normal!`
         ]
     ],
     [10,
         [
-            `I think I have a non-trivial observation!.`,
+            `10. I think I have an observation!.`,
             `So, within each 'sub-polygon', if I see three consecutive nodes (a, b, c), they will form a triangle. And if (color[a] != color[c]), I can connect them!`,
             `I'll start reccomending those moves now.`
         ] /* From here  *disable the reccomender that connects up one node to all other nodes.* Or make this observation higher. */
@@ -48,18 +48,27 @@ const hints = new Map([
         I guess this can't be a const map anymore, we should be able to dynamically change this. (horrible swe practices :D )
 
         This should be 12, and dynamically allocated.
-    */
 
-    [13,
+        ah, never mind. this is too complicated. let's just make it static.
+    */
+    [13, 
         [
-            `Whew, glad that was over. I realized that my algorithm only works if we assume that we don't accidentally kill off a color!`,
-            `Thankfully, if there were only 1 color remaining, we could just hook it up to the rest of the nodes.`
+            `13. Hm. I think we're going to fail this iteration, if we take the (Blue, Red, Green) pair I'm suggesting.`,
+            `It seems very suboptimal. Maybe my algorithm is wrong?` 
         ]
     ],
 
-    [15,
+    [14,
         [
-            `Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking this message.`
+            `14. Whew, glad that was over. I realized that my algorithm only works if we assume that we don't accidentally kill off a color!`,
+            `Thankfully, if there were only 1 color remaining, we could just hook it up to the rest of the nodes.`,
+            `I'll add that to my algorithm now - *now* my reccomended edges should always be correct!`
+        ]
+    ],
+
+    [16,
+        [
+            `16. Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking this message.`
         ]
     ]
 

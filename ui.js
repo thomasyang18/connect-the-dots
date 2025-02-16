@@ -67,6 +67,8 @@ export class UI {
     updateDisplay() {
         const state = this.polygon.getState();
 
+        // console.log(this.polygon.colors);
+
         if (globalState.numbersSolved.size > 1) {
             this.hintsDiv.style.display = 'block';
             this.hintsDiv.style.opacity = '1';
