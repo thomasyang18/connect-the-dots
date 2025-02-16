@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ui = new UI(polygon);
     ui.init();
 
-    ui.polygon.handleClick(0); // Make it a little more obvious what I want the player to do, by pre-selecting a node. 
-    ui.updateDisplay(); // again, horrible SWE practice, but I just wanna get this website out :)
+    // ui.polygon.handleClick(0); // Make it a little more obvious what I want the player to do, by pre-selecting a node. 
+    // ui.updateDisplay(); // again, horrible SWE practice, but I just wanna get this website out :)
 
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {

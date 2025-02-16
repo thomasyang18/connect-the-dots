@@ -1,168 +1,129 @@
-import { globalState } from "./global_state";
+import { globalState } from "./global_state.js";
+import { doIntersect } from "./utils.js";
 
 /* returns a pair [x, y], or None */
 
 /**
- * Given the current state (with fields n, colors, userConnections, freebieConnections, etc.)
- * returns a recommended edge [a, b] (with a < b) if there is a subpolygon in which a vertex
- * has a unique color, connecting that vertex to some nonadjacent vertex in that face.
- * Otherwise returns null.
+ * Returns a recommended edge [a, b] (with a < b) according to the simplified strategy:
+ *
+ * For each node i, consider all nodes j (j ≠ i) that:
+ *   - Are not already connected by a user connection.
+ *   - Do not create an edge (i, j) that directly intersects any user connection edge.
+ *   - Have a color different from node i.
+ *
+ * If such a set for node i is nonempty, return an edge (i, j) from that set.
+ * If no such recommendation exists, return null.
+ *
+ * @param {object} state - The state object containing:
+ *    - n: number of nodes
+ *    - colors: an array of colors for each node
+ *    - userConnections: an array of user-drawn edges, each as [u, v] (with u < v)
+ * @returns {[number, number] | null} - A recommended edge as [a, b] with a < b, or null if none found.
  */
 function globalRec(state) {
     const n = state.n;
   
-    // Compute positions for vertices on a unit circle.
-    const positions = [];
+    // Loop over every node i.
     for (let i = 0; i < n; i++) {
-      const angle = (2 * Math.PI * i) / n;
-      positions.push({ x: Math.cos(angle), y: Math.sin(angle) });
-    }
+      let potentialSet = [];
+        let bad = false;
+      // Consider every other node j.
+      for (let j = 0; j < n; j++) {
+        if (j === i) continue;
   
-    // Build an adjacency list from freebie and user connections.
-    // (Note: freebieConnections may not always be stored with smaller index first.)
-    const adj = Array.from({ length: n }, () => new Set());
-    const addEdge = (u, v) => {
-      adj[u].add(v);
-      adj[v].add(u);
-    };
-    for (const [u, v] of state.freebieConnections) {
-      addEdge(u, v);
-    }
-    for (const [u, v] of state.userConnections) {
-      addEdge(u, v);
-    }
+        // Ensure the edge is represented in sorted order.
+        const a = Math.min(i, j);
+        const b = Math.max(i, j);
   
-    // For each vertex, sort its neighbors in clockwise order based on the vertex's position.
-    const sortedAdj = [];
-    for (let i = 0; i < n; i++) {
-      let neighbors = Array.from(adj[i]);
-      neighbors.sort((a, b) => {
-        // Compute angle from vertex i to neighbor.
-        const angleA = Math.atan2(positions[a].y - positions[i].y, positions[a].x - positions[i].x);
-        const angleB = Math.atan2(positions[b].y - positions[i].y, positions[b].x - positions[i].x);
-        return angleA - angleB;
-      });
-      sortedAdj[i] = neighbors;
-    }
+        // 1. Check that (a, b) is not already a user connection.
+        const exists = state.userConnections.some(
+          ([u, v]) => u === a && v === b
+        );
+        if (exists) continue;
   
-    // Use the face traversal algorithm to extract all faces.
-    // We keep track of visited directed edges so that each face is found once.
-    const faces = [];
-    const visitedEdges = new Set();
-    for (let u = 0; u < n; u++) {
-      for (const v of sortedAdj[u]) {
-        const edgeKey = `${u},${v}`;
-        if (visitedEdges.has(edgeKey)) continue;
-  
-        const face = [];
-        let cur = u;
-        let nxt = v;
-        // Walk around the face.
-        while (true) {
-          visitedEdges.add(`${cur},${nxt}`);
-          face.push(cur);
-  
-          // At vertex 'nxt', find the neighbor just *before* 'cur' in the sorted order.
-          const neighbors = sortedAdj[nxt];
-          const idx = neighbors.indexOf(cur);
-          const prevIdx = (idx - 1 + neighbors.length) % neighbors.length;
-          const nextVertex = neighbors[prevIdx];
-  
-          cur = nxt;
-          nxt = nextVertex;
-          if (cur === u && nxt === v) break;
-        }
-        faces.push(face);
-      }
-    }
-  
-    // Helper to check if an edge already exists (either as a freebie or a user edge).
-    function edgeExists(u, v) {
-      const a = Math.min(u, v);
-      const b = Math.max(u, v);
-      for (const [x, y] of state.freebieConnections) {
-        if (Math.min(x, y) === a && Math.max(x, y) === b) return true;
-      }
-      for (const [x, y] of state.userConnections) {
-        if (Math.min(x, y) === a && Math.max(x, y) === b) return true;
-      }
-      return false;
-    }
-  
-    // Iterate over all faces (subpolygons). We ignore triangles because every vertex there is adjacent.
-    for (const face of faces) {
-      if (face.length < 4) continue;
-  
-      // Count the occurrence of each color within this face.
-      const freq = {};
-      for (const v of face) {
-        const col = state.colors[v];
-        freq[col] = (freq[col] || 0) + 1;
-      }
-  
-      // For each vertex in the face, check if its color is unique.
-      for (let i = 0; i < face.length; i++) {
-        const v = face[i];
-        if (freq[state.colors[v]] !== 1) continue; // not unique in this face
-  
-        // In the face's cyclic order, the two neighbors of v (the ones immediately before and after)
-        // are already connected (either by freebie or a user connection). So, we try to connect v
-        // to some other vertex in the face.
-        const len = face.length;
-        const prev = face[(i - 1 + len) % len];
-        const next = face[(i + 1) % len];
-  
-        // Try all other vertices in the face.
-        for (const candidate of face) {
-          if (candidate === v || candidate === prev || candidate === next) continue;
-          if (!edgeExists(v, candidate)) {
-            // Return the edge in sorted order.
-            return [Math.min(v, candidate), Math.max(v, candidate)];
+        // 2. Check that (i, j) does not directly intersect any user connection.
+        let intersects = false;
+        for (const [u, v] of state.userConnections) {
+          if (doIntersect(i, j, u, v, n)) {
+            intersects = true;
+            break;
           }
         }
+        if (intersects) continue;
+  
+        // 3. Check that node j's color is different from node i's color.
+        if (state.colors[i] === state.colors[j]) bad = true;
+  
+        // j is a valid candidate.
+        potentialSet.push(j);
+      }
+
+      if (bad) continue;
+  
+      // If there is at least one candidate for node i, return the edge.
+      if (potentialSet.length > 0) {
+        const chosen = potentialSet[0];
+        return [Math.min(i, chosen), Math.max(i, chosen)];
       }
     }
+  
     // No valid recommendation was found.
     return null;
   }
   
-
-function localRec(state) {
+  
+  function localRec(state) {
     /*
-        So again, we need to compute sub-polygons, but here we can be a little bit cheeky and simply say,
-
-        "Loop over all triplets (i, j, k). If two of the three are connected, check if the third remaining edge cna beconnected (subject to color constraints and everything ofc.) "
-        Which basically amounts ot checking if that third edge's 2 colors are different.
-
-        if so, return that edge.
-
-        Else if couldnt find an edge return none.
+        Loop over all triplets (i, j, k).
+        For each triplet, if exactly two of the three edges are present (either as user or freebie connection),
+        then check if the missing edge can be connected.
+        The connection is allowed only if the colors of the two endpoints differ.
+        If so, return that missing edge (with endpoints in sorted order).
+        If no such edge is found, return null.
     */
     for (let i = 0; i < state.n; i++) {
-        for (let j = i + 1; j < state.n; j++) {
-            for (let k = j + 1; k < state.n; k++) {
-                const edges = [
-                    [i, j],
-                    [j, k],
-                    [k, i]
-                ];
-                const hasTwoEdges = edges.some(([a, b]) =>
-                    state.userConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a)) ||
-                    state.freebieConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a))
-                );
-                if (hasTwoEdges) {
-                    const thirdEdge = edges.find(([a, b]) =>
-                        !state.userConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a)) &&
-                        !state.freebieConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a))
-                    );
-                    if (thirdEdge && state.colors[thirdEdge[0]] !== state.colors[thirdEdge[1]]) {
-                        return thirdEdge;
-                    }
-                }
+      for (let j = i + 1; j < state.n; j++) {
+        for (let k = j + 1; k < state.n; k++) {
+          // Define the three edges for the triplet.
+          const edges = [
+            { vertices: [i, j], exists: false },
+            { vertices: [j, k], exists: false },
+            { vertices: [k, i], exists: false }
+          ];
+          
+          // Count how many edges are present.
+          let count = 0;
+          for (let edge of edges) {
+            const [a, b] = edge.vertices;
+            const sortedA = Math.min(a, b);
+            const sortedB = Math.max(a, b);
+            const existsInUser = state.userConnections.some(
+              ([u, v]) => u === sortedA && v === sortedB
+            );
+            const existsInFreebie = state.freebieConnections.some(
+              ([u, v]) => u === sortedA && v === sortedB
+            );
+            if (existsInUser || existsInFreebie) {
+              edge.exists = true;
+              count++;
             }
+          }
+          
+          // If exactly two edges exist, the missing edge is our candidate.
+          if (count === 2) {
+            const missingEdgeObj = edges.find(edge => !edge.exists);
+            if (missingEdgeObj) {
+              const [a, b] = missingEdgeObj.vertices;
+              // Check that the colors of the endpoints differ.
+              if (state.colors[a] !== state.colors[b]) {
+                return [Math.min(a, b), Math.max(a, b)];
+              }
+            }
+          }
         }
+      }
     }
     return null;
-}
-
+  }
+  
 export {globalRec, localRec};

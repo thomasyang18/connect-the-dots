@@ -111,18 +111,38 @@ export function drawPolygon(polygon, ui) {
 
     // AIDER: Draw Reccomendation systemms here
 
+
+    function drawEdge(a, b, ctx, centerX, centerY, radius) {
+        const angleA = (2 * Math.PI * a) / state.n;
+        const angleB = (2 * Math.PI * b) / state.n;
+        const xA = centerX + radius * Math.cos(angleA);
+        const yA = centerY + radius * Math.sin(angleA);
+        const xB = centerX + radius * Math.cos(angleB);
+        const yB = centerY + radius * Math.sin(angleB);
+
+        ctx.beginPath();
+        ctx.moveTo(xA, yA);
+        ctx.lineTo(xB, yB);
+        ctx.lineWidth = 2; // Make the lines thicker
+        ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Light red color
+        ctx.stroke();
+        ctx.lineWidth = 1; // Reset line width
+        ctx.strokeStyle = 'black'; // Reset stroke style to black
+    }
+
+
     if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][2]) {
         // Draw the basic, 1 node in section, to all reccomender system. (global)
-        pair = globalRec(state);
-        if (pair) {
+        let pair = globalRec(polygon.getState());
+        if (pair !== null) {
             drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
     } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
         // Importantly here, we *first place the adj rec* then the global rec, *which is wrong*.
-        pair = localRec(state);
-        if (pair === null) pair = globalRec(state);
+        let pair = localRec(polygon.getState());
+        if (pair === null) pair = globalRec(polygon.getState());
 
-        if (pair) {
+        if (pair !== null) {
             drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
 
@@ -130,10 +150,10 @@ export function drawPolygon(polygon, ui) {
     } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][5]) {
         // Here, we place the global rec, then the adj rec, which is correct. :)
 
-        pair = globalRec(state);
-        if (pair === null) pair = localRec(state);
+        let pair = globalRec(polygon.getState());
+        if (pair === null) pair = localRec(polygon.getState());
 
-        if (pair) {
+        if (pair !== null) {
             drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
     }
@@ -153,6 +173,8 @@ export function drawPolygon(polygon, ui) {
 
     // Draw selected node
     if (state.selectedVertex !== null) {
+        // console.log("Selected ertex " + state.selectedVertex);
+
         const angle = (2 * Math.PI * state.n) / state.n;
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
@@ -175,22 +197,4 @@ export function drawPolygon(polygon, ui) {
 
 function lerp(start, end, amount) {
     return start + (end - start) * amount;
-}
-
-function drawEdge(a, b, ctx, centerX, centerY, radius) {
-    const angleA = (2 * Math.PI * a) / state.n;
-    const angleB = (2 * Math.PI * b) / state.n;
-    const xA = centerX + radius * Math.cos(angleA);
-    const yA = centerY + radius * Math.sin(angleA);
-    const xB = centerX + radius * Math.cos(angleB);
-    const yB = centerY + radius * Math.sin(angleB);
-
-    ctx.beginPath();
-    ctx.moveTo(xA, yA);
-    ctx.lineTo(xB, yB);
-    ctx.lineWidth = 2; // Make the lines thicker
-    ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Light red color
-    ctx.stroke();
-    ctx.lineWidth = 1; // Reset line width
-    ctx.strokeStyle = 'black'; // Reset stroke style to black
 }
