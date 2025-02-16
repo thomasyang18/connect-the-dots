@@ -4,7 +4,7 @@ const hints = new Map([
     [3, // setting this to three... i want it to be four tho. popup! but whatever
         [
             `3. Hey! Didn't see you there. Welcome to my game!`,
-            `The rules are simple. Don't connect two nodes of the same color, and don't make any line intersect. 
+            `The rules are simple. Click two nodes to connect them. Don't connect two nodes of the same color, and don't make any line intersect. 
             Try to make as many lines as possible. Capiche? :)`
         ]
     ],
