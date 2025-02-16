@@ -69,15 +69,18 @@ export class UI {
 
         // console.log(this.polygon.colors);
 
-        if (globalState.numbersSolved.size > 1) {
+        // if (globalState.numbersSolved.size > 1) {
+        
+        
+        // TODO: I wanna have some "pop up " nice animation here but yea its ocnfusing having 0 instructions
             this.hintsDiv.style.display = 'block';
             this.hintsDiv.style.opacity = '1';
             this.canvasContainer.style.justifyContent = 'flex-start';
             loadHint();
-        } else {
-            this.hintsDiv.style.display = 'none';
-            this.canvasContainer.style.justifyContent = 'center';
-        }
+        // } else {
+        //     this.hintsDiv.style.display = 'none';
+        //     this.canvasContainer.style.justifyContent = 'center';
+        // }
 
         if (state.edgesLeft == 0) {
             let before = globalState.numbersSolved.has(state.n);
