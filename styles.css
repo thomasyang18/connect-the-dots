@@ -21,7 +21,7 @@ canvas {
     display: flex;
     width: 100%;
     background-color: #e0f7fa;
-    padding: 20px;
+    padding: 3px;
     box-sizing: border-box;
     justify-content: space-between; /* Add this line to distribute space evenly */
 }
