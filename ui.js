@@ -6,7 +6,7 @@ class UI {
     constructor(polygon) {
         this.polygon = polygon;
         // this.title = document.getElementById('title');
-        this.maxEdgesDisplay = document.getElementById('max-edges-display');
+        this.edgesLeftDisplay = document.getElementById('edges-left');
         this.hintsDiv = document.getElementById('hints-div');
         this.canvasContainer = document.getElementById('canvas-container');
         this.redDotRadius = 10;
@@ -71,7 +71,7 @@ class UI {
 
     updateDisplay() {
         const state = this.polygon.getState();
-        this.maxEdgesDisplay.textContent = `Edges left: ${state.edgesLeft}`;
+        this.edgesLeftDisplay.textContent = `Edges left: ${state.edgesLeft}`;
 
         globalState.hasHitZeroOnce = globalState.hasHitZeroOnce || state.edgesLeft === 0;
 
