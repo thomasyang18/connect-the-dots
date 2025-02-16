@@ -63,9 +63,7 @@ class UI {
     updateDisplay() {
         const state = this.polygon.getState();
 
-        globalState.hasHitZeroOnce = globalState.hasHitZeroOnce || state.edgesLeft === 0;
-
-        if (globalState.hasHitZeroOnce) {
+        if (globalState.numbersSolved.size > 1) {
             this.hintsDiv.style.display = 'block';
             this.hintsDiv.style.opacity = '1';
             this.canvasContainer.style.justifyContent = 'flex-start';

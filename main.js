@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
-            const newN = Math.max(...globalState.numbersSolved) + 1;
-            ui.adjustN(newN);
+            const newN = Math.max(...globalState.numbersSolved);
+            globalState.numbersSolved.add(newN + 1);
+            ui.adjustN(newN + 2);
         }
     });
 });

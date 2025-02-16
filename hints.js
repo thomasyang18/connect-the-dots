@@ -59,7 +59,7 @@ const hints = new Map([
 
     [15, 
         [
-            `Congrats! You beat the game, but feel free to continue playing. Some developer thoughts are on the side of the `
+            `Congrats! You beat the game, but feel free to continue playing. You can toggle `
         ]
     ]
     

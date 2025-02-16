@@ -117,7 +117,9 @@ export class Polygon {
 
         newN = Math.min(newN, Math.max(...globalState.numbersSolved) + 1); // can be no more than 1 + next instance
 
-        console.log("AWTF " + newN);
+        // newN = Math.min(newN, 38);
+
+        // console.log("AWTF " + newN);
 
         const newColors = Polygon.generatePermutation(newN, 3);
         const newFreebieConnections = Polygon.generateFreebieConnections(newN, newColors);
