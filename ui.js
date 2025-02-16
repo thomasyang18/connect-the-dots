@@ -37,6 +37,25 @@ export class UI {
                     break;
                 }
             }
+
+            // Check if a red dot was clicked
+            for (const connection of this.polygon.userConnections) {
+                const [a, b] = connection;
+                const angleA = (2 * Math.PI * a) / this.polygon.n;
+                const angleB = (2 * Math.PI * b) / this.polygon.n;
+                const xA = centerX + radius * Math.cos(angleA);
+                const yA = centerY + radius * Math.sin(angleA);
+                const xB = centerX + radius * Math.cos(angleB);
+                const yB = centerY + radius * Math.sin(angleB);
+                const midX = (xA + xB) / 2;
+                const midY = (yA + yB) / 2;
+                const distance = Math.sqrt((mouseX - midX) ** 2 + (mouseY - midY) ** 2);
+                if (distance <= this.redDotRadius) {
+                    this.polygon.handleEdgeClick(connection);
+                    this.updateDisplay();
+                    break;
+                }
+            }
         });
 
         document.getElementById('close-dev-message').addEventListener('click', () => {
@@ -57,7 +76,6 @@ export class UI {
             this.hintsDiv.style.display = 'none';
             this.canvasContainer.style.justifyContent = 'center';
         }
-
 
         if (state.edgesLeft == 0) {
             let before = globalState.numbersSolved.has(state.n);
