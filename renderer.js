@@ -16,27 +16,39 @@ export function drawPolygon(polygon, ui) {
 
     // Draw triangles
     for (let i = 0; i < state.n; i++) {
-        const a = i;
-        const b = (i + 1) % state.n;
-        const c = (i + 2) % state.n;
-        if (state.userConnections.some(conn => (conn[0] === a && conn[1] === c) || (conn[0] === c && conn[1] === a))) {
-            const angleA = (2 * Math.PI * a) / state.n;
-            const angleB = (2 * Math.PI * b) / state.n;
-            const angleC = (2 * Math.PI * c) / state.n;
-            const xA = centerX + radius * Math.cos(angleA);
-            const yA = centerY + radius * Math.sin(angleA);
-            const xB = centerX + radius * Math.cos(angleB);
-            const yB = centerY + radius * Math.sin(angleB);
-            const xC = centerX + radius * Math.cos(angleC);
-            const yC = centerY + radius * Math.sin(angleC);
+        for (let j = 0; j < state.n; j++) {
+            for (let k = 0; k < state.n; k++) {
+                if (i !== j && j !== k && k !== i) {
+                    const edges = [
+                        [i, j],
+                        [j, k],
+                        [k, i]
+                    ];
+                    const hasAllEdges = edges.every(([a, b]) =>
+                        state.userConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a)) ||
+                        state.freebieConnections.some(conn => (conn[0] === a && conn[1] === b) || (conn[0] === b && conn[1] === a))
+                    );
+                    if (hasAllEdges) {
+                        const angleA = (2 * Math.PI * i) / state.n;
+                        const angleB = (2 * Math.PI * j) / state.n;
+                        const angleC = (2 * Math.PI * k) / state.n;
+                        const xA = centerX + radius * Math.cos(angleA);
+                        const yA = centerY + radius * Math.sin(angleA);
+                        const xB = centerX + radius * Math.cos(angleB);
+                        const yB = centerY + radius * Math.sin(angleB);
+                        const xC = centerX + radius * Math.cos(angleC);
+                        const yC = centerY + radius * Math.sin(angleC);
 
-            ctx.beginPath();
-            ctx.moveTo(xA, yA);
-            ctx.lineTo(xB, yB);
-            ctx.lineTo(xC, yC);
-            ctx.closePath();
-            ctx.fillStyle = 'rgba(173, 216, 230, 0.5)'; // Light blue color
-            ctx.fill();
+                        ctx.beginPath();
+                        ctx.moveTo(xA, yA);
+                        ctx.lineTo(xB, yB);
+                        ctx.lineTo(xC, yC);
+                        ctx.closePath();
+                        ctx.fillStyle = 'rgba(173, 216, 230, 0.5)'; // Light blue color
+                        ctx.fill();
+                    }
+                }
+            }
         }
     }
 
