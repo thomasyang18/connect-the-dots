@@ -13,12 +13,12 @@
         </div>
     </div>
 
-    <div id="canvas-container" style="display: flex; align-items: center; justify-content: center; padding: 20px; width: 100vw">
-        <div id="hints-div" style="display: grid; width: 45vw; background-color: #f0f0f0; border-radius: 10px; padding: 20px; transition: opacity 0.5s;">
+    <div id="canvas-container" style="display: flex; align-items: center; justify-content: center; padding-top: 10px; width: 100vw">
+        <div id="hints-div" style="display: grid; width: 45vw; background-color: #f0f0f0; border-radius: 10px; padding: 10px; margin: 5px; transition: opacity 0.5s;">
             <!-- Hints will be loaded here -->
         </div>
 
-        <div id="dev-message-div" style="display: none; width: 45vw; justify-content : 'flex-start'; background-color: #f0f0f0; border-radius: 10px; padding: 20px; transition: opacity 0.5s;">
+        <div id="dev-message-div" style="display: none; width: 45vw; justify-content : 'flex-start'; background-color: #f0f0f0; border-radius: 10px; margin: 5px; padding: 10px; transition: opacity 0.5s;">
             <!-- Dev message will be loaded here -->
             <center><h1>Hello! Dev here.</h1></center>
             <p>This is a competitive programming problem. Pretty neat, right? </p>
@@ -51,11 +51,14 @@
             </b> You can never have an infinite repeating sequence like this, <b>as long as you maintain 3 colors are in the array.</b> 
             </p>
 
-            <p>Well, shucks, that's the same problem we ran into for the n=13 case; there was only 1 red node, and we deleted it. 
+            <p>Well, shucks, that's the same problem we ran into for the n=13 case; there was only 1 red node, and we would've deleted it, 
+                following the wrong algorithm.  
             </p>
             <p>
-                Oh, right. If I went down to 2 distinct colors after an operation => I only had 1 count of a certain color => 
+                <b>BUT!</b> If I went down to 2 distinct colors after an operation => I only had 1 count of a certain color => 
                 We can hook that color up to every other node => We can avoid the bad case entirely. </p>
+
+            <p>So it actually doesn't matter; just swap the priorities, so you always check for the edge case first. </p>
 
             <p> So you can always find a correct reduction of moves. Pretty cool, right? </p>
 
