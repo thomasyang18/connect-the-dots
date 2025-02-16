@@ -58,9 +58,16 @@ export class UI {
             this.canvasContainer.style.justifyContent = 'center';
         }
 
-        if (globalState.win) {
-            this.devMessageDiv.style.display = 'block';
-            this.hintsDiv.style.display = 'none';
+
+        if (state.edgesLeft == 0) {
+            let before = globalState.numbersSolved.has(state.n);
+
+            globalState.numbersSolved.add(state.n);
+
+            if (before === false) { // auto progrss if on latest
+                this.adjustN(state.n + 1);
+                return;
+            }
         }
 
         drawPolygon(this.polygon, this);

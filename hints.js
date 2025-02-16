@@ -59,7 +59,7 @@ const hints = new Map([
 
     [15,
         [
-            `Congrats! You beat the game, but feel free to continue playing. You can toggle `
+            `Congrats! You beat the game, but feel free to continue playing. You can toggle the dev notes by clicking this message.`
         ]
     ]
 
@@ -84,7 +84,9 @@ function loadHint() {
                 hintElement.textContent = str;
                 if (i === hints.get(key).length - 1) {
                     hintElement.style.cursor = 'pointer';
+                    
                     hintElement.addEventListener('click', () => {
+                        console.log("WAT");
                         globalState.win = true;
                         document.getElementById('dev-message-div').style.display = 'block';
                         document.getElementById('hints-div').style.display = 'none';
