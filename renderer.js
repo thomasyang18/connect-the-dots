@@ -1,5 +1,6 @@
 import { globalState } from "./global_state.js";
 import { loadHint, hints } from "./hints.js";
+import { globalRec, localRec } from "./reccomender.js";
 
 export function drawPolygon(polygon, ui) {
     const state = polygon.getState();
@@ -18,7 +19,7 @@ export function drawPolygon(polygon, ui) {
     // Again, this is such a damn meme LMFAO, horrible swe practices 
     // But hardcoded if statement for the triangle exposure case 
 
-    if (Math.max(...globalState.numbersSolved) >= [...hints.keys()][1]) { // enable ONLY IF we've reached the second hint 
+    if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][1]) { // enable ONLY IF we've reached the second hint 
         // Draw triangles
         for (let i = 0; i < state.n; i++) {
             for (let j = 0; j < state.n; j++) {
@@ -107,6 +108,36 @@ export function drawPolygon(polygon, ui) {
         ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
         ctx.fill();
     }
+
+    // AIDER: Draw Reccomendation systemms here
+
+    if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][2]) {
+        // Draw the basic, 1 node in section, to all reccomender system. (global)
+        pair = globalRec(state);
+        if (pair) {
+            /* draw shit*/
+        }
+    } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
+        // Importantly here, we *first place the adj rec* then the global rec, *which is wrong*.
+        pair = localRec(state);
+        if (pair === null) pair = globalRec(state);
+
+        if (pair) {
+            /* draw shit*/
+        }
+
+
+    } else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][5]) {
+        // Here, we place the global rec, then the adj rec, which is correct. :)
+
+        pair = globalRec(state);
+        if (pair === null) pair = localRec(state);
+
+        if (pair) {
+            /* draw shit*/
+        }
+    } 
+
 
     // Draw nodes
     for (let i = 0; i < state.n; i++) {
