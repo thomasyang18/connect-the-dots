@@ -64,6 +64,7 @@ export class UI {
         }
 
         drawPolygon(this.polygon, this);
+        this.updateAchievements();
     }
 
     updateAchievements() {
