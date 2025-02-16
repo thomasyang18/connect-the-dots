@@ -85,9 +85,7 @@ class UI {
             }
         }
 
-        if (globalState.hasHitZeroOnce) {
-            loadHint(globalState.numbersSolved);
-        }
+        loadHint(globalState.numbersSolved);
 
         this.updateAchievements();
     }

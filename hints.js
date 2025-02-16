@@ -1,3 +1,5 @@
+import { globalState } from "./global_state.js";
+
 const hints = new Map([
     [4, 
         [
@@ -16,13 +18,17 @@ const hints = new Map([
     // Add more hints here
 ]);
 
-function loadHint(state) {
+function loadHint() {
+    if (globalState.numbersSolved.size == 1) { // only has 3. yes, magic numbers are bad, yes idc. we're already passing around global state anyways lol 
+        return;
+    }
+
     const hintsDiv = document.getElementById('hints-div');
     hintsDiv.innerHTML = ''; // Clear previous hints
 
     // Sort the keys and iterate over the map
     for (const key of Array.from(hints.keys()).sort((a, b) => a - b)) {
-        if (state.has(key)) {
+        if (globalState.numbersSolved.has(key)) {
             for (const str of hints.get(key)) {
                 const hintElement = document.createElement('div');
                 hintElement.classList.add('hint');

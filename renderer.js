@@ -1,3 +1,5 @@
+import { globalState } from "./global_state.js";
+
 export function drawPolygon(polygon, ui) {
     const state = polygon.getState();
     const canvas = document.getElementById('canvas');
