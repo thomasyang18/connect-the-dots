@@ -28,8 +28,8 @@ export class UI {
 
             for (let i = 0; i < this.polygon.n; i++) {
                 const angle = (2 * Math.PI * i) / this.polygon.n;
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
+                const x = centerX + radius * Math.cos(angle) + 2 * 15.0;
+                const y = centerY + radius * Math.sin(angle) + 15.0;
                 const distance = Math.sqrt((mouseX - x) ** 2 + (mouseY - y) ** 2);
 
                 console.log("DIST: " + i + " " + distance);
@@ -53,8 +53,8 @@ export class UI {
                 const yA = centerY + radius * Math.sin(angleA);
                 const xB = centerX + radius * Math.cos(angleB);
                 const yB = centerY + radius * Math.sin(angleB);
-                const midX = (xA + xB) / 2;
-                const midY = (yA + yB) / 2;
+                const midX = (xA + xB) / 2 + this.redDotRadius * 2;
+                const midY = (yA + yB) / 2 + this.redDotRadius;
                 const distance = Math.sqrt((mouseX - midX) ** 2 + (mouseY - midY) ** 2);
                 if (distance <= this.redDotRadius) {
                     this.polygon.handleEdgeClick(connection);
