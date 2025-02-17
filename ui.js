@@ -31,7 +31,13 @@ export class UI {
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
                 const distance = Math.sqrt((mouseX - x) ** 2 + (mouseY - y) ** 2);
+
+                console.log("DIST: " + i + " " + distance);
+
+                console.log(x + " " + y + " | " + mouseX + " " + mouseY);
+
                 if (distance <= this.clickRadius) {
+                    console.log("CLCIKED " + i);
                     this.polygon.handleClick(i);
                     this.updateDisplay();
                     break;

@@ -169,7 +169,7 @@ export function drawPolygon(polygon, ui) {
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
         ctx.beginPath();
-        ctx.arc(x, y, 15, 0, 2 * Math.PI); // Make the nodes bigger
+        ctx.arc(x , y, 15, 0, 2 * Math.PI); // Make the nodes bigger
         ctx.fillStyle = `hsl(${state.colors[i] * (360 / state.m)}, 100%, 50%)`;
         ctx.fill();
         ctx.stroke();
