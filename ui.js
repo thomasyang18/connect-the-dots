@@ -56,7 +56,7 @@ export class UI {
                 const midX = (xA + xB) / 2 + this.redDotRadius * 2;
                 const midY = (yA + yB) / 2 + this.redDotRadius;
                 const distance = Math.sqrt((mouseX - midX) ** 2 + (mouseY - midY) ** 2);
-                if (distance <= this.redDotRadius) {
+                if (distance <= this.redDotRadius * 2) {
                     this.polygon.handleEdgeClick(connection);
                     this.updateDisplay();
                     break;
