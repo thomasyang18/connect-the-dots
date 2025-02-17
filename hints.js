@@ -20,7 +20,7 @@ const hints = new Map([
             `8. Hm. One thing I'm seeing is that, if there's just one color in your sub-polygon, you can connect up all the dots, for free.
             I mean, it sounds so obvious that it doesn't even seem useful - how often does that even happen??
             `,
-            `But I'll suggest that connection for you in red if I see it - I'm the computer after all, I'm good at these simple automatic rules. 
+            `But I'll suggest that connection for you in <b>red</b> if I see it - I'm the computer after all, I'm good at these simple automatic rules. 
             Feel free to do play as normal! I'm only giving suggestions.`
         ]
     ],
@@ -30,8 +30,10 @@ const hints = new Map([
             `So, within each sub-polygon, if I see three consecutive nodes (a, b, c): 
             We know that the lines (a, b) and (b, c) exist. If I add (a, c), this forms a triangle. 
             If they're not the same color, I can connect them!`,
-            `I'll start reccomending those moves now - hopefully it makes it clear what I'm thinking about.` ,
-            `Am I cracked? Did I just come up with a universal algorithm to solve this puzzle? Hopefully I didn't miss anything...`
+            `I'll start reccomending those moves now in <b>pink</b> <i>in addition</i> to the red moves I'm reccomending.
+            Hopefully it makes it clear what I'm thinking about.` ,
+            `Am I cracked? Did I just come up with a universal algorithm to solve this puzzle? 
+            Hmm... I haven't proved this though. <b>I hope that none of my suggestions are wrong now...</b>`
         ] /* From here  *disable the reccomender that connects up one node to all other nodes.* Or make this observation higher. */
     ],
 
@@ -67,8 +69,9 @@ const hints = new Map([
 
     [14,
         [
-            `14. Whew, glad that was over. I realized that, I have to check for observation 8 *first*, THEN observation 10.`,
-            `Well... that's my hope, anyways. I haven't proved it. I'm just messing around.`,
+            `14. Whew, glad that was over. I realized that, I have to check for <b>red edges</b> first, <i>then</i> <b>pink edges</b>.
+            In the last example, I was prioritizing pink over red.`,
+            `Well... I hope that's the only fix I have to make... I haven't proved it....`,
         ]
     ],
 
@@ -107,7 +110,7 @@ function loadHint() {
                 }
                 number += 1;
 
-                hintElement.textContent = str;
+                hintElement.innerHTML = str;
 
                 // console.log(" WTF " + length + " " + number + " " + hints.get(i).length);
 

@@ -111,6 +111,8 @@ export function drawPolygon(polygon, ui) {
 
     // AIDER: Draw Reccomendation systemms here
 
+    let isGlobal = null;
+
     function drawEdge(a, b, ctx, centerX, centerY, radius) {
         const angleA = (2 * Math.PI * a) / state.n;
         const angleB = (2 * Math.PI * b) / state.n;
@@ -123,7 +125,9 @@ export function drawPolygon(polygon, ui) {
         ctx.moveTo(xA, yA);
         ctx.lineTo(xB, yB);
         ctx.lineWidth = 2; // Make the lines thicker
-        ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Light red color
+        if (isGlobal) ctx.strokeStyle = 'rgba(255, 0, 0, 0.8)'; // Light red color
+        else ctx.strokeStyle = 'rgba(255, 0, 255, 0.8)';
+
         ctx.stroke();
         ctx.lineWidth = 1; // Reset line width
         ctx.strokeStyle = 'black'; // Reset stroke style to black
@@ -133,7 +137,13 @@ export function drawPolygon(polygon, ui) {
         // Here, we place the global rec, then the adj rec, which is correct. :)
 
         let pair = globalRec(polygon.getState());
-        if (pair === null) pair = localRec(polygon.getState());
+        isGlobal = true; 
+
+        if (pair === null) {
+            pair = localRec(polygon.getState());
+            isGlobal = false;
+        }
+
 
         console.assert(pair !== null);
 
@@ -145,7 +155,12 @@ export function drawPolygon(polygon, ui) {
     else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][3]) {
         // Importantly here, we *first place the adj rec* then the global rec, *which is wrong*.
         let pair = localRec(polygon.getState());
-        if (pair === null) pair = globalRec(polygon.getState());
+        isGlobal = false; 
+
+        if (pair === null) {
+            pair = globalRec(polygon.getState());
+            isGlobal = true;
+        }
 
         // console.assert(pair !== null);
         if (pair !== null) {
@@ -157,6 +172,8 @@ export function drawPolygon(polygon, ui) {
     else if (Math.max(...globalState.numbersSolved) + 1 >= [...hints.keys()][2]) {
         // Draw the basic, 1 node in section, to all reccomender system. (global)
         let pair = globalRec(polygon.getState());
+        isGlobal = true; 
+
         if (pair !== null) {
             drawEdge(pair[0], pair[1], ctx, centerX, centerY, radius);
         }
