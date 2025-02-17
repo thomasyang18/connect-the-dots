@@ -37,14 +37,19 @@
             <ul>
                 <li>'Global' connections are hard to think about. Let's try to think about local connections first. (Make those blue triangles!) </li>
                 <li>Hmm. Well, something immidiately obvious is that if there's 1 node of a certain color left, we can hook it up to the rest - there cannot be any conflicts.</li>
-                <li>Okay, so let's say we have 3 colors. Hmm. Well, (r, g, b) can be collapsed. (r, r, b) can be collapsed. </li>
+                <li>Okay, so let's say we have 3 colors. Hmm. Well, (r, g, b) can be collapsed. (r, r, b) can be collapsed,  
+                    because the first and third colors are different. More generally, for any three 'adjacent' points 
+                (w.r.t the new subpolygons), as long as the first and third in the triplet are different colors, we can connect them up by defintion, 
+            and this 'shrinks' the polygon. </li>
             </ul> 
 
             <p>And the point is that these relatively simple, almost obvious observations are enough to solve the problem! </p>
 
             <p>(Haha, if you were thrown off by the terseness of observation 14, sorry! I would have to show this entire proof to show why it works.)</p>
 
-            <p>Then the crucial step: If <b>no subarray looks like those</b>, then we're pigeonholed into trying a sequence (a, b, a, b....).</p>
+            <p>The crucial step: If <b>no subarray looks like those I listed above</b>, then we're pigeonholed into trying a sequence (a, b, a, b....).
+            To see what I mean, just try building an array of colors, from scratch, on paper!
+            </p>
 
             <p><b>
                 But this will inevitably fail because there are three colors in the array! 
@@ -74,16 +79,26 @@
             </p>
             <hr>
             <p>
-                It's this very niche but very fun mix of both math and computer science that is so great about competitive programming. 
-                It also is profoundly useless. 
+                This is a genuinely such a simple and beautiful problem.  
+                <!-- When you show kids math, you don't expect it to pop out like this! You're expecting formulas and numbers. 
+                At least, that was my experience with math all the way until I discovered competitive programming. -->
+
+                I think that this puzzle has the perfect mix of logical deduction (figuring out the simple rules) and genuine creativity 
+                (realizing that those simple rules combine nicely). 
             </p>
             <p>
-                The most ivory of pure math researchers can't learn from this algorithm. 
-                Theoretical computer scientists are too busy tackling fundamental problems, like shortest paths and flow.  
-                Don't even get me started on the engineers. 
+                It's also far more grounded in a realistic visual/physical intuition, as compared 
+                to something like, say, the <a href="https://www.youtube.com/watch?v=98TQv5IAtY8">green-eyed island problem</a>.  
+            </p>
+            <p>    
+                I am considering making a physical game out of this at some point - not commercially, just something simple to show people 
+                at a family gathering or something. I really hope you learned something! 
             </p>
             <p>
-                Nevertheless, these brain teasers are what consumed my life for the past half-decade :) 
+                Please consider opening an issue <a href="https://github.com/thomasyang18/connect-the-dots/issues">here</a> if you thought 
+                any part of my explanation is confusing - again, I wanted to create a simple game so that *anybody* could eventually get the intuition 
+                for what an algorithm could look like for this problem in 5~10 minutes, and I truly believe for this problem (and most problems!), just being able to play 
+                around with it and see instant feedback is a huge boost to understanding. 
             </p>
             <!-- <p>
                 I'm still simplifying a lot here. For example, for me, I did not intuitively think about local connections - instead, I tried "global" ones first and recursing down.

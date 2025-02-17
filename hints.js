@@ -30,7 +30,8 @@ const hints = new Map([
             `So, within each sub-polygon, if I see three consecutive nodes (a, b, c): 
             We know that the lines (a, b) and (b, c) exist. If I add (a, c), this forms a triangle. 
             If they're not the same color, I can connect them!`,
-            `I'll start reccomending those moves now - hopefully it makes it clear what I'm thinking about. Hopefully I didn't miss anything...`
+            `I'll start reccomending those moves now - hopefully it makes it clear what I'm thinking about.` ,
+            `Am I cracked? Did I just come up with a universal algorithm to solve this puzzle? Hopefully I didn't miss anything...`
         ] /* From here  *disable the reccomender that connects up one node to all other nodes.* Or make this observation higher. */
     ],
 
